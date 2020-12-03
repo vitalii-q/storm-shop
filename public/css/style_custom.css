@@ -1,0 +1,106 @@
+/* КАСТОМНЫЕ СТИЛИ */
+.font-w600 {font-weight: 600 !important;}
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.cursor-p {cursor: pointer}
+.display-none {display: none !important;}
+/* checkbox на странице авторизации / регистрации */
+.custom-form-check_custom {
+    margin-bottom: 30px;
+}
+.custom-form-check_custom input[type=checkbox] {
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    position: relative;
+}
+.custom-form-check_custom input[type=checkbox]:before {
+    top: -3px;
+    left: -5px;
+    content: '';
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 3px;
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+}
+.custom-form-check_custom input[type=checkbox]:after {
+    left: 0;
+    top: -2px;
+    opacity: 0;
+    font-size: 12px;
+    content: '\f00c';
+    font-weight: 900;
+    position: absolute;
+    color: #222222;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Font Awesome 5 Free';
+}
+.custom-form-check_custom-checked:after {
+    opacity: 1!important;
+}
+/* checkbox на странице авторизации / регистрации end */
+
+.reset-password_form-block {
+    max-width: 644px;
+    margin: 0 auto;
+}
+.auth-pass_input-custom {
+    margin-bottom: 50px;
+}
+.section-title_checkout-custom {
+    padding-bottom: 13px;
+}
+
+.cart_add-plus_minus-container {
+    width: max-content;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    margin-top: 1px;
+    height: 44px;
+    padding-top: 4px;
+}
+.cart_add-minus {
+    font-size: 18px;
+    padding: 2px 16px;
+    border-radius: 3px;
+    color: #222222;
+    border: 2px solid #f0f0f0;
+    cursor: pointer;
+    height: 36px;
+    transition: all 0.3s ease-in-out;
+}
+.cart_add-minus:hover {
+    color: #ffffff;
+    background-color: #f5f5f5;
+    transition: all 0.3s ease-in-out;
+}
+.cart_add-plus {
+    font-size: 18px;
+    padding: 4px 16px;
+    border-radius: 3px;
+    color: #ffffff;
+    border-color: #1ec7a6;
+    background-color: #1ec7a6;
+    cursor: pointer;
+    height: 36px;
+    transition: all 0.3s ease-in-out;
+}
+.cart_add-plus:hover {
+    color: #ffffff;
+    border-color: #1ec7a6;
+    background-color: #3adebe;
+    transition: all 0.3s ease-in-out;
+}
+.cart_add-plus_minus-count {
+    padding: 4px 16px;
+    border-radius: 3px;
+    color: #222222;
+    font-size: 17px;
+    margin-top: 1px;
+}

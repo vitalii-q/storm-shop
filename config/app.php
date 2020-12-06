@@ -176,6 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         //Darryldecode\Cart\CartServiceProvider::class, // корзина
+
+        App\Providers\VievServiceProvider::class, // провайдер
     ],
 
     /*

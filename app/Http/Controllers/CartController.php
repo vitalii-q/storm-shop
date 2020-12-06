@@ -223,13 +223,31 @@ class CartController extends Controller
 
     }
 
+    static function getProductsCountInCart() {
+        $products = session('cart.products'); // продукты в корзине
+        $productsCount = 0;
+        foreach ($products as $product) {
+            $productsCount = $productsCount + $product['quantity'];
+        }
+        return $productsCount;
+    }
+
+    static function getProductSum($productId) {
+        $products = session('cart.products'); // продукты в корзине
+        foreach ($products as $product) { // находим запрашиваемый продукт
+            if($product['id'] == $productId) {
+                return $product['price'] * $product['quantity']; // возвращаем сумму
+            }
+        }
+    }
+
     static function getTotalSum() {
         $products = session('cart.products');
 
         if(!empty($products)) {
             $totalSum = 0;
             foreach ($products as $product) {
-                $totalSum = $product['price'] * $product['quantity'];
+                $totalSum = $totalSum + $product['price'] * $product['quantity'];
             }
             return $totalSum;
         }

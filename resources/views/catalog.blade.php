@@ -59,7 +59,7 @@
                             </div>
                             <ul class="clearfix">
                                 @foreach($categories as $category)
-                                <li><a href="/catalog/{{ $category->code }}">{{ $category->name }} <span class="float-right">({{ $category->getProducts()->count() }})</span></a></li>
+                                <li><a href="{{ route('category', $category->code) }}">{{ $category->name }} <span class="float-right">({{ $category->getProducts()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -224,10 +224,13 @@
                                         @foreach($products as $product)
 
                                             <!-- проверка, есть ли продукт в корзине --- -->
-                                            @php($productInCart = false)
-                                            @foreach($cartProducts as $cartProduct)
-                                                @if($product->id == $cartProduct['id']) @php($productInCart = true) @endif
-                                            @endforeach
+                                                @php($productInCart = false)
+
+                                                @if(!empty($cartProducts))
+                                                    @foreach($cartProducts as $cartProduct)
+                                                        @if($product->id == $cartProduct['id']) @php($productInCart = true) @endif
+                                                    @endforeach
+                                                @endif
                                             <!-- проверка, есть ли продукт в корзине end -->
 
                                             <!-- product-item - start -->

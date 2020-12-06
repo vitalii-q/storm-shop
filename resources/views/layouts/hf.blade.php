@@ -55,7 +55,7 @@
 <!-- backtotop - end -->
 
 <!-- preloader - start -->
-<div id="preloader"></div>
+{{--<div id="preloader"></div>--}}
 <!-- preloader - end -->
 
 
@@ -236,11 +236,9 @@
                                             <li>
                                                 <span class="title-text color-past mb-30">Категории</span>
                                                 <ul class="menu-item-list clearfix">
-                                                    <li><a href="#!">Tops & Tees</a></li>
-                                                    <li><a href="#!">Sweaters</a></li>
-                                                    <li><a href="#!">Leggings</a></li>
-                                                    <li><a href="#!">Lounge</a></li>
-                                                    <li><a href="#!">Dresses</a></li>
+                                                    @foreach($categoriesHF as $categoryHF)
+                                                        <li><a href="{{ route('category', $categoryHF->code) }}">{{ $categoryHF['name'] }}</a></li>
+                                                    @endforeach
                                                 </ul>
                                             </li>
 
@@ -308,53 +306,32 @@
                                         <div class="cart-items-container has-items">
                                             <h2 class="title-text">недавно добавленные предметы</h2>
 
-                                            <div class="cart-item clearfix">
-                                                <div class="image-container">
-                                                    <img src="{{ URL::asset('images/cart/fashion/img-1.jpg') }}" alt="image_not_found">
-                                                </div>
-                                                <div class="item-content clearfix">
-                                                    <h3 class="item-title mb-15">Современная городская толстовка</h3>
-                                                    <div class="item-price mb-30">
-                                                        <strong class="color-black">129₽</strong> <del>359₽</del>
+                                            @foreach($cartHF as $cartProductHF)
+                                                <div class="cart-item clearfix">
+                                                    <div class="image-container">
+                                                        <img src="{{  Storage::url($cartProductHF['image_1']) }}" alt="image_not_found">
                                                     </div>
-                                                    <ul class="clearfix">
-                                                        <li>
-                                                            <span class="qty-text">К-во:</span>
-                                                            <input class="quantity-input" type="number" value="1">
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div class="cart-item clearfix">
-                                                <div class="image-container">
-                                                    <img src="{{ URL::asset('images/cart/fashion/img-2.jpg') }}" alt="image_not_found">
-                                                </div>
-                                                <div class="item-content clearfix">
-                                                    <h3 class="item-title mb-15">Современная городская толстовка</h3>
-                                                    <div class="item-price mb-30">
-                                                        <strong class="color-black">129₽</strong> <del>359₽</del>
+                                                    <div class="item-content clearfix">
+                                                        <h3 class="item-title mb-15">Современная городская толстовка</h3>
+                                                        <div class="item-price mb-30">
+                                                            <strong class="color-black">{{ $cartProductHF['price'] }}₽</strong>
+                                                            {{--<del>359₽</del>--}}
+                                                        </div>
+                                                        <ul class="clearfix">
+                                                            <li>
+                                                                <span class="qty-text">К-во:</span>
+                                                                <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $cartProductHF['id'] }}" class="quantity-input quantity_get-value" name="quantity" type="number" value="{{ $cartProductHF['quantity'] }}" min="1" placeholder="quantity">
+                                                            </li>
+                                                            {{--<li>--}}
+                                                                {{--<button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>--}}
+                                                            {{--</li>--}}
+                                                            <li>
+                                                                <button onclick="removeProductCart({{ $cartProductHF['id'] }})" type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button>
+                                                            </li>
+                                                        </ul>
                                                     </div>
-                                                    <ul class="clearfix">
-                                                        <li>
-                                                            <span class="qty-text">К-во:</span>
-                                                            <input class="quantity-input" type="number" value="1">
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button>
-                                                        </li>
-                                                    </ul>
                                                 </div>
-                                            </div>
+                                            @endforeach
 
                                             <div class="footer-container clearfix">
                                                 <div class="footer-left clearfix">
@@ -365,7 +342,7 @@
                                                 <div class="footer-right ul-li-right clearfix">
                                                     <ul class="clearfix">
                                                         <li><a href="{{ route('cart') }}">корзина</a></li>
-                                                        <li><a href="#!">оформить</a></li>
+                                                        <li><a href="{{ route('checkout') }}">оформить</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

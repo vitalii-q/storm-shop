@@ -125,7 +125,12 @@
                                     <li><a href="{{ route('login') }}">Войти</a></li>
                                 @endguest
                                 @auth
-                                    <li><a href="{{ route('personal') }}">{{ Auth::user()->first_name }}</a></li>
+                                    @if(Auth::user()->privilege == 1)
+                                        <li><a href="{{ route('admin') }}">{{ Auth::user()->first_name }}</a></li>
+                                    @else
+                                        <li><a href="{{ route('personal') }}">{{ Auth::user()->first_name }}</a></li>
+                                    @endif
+
                                     <li><a href="{{ route('get_logout') }}">Выйти</a></li>
                                 @endauth
 
@@ -154,7 +159,7 @@
                             <div class="main-menu-list ul-li-center">
                                 <ul class="clearfix">
 
-                                    <li class="menu-item-has-children active">
+                                    <li class="menu-item-has-children @if(Route::currentRouteNamed('index')) active @endif">
                                         <a href="{{ route('index') }}">Главная</a>
                                         <!--<ul class="sub-menu clearfix">-->
                                         <!--<li class="menu-item-has-children">-->
@@ -230,9 +235,10 @@
                                         <!--</ul>-->
                                     </li>
 
-                                    <li class="menu-item-has-children has-mega-menu">
+                                    <li class="menu-item-has-children has-mega-menu @if(Route::currentRouteNamed(['catalog', 'category', 'brand', 'brand_category', 'product'])) active @endif">
                                         <a href="{{ route('catalog') }}">Каталог</a>
                                         <ul class="mega-menu clearfix" style="background-image: url({{ Storage::url('header_footer/mega-menu-bg-2.jpg') }});">
+                                            @if(!empty($categoriesHF))
                                             <li>
                                                 <span class="title-text color-past mb-30">Категории</span>
                                                 <ul class="menu-item-list clearfix">
@@ -241,6 +247,7 @@
                                                     @endforeach
                                                 </ul>
                                             </li>
+                                            @endif
 
                                             <li>
                                                 <span class="title-text color-past mb-30">Бренды</span>
@@ -255,15 +262,15 @@
                                         </ul>
                                     </li>
 
-                                    <li><a href="about.html">О нас</a></li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#!">Блог</a>
-                                        <!--<ul class="sub-menu clearfix">-->
-                                        <!--<li><a href="blog.html">Blog page</a></li>-->
-                                        <!--<li><a href="blog-details.html">Blog details</a></li>-->
-                                        <!--</ul>-->
+                                    <li class="@if(Route::currentRouteNamed('about')) active @endif"><a href="{{ route('about') }}">О нас</a></li>
+                                    <li class="menu-item-has-children @if(Route::currentRouteNamed(['blog', 'blog_detail'])) active @endif">
+                                        <a href="{{ route('blog') }}">Блог</a>
+                                        <ul class="sub-menu clearfix">
+                                            <li><a href="blog.html">Blog page</a></li>
+                                            <li><a href="blog-details.html">Blog details</a></li>
+                                        </ul>
                                     </li>
-                                    <li><a href="#!">Контакты</a></li>
+                                    <li class="@if(Route::currentRouteNamed('contacts')) active @endif"><a href="{{ route('contacts') }}">Контакты</a></li>
 
                                 </ul>
                             </div>
@@ -297,46 +304,81 @@
                                     <li class="cart-btn">
                                         <a href="{{ route('cart') }}">
                                             <i class="flaticon-shopper"></i>
-                                            <span class="item-counter bg-past">{{ count(session('cart.products')) }}</span>
+                                            <span id="mini-cart_count" class="item-counter bg-past">{{ count(session('cart.products')) }}</span>
                                         </a>
                                         <div class="price">
                                             <span>Ваша корзина</span>
                                             <strong>1299₽</strong>
                                         </div>
                                         <div class="cart-items-container has-items">
-                                            <h2 class="title-text">недавно добавленные предметы</h2>
+                                            <h2 id="mini-cart_top-info" class="title-text @if(empty($cartHF)) display-none @endif">недавно добавленные предметы</h2>
 
-                                            @foreach($cartHF as $cartProductHF)
-                                                <div class="cart-item clearfix">
+                                            <!-- шаблон продукта для добавления в корзину header через js --- -->
+                                                <div id="hf_cart-product-template" class="cart-item clearfix display-none">
                                                     <div class="image-container">
-                                                        <img src="{{  Storage::url($cartProductHF['image_1']) }}" alt="image_not_found">
+                                                        <img class="hf-img-teg" src="" alt="image_not_found"> <!-- $ -->
                                                     </div>
                                                     <div class="item-content clearfix">
-                                                        <h3 class="item-title mb-15">Современная городская толстовка</h3>
+                                                        <h3 class="item-title mb-15"></h3>
                                                         <div class="item-price mb-30">
-                                                            <strong class="color-black">{{ $cartProductHF['price'] }}₽</strong>
-                                                            {{--<del>359₽</del>--}}
+                                                            <strong class="for-inner-price color-black"></strong>
                                                         </div>
                                                         <ul class="clearfix">
                                                             <li>
                                                                 <span class="qty-text">К-во:</span>
-                                                                <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $cartProductHF['id'] }}" class="quantity-input quantity_get-value" name="quantity" type="number" value="{{ $cartProductHF['quantity'] }}" min="1" placeholder="quantity">
+                                                                <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="" data-position="header" class="quantity-input quantity_get-value" name="quantity" type="number" value="1" min="1" placeholder="quantity">
                                                             </li>
-                                                            {{--<li>--}}
-                                                                {{--<button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>--}}
-                                                            {{--</li>--}}
                                                             <li>
-                                                                <button onclick="removeProductCart({{ $cartProductHF['id'] }})" type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button>
+                                                                <button onclick="removeProductCart()" type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button> <!-- $ -->
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            <!-- шаблон продукта для добавления в корзину header через js end -->
 
-                                            <div class="footer-container clearfix">
+
+                                            <!-- шаблон пустой корзины -------------------------------------- -->
+                                            <div id="mini-cart_empty-wrapper" class="mini-cart_empty-wrapper @if(!empty($cartHF)) display-none @endif">
+                                                <div class="mini-cart_empty-text">Ваша корзина пуста</div>
+                                            </div>
+                                            <!-- шаблон пустой корзины ---------------------------------- end -->
+
+                                            <div id="hf_cart-products_wrapper">
+                                                @if(!empty($cartHF))
+                                                @foreach($cartHF as $cartProductHF)
+                                                    <div id="hf_cart-product-{{ $cartProductHF['id'] }}" class="cart-item clearfix">
+                                                        <div class="image-container">
+                                                            <img src="{{  Storage::url($cartProductHF['image_1']) }}" alt="image_not_found">
+                                                        </div>
+                                                        <div class="item-content clearfix">
+                                                            <h3 class="item-title mb-15">{{ $cartProductHF['name'] }}</h3>
+                                                            <div class="item-price mb-30">
+                                                                <strong class="color-black">{{ $cartProductHF['price'] }}₽</strong>
+                                                                {{--<del>359₽</del>--}}
+                                                            </div>
+                                                            <ul class="clearfix">
+                                                                <li>
+                                                                    <span class="qty-text">К-во:</span>
+
+                                                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $cartProductHF['id'] }}" @if(Route::current()->getName() == 'cart')data-position="header-cart" @else data-position="header" @endif class="quantity-input quantity_get-value" name="quantity" type="number" value="{{ $cartProductHF['quantity'] }}" min="1" placeholder="quantity">
+                                                                </li>
+                                                                {{--<li>--}}
+                                                                    {{--<button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>--}}
+                                                                {{--</li>--}}
+                                                                <li>
+                                                                    <button onclick="removeProductCart({{ $cartProductHF['id'] }})" type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                                @endif
+                                            </div>
+
+                                            <div id="mini-cart_bottom-info" class="footer-container clearfix @if(empty($cartHF)) display-none @endif">
                                                 <div class="footer-left clearfix">
                                                     <div class="total-price">
-                                                        всего: <strong class="color-black">{{ App\Http\Controllers\CartController::getTotalSum() }}</strong>
+                                                        всего: <strong id="mini-cart_total-price" class="color-black">{{ App\Http\Controllers\CartController::getTotalSum() }}</strong>
                                                     </div>
                                                 </div>
                                                 <div class="footer-right ul-li-right clearfix">
@@ -667,11 +709,11 @@
                         <div class="footer-menu ul-li-center">
                             <ul class="clearfix">
 
-                                <li><a href="#!">About Us</a></li>
-                                <li><a href="#!">Affiliates</a></li>
-                                <li><a href="#!">FAQ’s</a></li>
-                                <li><a href="#!">Returns</a></li>
-                                <li><a href="#!">Contact</a></li>
+                                <li><a href="{{ route('index') }}">Главная</a></li>
+                                <li><a href="{{ route('catalog') }}">Каталог</a></li>
+                                <li><a href="{{ route('about') }}">О нас</a></li>
+                                <li><a href="{{ route('blog') }}">Блог</a></li>
+                                <li><a href="{{ route('contacts') }}">Контакты</a></li>
 
                             </ul>
                         </div>
@@ -704,21 +746,21 @@
 
                     <div class="col-lg-5 col-md-6 col-sm-12">
                         <div class="footer-contact ul-li-block">
-                            <h2 class="footer-title">contact info</h2>
+                            <h2 class="footer-title">Контакты</h2>
                             <ul class="clearfix">
 
                                 <li>
 											<span class="icon">
 												<i class="flaticon-maps-and-flags"></i>
 											</span>
-                                    <div class="contact-text">8 Liang Seah Street , Liang Seah Court #01-02 America 189029</div>
+                                    <div class="contact-text">г. Москва, ул. Тверская 20, стр. 3</div>
                                 </li>
                                 <li>
 											<span class="icon">
 												<i class="flaticon-phone-call"></i>
 											</span>
                                     <div class="contact-text">
-                                        <strong>Phone:</strong> (+888) 234 789  (+777) 222 888
+                                        <strong>Телефон: </strong> +7 (985) 234 789  + 7(+985) 222 888
                                     </div>
                                 </li>
                                 <li>
@@ -726,7 +768,7 @@
 												<i class="flaticon-e-mail-envelope"></i>
 											</span>
                                     <div class="contact-text">
-                                        <strong>Email:</strong> contact@company.com
+                                        <strong>Email: </strong> contact@company.com
                                     </div>
                                 </li>
                                 <li>
@@ -734,7 +776,7 @@
 												<i class="flaticon-clock-circular-outline"></i>
 											</span>
                                     <div class="contact-text">
-                                        <strong>Hours:</strong> 7 Days a week from 10:00 am
+                                        <strong>Часы: </strong> 7 дней в неделю с 10:00 до 22:00
                                     </div>
                                 </li>
 
@@ -744,14 +786,12 @@
 
                     <div class="col-lg-2 col-md-6 col-sm-12">
                         <div class="useful-links ul-li-block">
-                            <h2 class="footer-title">my account</h2>
+                            <h2 class="footer-title">Категории</h2>
                             <ul class="clearfix">
 
-                                <li><a href="#!">Sign In</a></li>
-                                <li><a href="#!">View Cart</a></li>
-                                <li><a href="#!">My Wishlist</a></li>
-                                <li><a href="#!">Track My Order</a></li>
-                                <li><a href="#!">Help</a></li>
+                                @foreach($categoriesHF as $categoryHF)
+                                    <li><a href="{{ route('category', $categoryHF->code) }}">{{ $categoryHF['name'] }}</a></li>
+                                @endforeach
 
                             </ul>
                         </div>
@@ -759,14 +799,12 @@
 
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="useful-links ul-li-block">
-                            <h2 class="footer-title">why buy from us</h2>
+                            <h2 class="footer-title">Брэнды</h2>
                             <ul class="clearfix">
 
-                                <li><a href="#!">Shipping & Returns</a></li>
-                                <li><a href="#!">Secure Shopping</a></li>
-                                <li><a href="#!">International Shipping</a></li>
-                                <li><a href="#!">Affiliates</a></li>
-                                <li><a href="#!">Group Sales</a></li>
+                                @foreach($brandsHF as $brand)
+                                <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->name }}</a></li>
+                                @endforeach
 
                             </ul>
                         </div>
@@ -774,14 +812,12 @@
 
                     <div class="col-lg-2 col-md-6 col-sm-12">
                         <div class="useful-links ul-li-block">
-                            <h2 class="footer-title">information</h2>
+                            <h2 class="footer-title">Информация</h2>
                             <ul class="clearfix">
 
-                                <li><a href="#!">Our Blog</a></li>
-                                <li><a href="#!">About Our Shop</a></li>
-                                <li><a href="#!">Secure Shopping</a></li>
-                                <li><a href="#!">Delivery infomation</a></li>
-                                <li><a href="#!">Privacy Policy</a></li>
+                                <li><a href="{{ route('about') }}">О нас</a></li>
+                                <li><a href="{{ route('blog') }}">Блог</a></li>
+                                <li><a href="{{ route('contacts') }}">Контакты</a></li>
 
                             </ul>
                         </div>
@@ -794,8 +830,8 @@
 
                         <div class="col-lg-5 col-md-12 col-sm-12">
                             <div class="newsletter-content">
-                                <h4 class="m-0">Newsletter Signup</h4>
-                                <p class="m-0">Sign up our Newsletter for Exclusive Discount codes</p>
+                                <h4 class="m-0">Подписаться на новости</h4>
+                                <p class="m-0">Подпишитесь на нашу рассылку эксклюзивных скидочных кодов</p>
                             </div>
                         </div>
 
@@ -804,8 +840,8 @@
                                 <form action="#">
 
                                     <div class="form-item m-0">
-                                        <input type="email" id="footer-newsletter" placeholder="Your Email Here">
-                                        <button type="submit" class="bg-past">sign up</button>
+                                        <input type="email" id="footer-newsletter" placeholder="Ваш Email адрес">
+                                        <button type="submit" class="bg-past">Подписаться</button>
                                     </div>
 
                                 </form>
@@ -825,7 +861,7 @@
                 <div class="payment-card mb-15">
                     <img src="{{ URL::asset('images/payment-card.png') }}" alt="image_not_found">
                 </div>
-                <p class="copyright-text m-0">Copyright © 2018 <a href="#!"><strong class="color-past">Storm</strong></a> HTMl template. All rights reserved</p>
+                <p class="copyright-text m-0">Copyright © 2021 <a href="{{ route('index') }}"><strong class="color-past">Storm-shop</strong></a> All rights reserved</p>
             </div>
         </div>
         <!-- footer-bottom - end -->

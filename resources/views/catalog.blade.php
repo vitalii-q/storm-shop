@@ -80,15 +80,12 @@
                         <!-- brand-list - start -->
                         <div class="sidebar-item brand-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>brands</h2>
+                                <h2>Брэнды</h2>
                             </div>
                             <ul class="clearfix">
-                                <li><a href="#!">New Arrivals <span class="float-right">(50)</span></a></li>
-                                <li><a href="#!">Beard Grooming <span class="float-right">(20)</span></a></li>
-                                <li><a href="#!">Beard Oil <span class="float-right">(40)</span></a></li>
-                                <li><a href="#!">Clothing <span class="float-right">(70)</span></a></li>
-                                <li><a href="#!">Accessories <span class="float-right">(30)</span></a></li>
-                                <li><a href="#!">Backpack <span class="float-right">(10)</span></a></li>
+                                @foreach($brands as $brand)
+                                    <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->name }} <span class="float-right">({{ $brand->getProducts()->count() }})</span></a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <!-- brand-list - end -->
@@ -224,18 +221,18 @@
                                         @foreach($products as $product)
 
                                             <!-- проверка, есть ли продукт в корзине --- -->
-                                                @php($productInCart = false)
+                                                @php($productInCart = false) @php($cartProductQuantity = 0)
 
                                                 @if(!empty($cartProducts))
                                                     @foreach($cartProducts as $cartProduct)
-                                                        @if($product->id == $cartProduct['id']) @php($productInCart = true) @endif
+                                                        @if($product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
                                                     @endforeach
                                                 @endif
                                             <!-- проверка, есть ли продукт в корзине end -->
 
                                             <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                                    <div class="product-item">
+                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
 
                                                         {{--<div class="post-labels">--}}
                                                         {{--<ul class="clearfix">--}}
@@ -283,8 +280,8 @@
                                                             >
                                                                 <div onclick="cartMinusProduct({{ $product->id }})" class="cart_add-minus">-</div>
 
-                                                                <div id="catalogQuantityProduct_{{ $product->id }}" data-id="{{ $product->id }}" class="cart_add-plus_minus-count">
-                                                                    @if($productInCart == true){{ $cartProduct['quantity'] }} @else
+                                                                <div id="catalogQuantityProduct_{{ $product->id }}" data-id="{{ $product->id }}" data-position="catalog" class="cart_add-plus_minus-count">
+                                                                    @if($productInCart == true){{ $cartProductQuantity }} @else
                                                                     {{ '1' }} @endif
                                                                 </div>
 

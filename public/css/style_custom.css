@@ -110,3 +110,29 @@
 .checkout_product-block {
     margin-bottom: 30px;
 }
+
+/* мини корзина -------------------- --- */
+.mini-cart_empty-wrapper {
+    height: 150px;
+}
+.mini-cart_empty-text {
+    width: max-content;
+    margin: 0 auto;
+    padding-top: 62px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #222222;
+    text-transform: uppercase;
+}
+/* мини корзина -------------------- end */
+
+/* контакты -------------------- --- */
+.contacts-map_wrapper {
+    width: 50%;
+    height: 500px;
+}
+.contacts-map_google-map {
+    width: 100%;
+    height: 100%;
+}
+/* контакты -------------------- end */

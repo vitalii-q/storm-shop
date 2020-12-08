@@ -77,7 +77,7 @@
                                 </td>
                                 <td class="item-price product-price_get-price text-center">{{ $product['price'] }}</td>
                                 <td class="item-quantity text-center">
-                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $product['id'] }}" class="quantity_get-value" name="quantity" type="number" value="{{ $product['quantity'] }}" min="1" placeholder="quantity">
+                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $product['id'] }}" data-position="cart" class="quantity_get-value" name="quantity" type="number" value="{{ $product['quantity'] }}" min="1" placeholder="quantity">
                                 </td>
                                 <td class="total-price product-sum_get-sum text-center">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</td>
                             </tr>

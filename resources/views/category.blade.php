@@ -225,18 +225,20 @@
                                         @foreach($products as $product)
 
                                             <!-- проверка, есть ли продукт в корзине --- -->
-                                            @php($productInCart = false)
+                                            @php($productInCart = false) @php($cartProductQuantity = 0)
 
                                             @if(!empty($cartProducts))
                                                 @foreach($cartProducts as $cartProduct)
-                                                    @if($product->id == $cartProduct['id']) @php($productInCart = true) @endif
+                                                    @if($product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
                                                 @endforeach
                                             @endif
+
+                                            {{--@dump($product->id === $cartProduct['id'])--}}
                                             <!-- проверка, есть ли продукт в корзине end -->
 
                                                 <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                                    <div class="product-item">
+                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
 
                                                         {{--<div class="post-labels">--}}
                                                         {{--<ul class="clearfix">--}}
@@ -284,8 +286,8 @@
                                                             >
                                                                 <div onclick="cartMinusProduct({{ $product->id }})" class="cart_add-minus">-</div>
 
-                                                                <div id="catalogQuantityProduct_{{ $product->id }}" data-id="{{ $product->id }}" class="cart_add-plus_minus-count">
-                                                                    @if($productInCart == true){{ $cartProduct['quantity'] }} @else
+                                                                <div id="catalogQuantityProduct_{{ $product->id }}" data-id="{{ $product->id }}" data-position="catalog" class="cart_add-plus_minus-count">
+                                                                    @if($productInCart == true){{ $cartProductQuantity }} @else
                                                                         {{ '1' }} @endif
                                                                 </div>
 
@@ -316,7 +318,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- product-item - end -->
-                                            @endforeach
+                                        @endforeach
 
                                         </div>
                                     </div>

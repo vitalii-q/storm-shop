@@ -42,5 +42,5 @@ Route::get('/blog', function () {return view('blog');})->name('blog');
 Route::get('/blog/{blog}', function () {return view('blog_detail');})->name('blog_detail');
 
 Route::get('/contacts', function () {return view('contacts');})->name('contacts');
-Route::post('/contacts/submit')->name('contacts_submit');
+Route::post('/contacts/submit', 'FormController@contactMessage')->name('contacts_submit');
 

@@ -52,9 +52,9 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1399',
-                'image_1' => 'products/img-1 (detail).jpg',
-                'image_2' => 'products/img-2 (detail).jpg',
-                'image_3' => 'products/img-3 (detail).jpg',
+                'image_1' => 'images/products/img-1 (detail).jpg',
+                'image_2' => 'images/products/img-2 (detail).jpg',
+                'image_3' => 'images/products/img-3 (detail).jpg',
             ],
             [
                 'name' => 'Куртка демисезонная',
@@ -96,7 +96,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '3499',
-                'image_1' => 'products/img-2.jpg',
+                'image_1' => 'images/products/img-2.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -140,7 +140,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1299',
-                'image_1' => 'products/img-3.jpg',
+                'image_1' => 'images/products/img-3.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -184,7 +184,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '6299',
-                'image_1' => 'products/img-4.jpg',
+                'image_1' => 'images/products/img-4.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -228,7 +228,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '3500',
-                'image_1' => 'products/img-5.jpg',
+                'image_1' => 'images/products/img-5.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -272,7 +272,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '2499',
-                'image_1' => 'products/img-6.jpg',
+                'image_1' => 'images/products/img-6.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -316,7 +316,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1299',
-                'image_1' => 'products/img-7.jpg',
+                'image_1' => 'images/products/img-7.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -360,7 +360,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '2699',
-                'image_1' => 'products/img-8.jpg',
+                'image_1' => 'images/products/img-8.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -404,7 +404,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '3199',
-                'image_1' => 'products/img-9.jpg',
+                'image_1' => 'images/products/img-9.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -448,7 +448,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '6399',
-                'image_1' => 'products/img-10.jpg',
+                'image_1' => 'images/products/img-10.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -492,7 +492,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '2299',
-                'image_1' => 'products/img-11.jpg',
+                'image_1' => 'images/products/img-11.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -536,7 +536,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1500',
-                'image_1' => 'products/img-12.jpg',
+                'image_1' => 'images/products/img-12.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -580,7 +580,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '4699',
-                'image_1' => 'products/img-1.jpg',
+                'image_1' => 'images/products/img-1.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -624,7 +624,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1799',
-                'image_1' => 'products/img-3.jpg',
+                'image_1' => 'images/products/img-3.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -668,7 +668,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '6299',
-                'image_1' => 'products/img-4.jpg',
+                'image_1' => 'images/products/img-4.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],

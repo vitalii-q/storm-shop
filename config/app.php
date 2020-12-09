@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -174,8 +174,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
         Barryvdh\Debugbar\ServiceProvider::class,
         //Darryldecode\Cart\CartServiceProvider::class, // корзина
+        //Collective\Html\HtmlServiceProvider::class, // отправка mail
 
         App\Providers\VievServiceProvider::class, // провайдер
     ],
@@ -228,8 +230,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         //'Cart' => Darryldecode\Cart\Facades\CartFacade::class, // корзина
+        //'Form' => Collective\Html\FormFacade::class, // отправка mail
+        //'Html' => Collective\Html\HtmlFacade::class, // отправка mail
     ],
 
 ];

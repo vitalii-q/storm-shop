@@ -122,7 +122,6 @@ function updateProductInCart(clickedElement) { // обновление прод�
 
     // получаем сумму продукта
     quantity = clickedElement.value;
-    //console.log(quantity);
 
     // получаем id продукта
     productId = clickedElement.getAttribute('data-id');
@@ -143,6 +142,8 @@ function updateProductInCart(clickedElement) { // обновление прод�
         }
     })
 
+    changeQuantityInAllElements(clickedElement);
+
     // обновляем сумму продукта
     let pricesElements = document.getElementsByClassName('product-price_get-price');
     let prices = [];
@@ -150,14 +151,17 @@ function updateProductInCart(clickedElement) { // обновление прод�
         prices.push(pricesElements[i].innerHTML);
     }
 
-    // получаем элементы с суммами продукта
+    // получаем элементы с суммами продуктов
     let quantitiesInput = document.getElementsByClassName('quantity_get-value');
-    let quantities = [];
+    console.log(quantitiesInput);
 
     // формируем массив с суммами продуктов
-    for(let i=0; i < quantitiesInput.length; i++) {
+    let quantities = [];
+    for(let i=1; i < quantitiesInput.length; i++) {
         quantities.push(quantitiesInput[i].value);
+        //console.log(quantitiesInput[i]);
     }
+    console.log(quantities);
 
     let productSum = []; // суммы продуктов
     for(let i=0; i < pricesElements.length; i++) {
@@ -180,8 +184,6 @@ function updateProductInCart(clickedElement) { // обновление прод�
         totalSumElement.innerHTML = totalSum; // обновляем итоговую сумму
     }
 
-    changeQuantityInAllElements(clickedElement);
-
     miniCartChanges();
 }
 
@@ -194,7 +196,8 @@ function changeQuantityInAllElements(clickedElement = null) { // обновля�
         changingProductQuantityElements = document.getElementsByClassName('quantity_get-value');
         for (let i=0; i < changingProductQuantityElements.length; i++) {
             if(changingProductQuantityElements[i].getAttribute('data-id') == clickedElement.getAttribute('data-id')){
-                changingProductQuantityElements[i].setAttribute('value', clickedElement.innerHTML);
+                changingProductQuantityElements[i].setAttribute('value', Number(clickedElement.innerHTML));
+                changingProductQuantityElements[i].value = Number(clickedElement.innerHTML);
             }
         }
     }
@@ -202,7 +205,7 @@ function changeQuantityInAllElements(clickedElement = null) { // обновля�
     // если клик из мини корзины, меняем в каталоге
     if(positionProductQuantityElem == 'header') {
         changingProductQuantityElements = document.getElementById('catalogQuantityProduct_'+productId);
-        changingProductQuantityElements.innerHTML = clickedElement.value; // КОНФЛИКТУЕТ С ХЕАДЕР/КАРТ
+        changingProductQuantityElements.innerHTML = Number(clickedElement.value);
     }
 
     // связываем количества продуктов в корзине и в мини корзине

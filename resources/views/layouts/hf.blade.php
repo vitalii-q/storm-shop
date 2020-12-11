@@ -125,7 +125,12 @@
                                     <li><a href="{{ route('login') }}">Войти</a></li>
                                 @endguest
                                 @auth
-                                    <li><a href="{{ route('personal') }}">{{ Auth::user()->first_name }}</a></li>
+                                    @if(Auth::user()->privilege == 1)
+                                        <li><a href="{{ route('admin') }}">{{ Auth::user()->first_name }}</a></li>
+                                    @else
+                                        <li><a href="{{ route('personal') }}">{{ Auth::user()->first_name }}</a></li>
+                                    @endif
+
                                     <li><a href="{{ route('get_logout') }}">Выйти</a></li>
                                 @endauth
 
@@ -154,7 +159,7 @@
                             <div class="main-menu-list ul-li-center">
                                 <ul class="clearfix">
 
-                                    <li class="menu-item-has-children active">
+                                    <li class="menu-item-has-children @if(Route::currentRouteNamed('index')) active @endif">
                                         <a href="{{ route('index') }}">Главная</a>
                                         <!--<ul class="sub-menu clearfix">-->
                                         <!--<li class="menu-item-has-children">-->
@@ -230,9 +235,9 @@
                                         <!--</ul>-->
                                     </li>
 
-                                    <li class="menu-item-has-children has-mega-menu">
+                                    <li class="menu-item-has-children has-mega-menu @if(Route::currentRouteNamed(['catalog', 'category', 'brand', 'brand_category', 'product'])) active @endif">
                                         <a href="{{ route('catalog') }}">Каталог</a>
-                                        <ul class="mega-menu clearfix" style="background-image: url({{ Storage::url('header_footer/mega-menu-bg-2.jpg') }});">
+                                        <ul class="mega-menu clearfix" style="background-image: url({{ Storage::url('images/header_footer/mega-menu-bg-2.jpg') }});">
                                             @if(!empty($categoriesHF))
                                             <li>
                                                 <span class="title-text color-past mb-30">Категории</span>
@@ -247,19 +252,17 @@
                                             <li>
                                                 <span class="title-text color-past mb-30">Бренды</span>
                                                 <ul class="menu-item-list clearfix">
-                                                    <li><a href="#!">men's</a></li>
-                                                    <li><a href="#!">women's</a></li>
-                                                    <li><a href="#!">boys</a></li>
-                                                    <li><a href="#!">girls</a></li>
-                                                    <li><a href="#!">babys</a></li>
+                                                    @foreach($brandsHF as $brandHF)
+                                                        <li><a href="{{ route('brand', $brandHF->code) }}">{{ $brandHF->name }}</a></li>
+                                                    @endforeach
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
 
                                     <li class="@if(Route::currentRouteNamed('about')) active @endif"><a href="{{ route('about') }}">О нас</a></li>
-                                    <li class="menu-item-has-children @if(Route::currentRouteNamed(['blog', 'blog_detail'])) active @endif">
-                                        <a class="@if(Route::currentRouteNamed('blog, blog_category, blog_detail')) active @endif" href="{{ route('blog') }}">Блог</a>
+                                    <li class="menu-item-has-children @if(Route::currentRouteNamed(['blog', 'blog_category', 'article'])) active @endif">
+                                        <a href="{{ route('blog') }}">Блог</a>
                                         <ul class="sub-menu clearfix">
                                             <li><a href="blog.html">Blog page</a></li>
                                             <li><a href="blog-details.html">Blog details</a></li>
@@ -308,29 +311,29 @@
                                         <div class="cart-items-container has-items">
                                             <h2 id="mini-cart_top-info" class="title-text @if(empty($cartHF)) display-none @endif">недавно добавленные предметы</h2>
 
-                                            <div class="cart-item clearfix">
+                                            <!-- шаблон продукта для добавления в корзину header через js --- -->
+                                            <div id="hf_cart-product-template" class="cart-item clearfix display-none">
                                                 <div class="image-container">
-                                                    <img src="{{ URL::asset('images/cart/fashion/img-1.jpg') }}" alt="image_not_found">
+                                                    <img class="hf-img-teg" src="" alt="image_not_found"> <!-- $ -->
                                                 </div>
                                                 <div class="item-content clearfix">
-                                                    <h3 class="item-title mb-15">Современная городская толстовка</h3>
+                                                    <h3 class="item-title mb-15"></h3>
                                                     <div class="item-price mb-30">
-                                                        <strong class="color-black">129₽</strong> <del>359₽</del>
+                                                        <strong class="for-inner-price color-black"></strong>
                                                     </div>
                                                     <ul class="clearfix">
                                                         <li>
                                                             <span class="qty-text">К-во:</span>
-                                                            <input class="quantity-input" type="number" value="1">
+                                                            <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="" data-position="header" class="quantity-input quantity_get-value" name="quantity" type="number" value="1" min="1" placeholder="quantity">
                                                         </li>
                                                         <li>
-                                                            <button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button>
+                                                            <button onclick="removeProductCart()" type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button> <!-- $ -->
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <!-- шаблон продукта для добавления в корзину header через js end -->
+
 
                                             <!-- шаблон пустой корзины -------------------------------------- -->
                                             <div id="mini-cart_empty-wrapper" class="mini-cart_empty-wrapper @if(!empty($cartHF)) display-none @endif">
@@ -826,7 +829,7 @@
                         <div class="col-lg-5 col-md-12 col-sm-12">
                             <div class="newsletter-content">
                                 <h4 class="m-0">Подписаться на новости</h4>
-                                <p class="m-0">Подпишитесь на нашу рассылку эксклюзивных скидочных купонов</p>
+                                <p class="m-0">Подпишитесь на нашу рассылку эксклюзивных скидочных кодов</p>
                             </div>
                         </div>
 

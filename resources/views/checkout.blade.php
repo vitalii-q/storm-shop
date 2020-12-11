@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">women's fashion</h2>
+                            <h2 class="title-text">Оформление</h2>
                         </div>
 
                     </div>
@@ -292,26 +292,26 @@
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="checkout-sidebar-section">
 
-                        <div class="order-summary mb-30 clearfix">
+                        <div class="order-summary mb-30 clearfix checkout_products-block">
                             <div class="section-title section-title_checkout-custom">
-                                <h2>Order Summary</h2>
+                                <h2>Итог заказа</h2>
                             </div>
 
-                            <span class="item-amount mb-15">{{ Cart::getContent()->count() }} items in cart</span>
+                            <span class="item-amount mb-15">{{ App\Http\Controllers\CartController::getProductsCountInCart() }} продуктов в корзине</span>
 
                             <div class="flex-container">
                                 @php($i = 1)
                                 @if($products)
                                     @foreach($products as $product)
-                                        <div class="item-summary">
+                                        <div class="item-summary checkout_product-block">
                                             <div class="image-container">
                                                 <img src="{{ Storage::url($product['image_1']) }}" alt="image_not_found">
                                             </div>
                                             <div class="item-content">
                                                 <h3 class="title-text">{{ $product['name'] }}</h3>
-                                                <span class="qty-text mb-15">Qty: <small>{{ $product['quantity'] }}</small></span>
+                                                <span class="qty-text mb-15">К-во: <small>{{ $product['quantity'] }}</small></span>
                                                 <div class="item-price">
-                                                    <strong class="color-black">full sum</strong>
+                                                    <strong class="color-black">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</strong>
                                                 </div>
                                             </div>
                                         </div>

@@ -50,7 +50,7 @@
         <div class="container">
 
             <!-- product-details - start -->
-            <div class="product-details">
+            <div id="product-item_{{ $selected_product->id }}" class="product-details" data-name="{{ $selected_product->name }}" data-price="{{ $selected_product->price }}₽" data-img="{{ Storage::url($selected_product->image_1) }}">
                 <div class="row justify-content-md-center">
 
                     <!-- product-details-carousel - start -->
@@ -160,35 +160,38 @@
                             {{--</div>--}}
 
 
-                            <!-- проверка, есть ли продукт в корзине --- -->
-                            @php($productInCart = false)
-                            @foreach($cartProducts as $cartProduct)
-                                @if($selected_product->id == $cartProduct['id']) @php($productInCart = true) @endif
-                            @endforeach
-                            <!-- проверка, есть ли продукт в корзине end -->
+                        <!-- проверка, есть ли продукт в корзине --- -->
+                            @php($productInCart = false) @php($cartProductQuantity = 0)
+
+                            @if(!empty($cartProducts))
+                                @foreach($cartProducts as $cartProduct)
+                                    @if($selected_product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
+                                @endforeach
+                            @endif
+                        <!-- проверка, есть ли продукт в корзине end -->
 
                             <div class="item-btns-group ul-li clearfix mb-30">
                                 <ul class="clearfix">
                                     <li>
-                                        <div id="cart_add-plus_minus-container"
-                                         @if($productInCart == true)class="cart_add-plus_minus-container flex-container" @else
-                                         class="cart_add-plus_minus-container display-none flex-container"@endif
+                                        <div id="cart_add-plus_minus-container_{{ $selected_product->id }}"
+                                             @if($productInCart == true)class="cart_add-plus_minus-container flex-container" @else
+                                             class="cart_add-plus_minus-container display-none flex-container"@endif
                                         >
                                             <div onclick="cartMinusProduct({{ $selected_product->id }})" class="cart_add-minus">-</div>
 
-                                            <div id="catalogQuantityProduct_{{ $selected_product->id }}" data-id="{{ $selected_product->id }}" class="cart_add-plus_minus-count">
-                                                @if($productInCart == true){{ $cartProduct['quantity'] }} @else
+                                            <div id="catalogQuantityProduct_{{ $selected_product->id }}" data-id="{{ $selected_product->id }}" data-position="catalog" class="cart_add-plus_minus-count">
+                                                @if($productInCart == true){{ $cartProductQuantity }} @else
                                                     {{ '1' }} @endif
                                             </div>
 
                                             <div onclick="cartPlusProduct({{ $selected_product->id }})" class="cart_add-plus">+</div>
                                         </div>
 
-                                        <a id="cartAddButton" onclick="addToCart({{ $selected_product->id }})"
-                                       @if($productInCart == true)class="add-to-cart display-none" @else
-                                       class="add-to-cart"@endif
+                                        <a id="cartAddButton_{{ $selected_product->id }}" onclick="addToCartButtonCatalog({{ $selected_product->id }})"
+                                           @if($productInCart == true)class="add-to-cart display-none" @else
+                                           class="add-to-cart"@endif
                                         >
-                                            <i class="flaticon-shopper"></i>
+                                            <i class="flaticon-shopping-basket"></i>
                                             В корзину
                                         </a>
                                     </li>

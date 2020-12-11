@@ -222,21 +222,34 @@
                                     <div id="grid-style" class="tab-pane fade in active show">
                                         <div class="row">
 
-                                            @foreach($products as $product)
+                                        @foreach($products as $product)
+
+                                            <!-- проверка, есть ли продукт в корзине --- -->
+                                            @php($productInCart = false) @php($cartProductQuantity = 0)
+
+                                            @if(!empty($cartProducts))
+                                                @foreach($cartProducts as $cartProduct)
+                                                    @if($product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
+                                                @endforeach
+                                            @endif
+
+                                            {{--@dump($product->id === $cartProduct['id'])--}}
+                                            <!-- проверка, есть ли продукт в корзине end -->
+
                                                 <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                                    <div class="product-item">
+                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
 
                                                         {{--<div class="post-labels">--}}
-                                                            {{--<ul class="clearfix">--}}
-                                                                {{--<li class="bg-primary">new</li>--}}
-                                                                {{--<li class="bg-danger">-50%</li>--}}
-                                                            {{--</ul>--}}
+                                                        {{--<ul class="clearfix">--}}
+                                                        {{--<li class="bg-primary">new</li>--}}
+                                                        {{--<li class="bg-danger">-50%</li>--}}
+                                                        {{--</ul>--}}
                                                         {{--</div>--}}
 
                                                         <div class="image-container">
                                                             <img src="{{ Storage::url($product->image_1) }}" alt="image_not_found">
-                                                            <a href="{{ '/catalog/' . $selected_category->code . '/' . $product->code }}" class="quick-view">
+                                                            <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="quick-view">
                                                                 <i class="fas fa-eye"></i>
                                                                 quick view
                                                             </a>
@@ -259,10 +272,40 @@
                                                                 </ul>
                                                             </div>
 
-                                                            <a href="#!" class="add-to-cart">
+                                                            {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
+                                                            {{--@csrf--}}
+                                                            {{--<button type="submit" class="add-to-cart">--}}
+                                                            {{--<i class="flaticon-shopping-basket"></i>--}}
+                                                            {{--В корзину--}}
+                                                            {{--</button>--}}
+                                                            {{--</form>--}}
+
+                                                            <div id="cart_add-plus_minus-container_{{ $product->id }}"
+                                                                 @if($productInCart == true)class="cart_add-plus_minus-container flex-container" @else
+                                                                 class="cart_add-plus_minus-container display-none flex-container"@endif
+                                                            >
+                                                                <div onclick="cartMinusProduct({{ $product->id }})" class="cart_add-minus">-</div>
+
+                                                                <div id="catalogQuantityProduct_{{ $product->id }}" data-id="{{ $product->id }}" data-position="catalog" class="cart_add-plus_minus-count">
+                                                                    @if($productInCart == true){{ $cartProductQuantity }} @else
+                                                                        {{ '1' }} @endif
+                                                                </div>
+
+                                                                <div onclick="cartPlusProduct({{ $product->id }})" class="cart_add-plus">+</div>
+                                                            </div>
+
+                                                            <a id="cartAddButton_{{ $product->id }}" onclick="addToCartButtonCatalog({{ $product->id }})"
+                                                               @if($productInCart == true)class="add-to-cart display-none" @else
+                                                               class="add-to-cart"@endif
+                                                            >
                                                                 <i class="flaticon-shopping-basket"></i>
                                                                 В корзину
                                                             </a>
+
+                                                            {{--<div onclick="addToCart({{ $product->id }})" class="add-to-cart cursor-p">--}}
+                                                            {{--<i class="flaticon-shopping-basket"></i>--}}
+                                                            {{--В корзину--}}
+                                                            {{--</div>--}}
 
                                                             <div class="product-meta ul-li-center">
                                                                 <ul class="clearfix">
@@ -275,14 +318,15 @@
                                                     </div>
                                                 </div>
                                                 <!-- product-item - end -->
-                                            @endforeach
+                                        @endforeach
 
                                         </div>
                                     </div>
 
                                     <div id="list-style" class="tab-pane fade">
-                                        @foreach($products as $product)
-                                            <!-- product-list-item - start -->
+
+                                    @foreach($products as $product)
+                                        <!-- product-list-item - start -->
                                             <div class="product-list-item clearfix">
                                                 <div class="image-container float-left">
                                                     <img src="{{ Storage::url($product->image_1) }}" alt="image_not_found">

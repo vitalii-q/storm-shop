@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
+use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
@@ -68,5 +70,29 @@ class MainController extends Controller
     public function about() {
         $team = DB::table('team')->get();
         return view('about', compact('team'));
+    }
+
+    public function blog() {
+        $blog = Blog::paginate(5);
+        $blogCategories = BlogCategory::get();
+
+        return view('blog', compact('blog', 'blogCategories'));
+    }
+    public function blogCategory($selected_category) {
+        $selected_category = BlogCategory::where('code', $selected_category)->first(); // выбранная категория
+        $blog = Blog::where('category_id', $selected_category->id)->paginate(5); // статьи привязанные к категории
+        $blogCategories = BlogCategory::get(); // все категории
+
+        return view('blog', compact('blog', 'blogCategories'));
+    }
+    public function article($article) {
+        $article = Blog::where('code', $article)->first();
+        $blogCategories = BlogCategory::get();
+
+        return view('blog_detail', compact('article', 'blogCategories'));
+    }
+
+    public function contacts() {
+        return view('contacts');
     }
 }

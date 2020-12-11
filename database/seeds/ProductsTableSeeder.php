@@ -17,6 +17,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Modern sweatshirt',
                 'code' => 'modern_sweatshirt',
                 'category_id' => 2,
+                'brand_id' => 1,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -51,15 +52,16 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1399',
-                'image_1' => 'products/img-1 (detail).jpg',
-                'image_2' => 'products/img-2 (detail).jpg',
-                'image_3' => 'products/img-3 (detail).jpg',
+                'image_1' => 'images/products/img-1 (detail).jpg',
+                'image_2' => 'images/products/img-2 (detail).jpg',
+                'image_3' => 'images/products/img-3 (detail).jpg',
             ],
             [
                 'name' => 'Куртка демисезонная',
                 'name_en' => 'Demi-season jacket',
                 'code' => 'demi-season jacket',
                 'category_id' => 1,
+                'brand_id' => 2,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -94,7 +96,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '3499',
-                'image_1' => 'products/img-2.jpg',
+                'image_1' => 'images/products/img-2.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -103,6 +105,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Fashionable shirt',
                 'code' => 'fashionable shirt',
                 'category_id' => 3,
+                'brand_id' => 3,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -137,7 +140,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1299',
-                'image_1' => 'products/img-3.jpg',
+                'image_1' => 'images/products/img-3.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -146,6 +149,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Stylish jacket',
                 'code' => 'stylish jacket',
                 'category_id' => 1,
+                'brand_id' => 1,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -180,7 +184,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '6299',
-                'image_1' => 'products/img-4.jpg',
+                'image_1' => 'images/products/img-4.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -189,6 +193,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Men\'s jacket',
                 'code' => 'mens_jacket',
                 'category_id' => 1,
+                'brand_id' => 2,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -223,7 +228,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '3500',
-                'image_1' => 'products/img-5.jpg',
+                'image_1' => 'images/products/img-5.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -232,6 +237,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Сashmere sweater',
                 'code' => 'cashmere_sweater',
                 'category_id' => 2,
+                'brand_id' => 3,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -266,7 +272,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '2499',
-                'image_1' => 'products/img-6.jpg',
+                'image_1' => 'images/products/img-6.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -275,6 +281,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Business shirt',
                 'code' => 'business_shirt',
                 'category_id' => 3,
+                'brand_id' => 4,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -309,7 +316,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1299',
-                'image_1' => 'products/img-7.jpg',
+                'image_1' => 'images/products/img-7.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -318,6 +325,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Youth sweater',
                 'code' => 'youth_sweater',
                 'category_id' => 2,
+                'brand_id' => 2,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -352,7 +360,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '2699',
-                'image_1' => 'products/img-8.jpg',
+                'image_1' => 'images/products/img-8.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -361,6 +369,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Female jacket',
                 'code' => 'female_jacket',
                 'category_id' => 1,
+                'brand_id' => 1,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -395,7 +404,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '3199',
-                'image_1' => 'products/img-9.jpg',
+                'image_1' => 'images/products/img-9.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -404,6 +413,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Long jacket',
                 'code' => 'long_jacket',
                 'category_id' => 1,
+                'brand_id' => 3,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -438,7 +448,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '6399',
-                'image_1' => 'products/img-10.jpg',
+                'image_1' => 'images/products/img-10.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -447,6 +457,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Collar sweater',
                 'code' => 'collar_sweater',
                 'category_id' => 2,
+                'brand_id' => 1,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -481,7 +492,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '2299',
-                'image_1' => 'products/img-11.jpg',
+                'image_1' => 'images/products/img-11.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -490,6 +501,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Turtleneck',
                 'code' => 'turtleneck',
                 'category_id' => 2,
+                'brand_id' => 2,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -524,7 +536,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1500',
-                'image_1' => 'products/img-12.jpg',
+                'image_1' => 'images/products/img-12.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -533,6 +545,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Jacket with a hood',
                 'code' => 'jacket_with_a_hood',
                 'category_id' => 1,
+                'brand_id' => 2,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -567,7 +580,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '4699',
-                'image_1' => 'products/img-1.jpg',
+                'image_1' => 'images/products/img-1.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -576,6 +589,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Stylish trousers',
                 'code' => 'stylish_trousers',
                 'category_id' => 4,
+                'brand_id' => 3,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -610,7 +624,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '1799',
-                'image_1' => 'products/img-3.jpg',
+                'image_1' => 'images/products/img-3.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],
@@ -619,6 +633,7 @@ class ProductsTableSeeder extends Seeder
                 'name_en' => 'Jacket fashion 2021',
                 'code' => 'jacket_fashion_2021',
                 'category_id' => 1,
+                'brand_id' => 2,
                 'description' => 'Равным образом постоянный количественный рост и сфера нашей активности в значительной степени 
                 обуславливает создание дальнейших направлений развития. Товарищи! укрепление и развитие структуры обеспечивает широкому 
                 кругу (специалистов) участие в формировании позиций, занимаемых участниками в отношении поставленных задач. Не следует, 
@@ -653,7 +668,7 @@ class ProductsTableSeeder extends Seeder
                 amet iaculis nisl faucibus. Mauris lacinia condimentum nisi id consequat. Fusce volutpat nisl id metus fringilla, id 
                 finibus massa rhoncus. Nullam nec lectus faucibus, laoreet eros ac, rhoncus nisi.',
                 'price' => '6299',
-                'image_1' => 'products/img-4.jpg',
+                'image_1' => 'images/products/img-4.jpg',
                 'image_2' => '',
                 'image_3' => '',
             ],

@@ -38,9 +38,13 @@ Route::get('/checkout', 'CartController@checkout')->name('checkout'); // стр�
 Route::get('/buy', 'CartController@buy')->name('buy'); // оформление заказа
 
 Route::get('/about', 'MainController@about')->name('about');
-Route::get('/blog', function () {return view('blog');})->name('blog');
-Route::get('/blog/{blog}', function () {return view('blog_detail');})->name('blog_detail');
 
-Route::get('/contacts', function () {return view('contacts');})->name('contacts');
-Route::post('/contacts/submit', 'FormController@contactMessage')->name('contacts_submit');
+Route::get('/blog', 'MainController@blog')->name('blog');
+Route::get('/blog/category/{blog}', 'MainController@blogCategory')->name('blog_category');
+Route::get('/blog/{article}', 'MainController@article')->name('article');
+
+Route::get('/contacts', 'MainController@contacts')->name('contacts');
+Route::post('/contacts/submit', 'FormsController@contactMessage')->name('contacts_submit');
+
+Route::post('/subscription', 'FormsController@subscription')->name('subscription');
 

@@ -214,13 +214,9 @@ class CartController extends Controller
         }
 
         // чистим сессию
-        session()->flush('cart');
+        session()->forget('cart');
 
-        return view('index');
-    }
-
-    static function getProductsCount() {
-
+        return redirect()->route('index');
     }
 
     static function getProductsCountInCart() {

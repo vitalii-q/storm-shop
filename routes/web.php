@@ -17,12 +17,27 @@ Route::get('/', 'MainController@index')->name('index');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('get_logout'); // разлогинится
 
-Route::get('/admin', 'AdminController@index')->name('admin');
-Route::group(['middleware' => 'auth'], function () { // доступ авторизованным пользователям
+// админ панель
+Route::group([
+    'middleware' => 'admin', // доступ администрации
+    'namespace' => 'Admin',
+    'prefix' => 'admin',
+], function () {
+    Route::get('/', 'AdminController@index')->name('admin');
+    Route::get('/orders', 'AdminController@orders')->name('admin_orders');
 
+    Route::resource('blog/categories', 'Blog\CategoryController', ['names' => [ // блог
+        'index' => 'admin.blog.categories.index',
+        'create' => 'admin.blog.categories.create',
+    ]]);
+});
+
+// личный кабинет
+Route::group(['middleware' => 'auth'], function () { // доступ авторизованным пользователям
     Route::get('/personal', 'PersonalController@index')->name('personal');
 });
 
+// сайт
 Route::get('/catalog', 'MainController@catalog')->name('catalog');
 Route::get('/catalog/{category}', 'MainController@category')->name('category');
 Route::get('/catalog/brand/{brand}', 'MainController@brand')->name('brand');

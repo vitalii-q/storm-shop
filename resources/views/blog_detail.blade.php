@@ -9,13 +9,13 @@
     <section id="breadcrumb-section" class="breadcrumb-section clearfix">
 
         <!-- breadcrumb-big-title - start -->
-        <div class="breadcrumb-big-title" style="background-image: url(images/breadcrumb/bg-image-1.jpg);">
+        <div class="breadcrumb-big-title" style="background-image: url({{ URL::asset('images/breadcrumb/bg-image-1.jpg') }}">
             <div class="overlay-black sec-ptb-100">
                 <div class="container">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">women's fashion</h2>
+                            <h2 class="title-text">{{ $article->title }}</h2>
                         </div>
 
                     </div>
@@ -28,8 +28,9 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">blog details</li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="{{ route('blog') }}">Блог</a></li>
+                    <li class="active">{{ $article->title }}</li>
                 </ul>
             </div>
         </div>
@@ -72,11 +73,9 @@
                                 <h2>Categories</h2>
                             </div>
                             <ul class="clearfix">
-                                <li><a href="#!">Beauty <span class="float-right">(30)</span></a></li>
-                                <li><a href="#!">Fashion <span class="float-right">(50)</span></a></li>
-                                <li><a href="#!">Food <span class="float-right">(10)</span></a></li>
-                                <li><a href="#!">Life Style <span class="float-right">(60)</span></a></li>
-                                <li><a href="#!">Travel <span class="float-right">(10)</span></a></li>
+                                @foreach($blogCategories as $blogCategory)
+                                    <li><a href="{{ route('blog_category', $blogCategory['code']) }}">{{ $blogCategory['name'] }} <span class="float-right">({{ $blogCategory->getArticles()->count() }})</span></a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <!-- category-list - end -->
@@ -86,10 +85,11 @@
                             <div class="sidebar-title">
                                 <h2>Categories</h2>
                             </div>
+
                             <ul class="clearfix">
                                 <li>
 										<span class="image-container">
-											<img src="assets/images/sidebar/recent-post/fashion/img-1.jpg" alt="image_not_found">
+											<img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-1.jpg') }}" alt="image_not_found">
 										</span>
                                     <div class="content">
                                         <a href="#!" class="item-title">Paris Fashion Women 2018</a>
@@ -98,7 +98,7 @@
                                 </li>
                                 <li>
 										<span class="image-container">
-											<img src="assets/images/sidebar/recent-post/fashion/img-2.jpg" alt="image_not_found">
+											<img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-2.jpg') }}" alt="image_not_found">
 										</span>
                                     <div class="content">
                                         <a href="#!" class="item-title">Paris Fashion Women 2018</a>
@@ -107,7 +107,7 @@
                                 </li>
                                 <li>
 										<span class="image-container">
-											<img src="assets/images/sidebar/recent-post/fashion/img-3.jpg" alt="image_not_found">
+											<img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-3.jpg') }}" alt="image_not_found">
 										</span>
                                     <div class="content">
                                         <a href="#!" class="item-title">Paris Fashion Women 2018</a>
@@ -147,7 +147,7 @@
                     <div class="blog-details mb-60">
 
                         <div class="blog-title mb-30">
-                            <h2 class="title-text">Styling Belt Bags And Over The Knee Boots</h2>
+                            <h2 class="title-text">{{ $article->title }}</h2>
                             <div class="post-meta ul-li">
                                 <ul class="clearfix">
                                     <li>post by: <a href="#!">admin</a></li>
@@ -161,14 +161,15 @@
                         </div>
 
                         <div class="image-container mb-30">
-                            <img src="assets/images/blog/fashion/big-blog-1.jpg" alt="image_not_found">
+                            <img src="{{ URL::asset('images/blog/fashion/big-blog-1.jpg') }}" alt="image_not_found">
                         </div>
 
                         <div class="blog-content">
                             <p class="mb-60">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip commodo consequat. Duis aute irure dolor in rep rehenderit. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiumod tempor incididunt ...
+                               {!! $article->text !!}
                             </p>
-                            <blockquote class="blockquote mb-60">
+
+                            <!--<blockquote class="blockquote mb-60">
                                 <p class="mb-30">
                                     <sup><i class="flaticon-left-quotes-sign"></i></sup>
                                     Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip.
@@ -181,7 +182,8 @@
                             </blockquote>
                             <p class="m-0">
                                 Dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet conse ctetur ing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud tation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
+                            </p>-->
+
                         </div>
 
                     </div>
@@ -265,7 +267,7 @@
                                 <textarea id="comment-textarea"></textarea>
                                 <label for="comment-textarea" class="form-item-btn">
 										<span class="admin-img">
-											<img src="assets/images/post-meta/admin-2.png" alt="image_not_found">
+											<img src="{{ URL::asset('images/post-meta/admin-2.png') }}" alt="image_not_found">
 										</span>
                                     Write your comment
                                 </label>

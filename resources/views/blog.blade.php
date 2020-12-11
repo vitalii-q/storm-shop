@@ -73,7 +73,7 @@
                             </div>
                             <ul class="clearfix">
                                 @foreach($blogCategories as $blogCategory)
-                                    <li><a href="{{ route('blog_category', $blogCategory->code) }}">{{ $blogCategory->name }} <span class="float-right">(30)</span></a></li>
+                                    <li><a href="{{ route('blog_category', $blogCategory->code) }}">{{ $blogCategory->name }} <span class="float-right">({{ $blogCategory->getArticles()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>

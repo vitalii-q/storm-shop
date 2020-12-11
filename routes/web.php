@@ -48,3 +48,4 @@ Route::post('/contacts/submit', 'FormsController@contactMessage')->name('contact
 
 Route::post('/subscription', 'FormsController@subscription')->name('subscription');
 
+

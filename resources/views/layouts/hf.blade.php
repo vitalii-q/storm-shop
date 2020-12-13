@@ -895,6 +895,8 @@
 
 <!-- custom jquery include -->
 <script src="{{ URL::asset('js/custom.js') }}"></script>
+
+<!-- кастомный скрипт -->
 <script src="{{ URL::asset('js/script.js') }}"></script>
 
 @yield('js')

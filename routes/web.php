@@ -26,9 +26,31 @@ Route::group([
     Route::get('/', 'AdminController@index')->name('admin');
     Route::get('/orders', 'AdminController@orders')->name('admin_orders');
 
-    Route::resource('blog/categories', 'Blog\CategoryController', ['names' => [ // блог
+    Route::resource('catalog/categories', 'Catalog\CategoryController', ['names' => [ // категории каталога
+        'index' => 'admin.catalog.categories.index',
+        'create' => 'admin.catalog.categories.create',
+        'store' => 'admin.catalog.categories.store',
+        'edit' => 'admin.catalog.categories.edit',
+        'update' => 'admin.catalog.categories.update',
+        'destroy' => 'admin.catalog.categories.destroy',
+    ]]);
+
+    Route::resource('blog/categories', 'Blog\CategoryController', ['names' => [ // категории блога
         'index' => 'admin.blog.categories.index',
         'create' => 'admin.blog.categories.create',
+        'store' => 'admin.blog.categories.store',
+        'edit' => 'admin.blog.categories.edit',
+        'update' => 'admin.blog.categories.update',
+        'destroy' => 'admin.blog.categories.destroy',
+    ]]);
+
+    Route::resource('blog/articles', 'Blog\ArticlesController', ['names' => [ // статьи блога
+        'index' => 'admin.blog.articles.index',
+        'create' => 'admin.blog.articles.create',
+        'store' => 'admin.blog.articles.store',
+        'edit' => 'admin.blog.articles.edit',
+        'update' => 'admin.blog.articles.update',
+        'destroy' => 'admin.blog.articles.destroy',
     ]]);
 });
 

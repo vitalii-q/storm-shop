@@ -488,36 +488,13 @@ MAIN CONTENT LAYOUT
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-badge"></i></i><span class="sidebar-mini-hide">Каталог</span></a>
                         <ul>
                             <li>
-                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Main Menu</span></a>
-                                <ul>
-                                    <li>
-                                        <a href="#">Link 1-1</a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 2</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">Link 2-1</a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">Link 3-1</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                <a href="{{ route('admin.catalog.categories.index') }}"><span class="sidebar-mini-hide">Категории</span></a>
                             </li>
                             <li>
-                                <a class="nav-submenu" data-toggle="nav-submenu" href="#">Chat</a>
-                                <ul>
-                                    <li>
-                                        <a href="be_comp_chat_multiple.html">Multiple</a>
-                                    </li>
-                                </ul>
+                                <a href="#"><span class="sidebar-mini-hide">Брэнды</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Продукция</a>
                             </li>
                         </ul>
                     </li>
@@ -529,7 +506,7 @@ MAIN CONTENT LAYOUT
                                 <a href="{{ route('admin.blog.categories.index') }}">Категории</a>
                             </li>
                             <li>
-                                <a href="#" href="#">Статьи</a>
+                                <a href="{{ route('admin.blog.articles.index') }}">Статьи</a>
                             </li>
                         </ul>
                     </li>
@@ -896,6 +873,9 @@ MAIN CONTENT LAYOUT
 
     <!-- Page JS Code -->
     <script src="{{ URL::asset('js/pages/be_pages_dashboard.min.js') }}"></script>
+
+    <!-- кастомный скрипт -->
+    <script src="{{ URL::asset('js/script.js') }}"></script>
 
     @yield('js')
 </body>

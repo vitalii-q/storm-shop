@@ -19,7 +19,7 @@ class CreateBlogTable extends Migration
             $table->string('title');
             $table->string('title_en')->nullable();
             $table->string('code');
-            $table->integer('user')->nullable();
+            $table->integer('user_id')->nullable();
             $table->integer('category_id')->nullable();
             $table->text('preview_text');
             $table->text('preview_text_en')->nullable();

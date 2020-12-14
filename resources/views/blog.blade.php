@@ -1,6 +1,10 @@
 @extends('layouts.hf')
 
-@section('title', 'Блог')
+@isset($selected_category['name'])
+    @section('title', $selected_category['name'])
+@else
+    @section('title', 'Блог')
+@endisset
 
 @section('content')
 
@@ -15,7 +19,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6col-md-12 col-sm-12">
-                            <h2 class="title-text">Блог</h2>
+                            <h2 class="title-text">@isset($selected_category['name']) {{ $selected_category->name }} @elseБлог@endisset</h2>
                         </div>
 
                     </div>
@@ -28,8 +32,13 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Главная</a></li>
-                    <li class="active">Блог</li>
+                    <li><a href="{{ route('index') }}">Главная</a></li>
+                    @isset($selected_category['name'])
+                        <li><a href="{{ route('blog') }}">Блог</a></li>
+                        <li class="active">{{ $selected_category->name }}</li>
+                    @else
+                        <li class="active">Блог</li>
+                    @endisset
                 </ul>
             </div>
         </div>

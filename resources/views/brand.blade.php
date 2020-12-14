@@ -87,7 +87,7 @@
                         <!-- brand-list - start -->
                         <div class="sidebar-item brand-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Брэнды</h2>
+                                <h2>Бренды</h2>
                             </div>
                             <ul class="clearfix">
                                 @foreach($brands as $brand)

@@ -488,13 +488,13 @@ MAIN CONTENT LAYOUT
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-badge"></i></i><span class="sidebar-mini-hide">Каталог</span></a>
                         <ul>
                             <li>
-                                <a href="{{ route('admin.catalog.categories.index') }}"><span class="sidebar-mini-hide">Категории</span></a>
+                                <a href="{{ route('admin.catalog.categories.index') }}">Категории</a>
                             </li>
                             <li>
-                                <a href="#"><span class="sidebar-mini-hide">Брэнды</span></a>
+                                <a href="{{ route('admin.catalog.brands.index') }}">Бренды</a>
                             </li>
                             <li>
-                                <a href="#">Продукция</a>
+                                <a href="{{ route('admin.catalog.products.index') }}">Продукция</a>
                             </li>
                         </ul>
                     </li>

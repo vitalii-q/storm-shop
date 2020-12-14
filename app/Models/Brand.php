@@ -7,6 +7,8 @@ use App\Models\Product;
 
 class Brand extends Model
 {
+    protected $fillable = ['name', 'name_en', 'code', 'description', 'description_en', 'image'];
+
     public function getProducts() {
         return Product::where('brand_id', $this->id)->get();
     }

@@ -26,7 +26,7 @@ Route::group([
     Route::get('/', 'AdminController@index')->name('admin');
     Route::get('/orders', 'AdminController@orders')->name('admin_orders');
 
-    Route::resource('catalog/categories', 'Catalog\CategoryController', ['names' => [ // категории каталога
+    Route::resource('catalog/categories', 'Catalog\CategoriesController', ['names' => [ // категории каталога
         'index' => 'admin.catalog.categories.index',
         'create' => 'admin.catalog.categories.create',
         'store' => 'admin.catalog.categories.store',
@@ -35,7 +35,25 @@ Route::group([
         'destroy' => 'admin.catalog.categories.destroy',
     ]]);
 
-    Route::resource('blog/categories', 'Blog\CategoryController', ['names' => [ // категории блога
+    Route::resource('catalog/brands', 'Catalog\BrandsController', ['names' => [ // бренды каталога
+        'index' => 'admin.catalog.brands.index',
+        'create' => 'admin.catalog.brands.create',
+        'store' => 'admin.catalog.brands.store',
+        'edit' => 'admin.catalog.brands.edit',
+        'update' => 'admin.catalog.brands.update',
+        'destroy' => 'admin.catalog.brands.destroy',
+    ]]);
+
+    Route::resource('catalog/products', 'Catalog\ProductsController', ['names' => [ // продукция каталога
+        'index' => 'admin.catalog.products.index',
+        'create' => 'admin.catalog.products.create',
+        'store' => 'admin.catalog.products.store',
+        'edit' => 'admin.catalog.products.edit',
+        'update' => 'admin.catalog.products.update',
+        'destroy' => 'admin.catalog.products.destroy',
+    ]]);
+
+    Route::resource('blog/categories', 'Blog\CategoriesController', ['names' => [ // категории блога
         'index' => 'admin.blog.categories.index',
         'create' => 'admin.blog.categories.create',
         'store' => 'admin.blog.categories.store',
@@ -76,9 +94,9 @@ Route::get('/buy', 'CartController@buy')->name('buy'); // оформление �
 
 Route::get('/about', 'MainController@about')->name('about');
 
-Route::get('/blog', 'MainController@blog')->name('blog');
-Route::get('/blog/category/{blog}', 'MainController@blogCategory')->name('blog_category');
-Route::get('/blog/{article}', 'MainController@article')->name('article');
+Route::get('/blog', 'BlogController@blog')->name('blog');
+Route::get('/blog/category/{blog}', 'BlogController@blogCategory')->name('blog_category');
+Route::get('/blog/{article}', 'BlogController@article')->name('article');
 
 Route::get('/contacts', 'MainController@contacts')->name('contacts');
 Route::post('/contacts/submit', 'FormsController@contactMessage')->name('contacts_submit');

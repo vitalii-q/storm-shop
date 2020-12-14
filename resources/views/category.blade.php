@@ -248,7 +248,7 @@
                                                         {{--</div>--}}
 
                                                         <div class="image-container">
-                                                            <img src="{{ Storage::url($product->image_1) }}" alt="image_not_found">
+                                                            <img src="{{ URL::asset($product->image_1) }}" alt="image_not_found">
                                                             <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="quick-view">
                                                                 <i class="fas fa-eye"></i>
                                                                 quick view

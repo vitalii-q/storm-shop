@@ -28,7 +28,7 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="{{ route('index') }}">Главная</a></li>
                     <li><a href="{{ route('blog') }}">Блог</a></li>
                     <li class="active">{{ $article->title }}</li>
                 </ul>
@@ -70,7 +70,7 @@
                         <!-- category-list - start -->
                         <div class="sidebar-item category-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Categories</h2>
+                                <h2>Категории</h2>
                             </div>
                             <ul class="clearfix">
                                 @foreach($blogCategories as $blogCategory)
@@ -83,7 +83,7 @@
                         <!-- recent-post - start -->
                         <div class="sidebar-item recent-post ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Categories</h2>
+                                <h2>Популярное</h2>
                             </div>
 
                             <ul class="clearfix">
@@ -150,7 +150,7 @@
                             <h2 class="title-text">{{ $article->title }}</h2>
                             <div class="post-meta ul-li">
                                 <ul class="clearfix">
-                                    <li>post by: <a href="#!">admin</a></li>
+                                    <li>post by: <a href=""></a></li>
                                     <li>
                                         <a href="#!">Beauty Tips,</a>
                                         <a href="#!">Lifestyle</a>
@@ -161,28 +161,13 @@
                         </div>
 
                         <div class="image-container mb-30">
-                            <img src="{{ URL::asset('images/blog/fashion/big-blog-1.jpg') }}" alt="image_not_found">
+                            <img src="{{ URL::asset( $article->image ) }}" alt="image_not_found">
                         </div>
 
                         <div class="blog-content">
                             <p class="mb-60">
                                {!! $article->text !!}
                             </p>
-
-                            <!--<blockquote class="blockquote mb-60">
-                                <p class="mb-30">
-                                    <sup><i class="flaticon-left-quotes-sign"></i></sup>
-                                    Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip.
-                                    <sub><i class="flaticon-right-quotes-symbol"></i></sub>
-                                </p>
-                                <footer class="blockquote-footer">
-                                    <a href="#!" class="admin">George Stven</a>
-                                    <cite title="Source Title">George Stven from New Youk, On Jun 13, 2018</cite>
-                                </footer>
-                            </blockquote>
-                            <p class="m-0">
-                                Dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet conse ctetur ing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud tation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>-->
 
                         </div>
 

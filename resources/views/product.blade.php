@@ -59,17 +59,17 @@
                             <div class="slider-for">
                                 @if(strlen($selected_product->image_1) > 0)
                                     <div class="item">
-                                        <img src="{{ Storage::url($selected_product->image_1) }}" alt="image_not_found">
+                                        <img src="{{ URL::asset($selected_product->image_1) }}" alt="image_not_found">
                                     </div>
                                 @endif
                                 @if(strlen($selected_product->image_2) > 0)
                                     <div class="item">
-                                        <img src="{{ Storage::url($selected_product->image_2) }}" alt="image_not_found">
+                                        <img src="{{ URL::asset($selected_product->image_2) }}" alt="image_not_found">
                                     </div>
                                 @endif
                                 @if(strlen($selected_product->image_3) > 0)
                                     <div class="item">
-                                        <img src="{{ Storage::url($selected_product->image_3) }}" alt="image_not_found">
+                                        <img src="{{ URL::asset($selected_product->image_3) }}" alt="image_not_found">
                                     </div>
                                 @endif
                             </div>
@@ -79,17 +79,17 @@
                                 <div class="slider-nav">
                                     @if(strlen($selected_product->image_1) > 0)
                                         <div class="item">
-                                            <img src="{{ Storage::url($selected_product->image_1) }}" alt="image_not_found">
+                                            <img src="{{ URL::asset($selected_product->image_1) }}" alt="image_not_found">
                                         </div>
                                     @endif
                                     @if(strlen($selected_product->image_2) > 0)
                                         <div class="item">
-                                            <img src="{{ Storage::url($selected_product->image_2) }}" alt="image_not_found">
+                                            <img src="{{ URL::asset($selected_product->image_2) }}" alt="image_not_found">
                                         </div>
                                     @endif
                                     @if(strlen($selected_product->image_3) > 0)
                                         <div class="item">
-                                            <img src="{{ Storage::url($selected_product->image_3) }}" alt="image_not_found">
+                                            <img src="{{ URL::asset($selected_product->image_3) }}" alt="image_not_found">
                                         </div>
                                     @endif
                                 </div>
@@ -126,7 +126,7 @@
                             </div>
 
                             <p class="mb-30">
-                                {{ $selected_product->description }}
+                                {!! $selected_product->description !!}
                             </p>
 
                             {{--<div class="product-size ul-li mb-30">--}}
@@ -231,11 +231,11 @@
 
                 <div class="tab-content">
                     <div id="descriptions" class="tab-pane fade in active show">
-                        {{ $selected_product->description_bottom }}
+                        {!! $selected_product->description_bottom !!}
                     </div>
 
                     <div id="informations" class="tab-pane fade">
-                        {{ $selected_product->information }}
+                        {!! $selected_product->information !!}
                     </div>
 
                     {{--<div id="reviews" class="tab-pane fade">--}}

@@ -7,6 +7,8 @@ use App\Models\Product;
 
 class Category extends Model
 {
+    protected $fillable = ['name', 'name_en', 'code', 'description', 'description_en', 'image'];
+
     public function getProducts() { // функция с помощью которой получаем текущие продукты
         return Product::where('category_id', $this->id)->get();
     }

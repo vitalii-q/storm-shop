@@ -150,12 +150,13 @@
                             <h2 class="title-text">{{ $article->title }}</h2>
                             <div class="post-meta ul-li">
                                 <ul class="clearfix">
-                                    <li>post by: <a href=""></a></li>
+                                    <li>post by: <a href="">{{ $user->first_name }}</a></li>
                                     <li>
                                         <a href="#!">Beauty Tips,</a>
                                         <a href="#!">Lifestyle</a>
                                     </li>
-                                    <li>On March 16, 2018</li>
+                                    {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                    <li>{{ Date::parse($article->created_at)->format('j F Y') }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -165,103 +166,82 @@
                         </div>
 
                         <div class="blog-content">
-                            <p class="mb-60">
                                {!! $article->text !!}
-                            </p>
-
                         </div>
 
                     </div>
                     <!-- blog-big-item - end -->
 
+                @if($comments->count() > 0)
                     <!-- blog-review - start -->
                     <div class="blog-review">
-                        <!-- review-item - start -->
-                        <div class="review-item clearfix">
-                            <span class="reviewer-img"></span>
-                            <div class="review-content">
-                                <div class="post-meta ul-li">
-                                    <ul>
-                                        <li>By <a href="#!">George Stven</a></li>
-                                        <li><i class="flaticon-clock-circular-outline"></i> on Sep 26, 2018   at 20:30</li>
-                                    </ul>
-                                </div>
-                                <p class="m-0">
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-                                </p>
-                            </div>
-                        </div>
-                        <!-- review-item - end -->
 
-                        <!-- review-item - start -->
-                        <div class="review-item clearfix">
-                            <span class="reviewer-img"></span>
-                            <div class="review-content">
-                                <div class="post-meta ul-li">
-                                    <ul>
-                                        <li>By <a href="#!">George Stven</a></li>
-                                        <li><i class="flaticon-clock-circular-outline"></i> on Sep 26, 2018   at 20:30</li>
-                                    </ul>
+                            @foreach($comments as $comment)
+                            <!-- review-item - start -->
+                            <div class="review-item clearfix">
+                                <span class="reviewer-img"></span>
+                                <div class="review-content">
+                                    <div class="post-meta ul-li">
+                                        <ul>
+                                            <li><!--BY--> <a href="">{{ $comment->name }}</a></li>
+                                            <li><i class="flaticon-clock-circular-outline"></i>
+                                            {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                                {{ Date::parse($comment->created_at)->format('j F Y') }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p class="m-0">
+                                        {{ $comment->comment }}
+                                    </p>
                                 </div>
-                                <p class="m-0">
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-                                </p>
                             </div>
-                        </div>
-                        <!-- review-item - end -->
+                            <!-- review-item - end -->
+                            @endforeach
 
-                        <!-- review-item - start -->
-                        <div class="review-item clearfix">
-                            <span class="reviewer-img"></span>
-                            <div class="review-content">
-                                <div class="post-meta ul-li">
-                                    <ul>
-                                        <li>By <a href="#!">George Stven</a></li>
-                                        <li><i class="flaticon-clock-circular-outline"></i> on Sep 26, 2018   at 20:30</li>
-                                    </ul>
-                                </div>
-                                <p class="m-0">
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-                                </p>
-                            </div>
-                        </div>
-                        <!-- review-item - end -->
                     </div>
                     <!-- blog-review - end -->
+                    @endisset
 
                     <div class="comment-form">
-                        <form action="#!">
+                        <form action="{{ route('comment') }}" method="post">
+                            @csrf
 
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-item">
-                                        <input type="text" id="comment-form-name" placeholder="your name">
-                                        <label for="comment-form-name" class="form-item-btn"><i class="flaticon-user"></i></label>
+                            <input type="number" id="article_id" name="article_id" value="{{ $article->id }}" hidden>
+
+                            @if(Auth::check())
+                                <input type="number" id="user_id" name="user_id" value="{{ Auth::user()->id }}" hidden>
+                            @else
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-item">
+                                            <input type="text" id="name" name="name" placeholder="Ваше имя">
+                                            <label for="name" class="form-item-btn"><i class="flaticon-user"></i></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-item">
+                                            <input type="email" id="email" name="email" placeholder="Ваш email">
+                                            <label for="email" class="form-item-btn"><i class="flaticon-e-mail-envelope"></i></label>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-item">
-                                        <input type="email" id="comment-form-email" placeholder="your email">
-                                        <label for="comment-form-email" class="form-item-btn"><i class="flaticon-e-mail-envelope"></i></label>
-                                    </div>
-                                </div>
-                            </div>
+                            @endif
 
                             <div class="form-textarea clearfix">
-                                <textarea id="comment-textarea"></textarea>
+                                <textarea id="comment-textarea" name="comment"></textarea>
                                 <label for="comment-textarea" class="form-item-btn">
 										<span class="admin-img">
 											<img src="{{ URL::asset('images/post-meta/admin-2.png') }}" alt="image_not_found">
 										</span>
-                                    Write your comment
+                                    Комментировать
                                 </label>
                                 <div class="textarea-footer ul-li-right clearfix">
                                     <ul class="clearfix">
-                                        <li><a href="#!"><i class="far fa-file-image"></i></a></li>
-                                        <li><a href="#!"><i class="fas fa-paperclip"></i></a></li>
-                                        <li><a href="#!"><i class="far fa-smile"></i></a></li>
-                                        <li><button type="submit" class="submit-btn">post comment</button></li>
+                                        {{--<li><a href="#!"><i class="far fa-file-image"></i></a></li>--}}
+                                        {{--<li><a href="#!"><i class="fas fa-paperclip"></i></a></li>--}}
+                                        {{--<li><a href="#!"><i class="far fa-smile"></i></a></li>--}}
+                                        <li><button type="submit" class="submit-btn">Комментировать</button></li>
                                     </ul>
                                 </div>
                             </div>

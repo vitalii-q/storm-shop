@@ -83,6 +83,7 @@ Route::get('/catalog/{category}', 'MainController@category')->name('category');
 Route::get('/catalog/brand/{brand}', 'MainController@brand')->name('brand');
 Route::get('/catalog/brand/{brand}/{category}', 'MainController@brandCategory')->name('brand_category');
 Route::get('/catalog/{category}/{product}', 'MainController@product')->name('product');
+Route::post('/catalog/sku', 'MainController@sku')->name('sku');
 
 Route::get('/cart', 'CartController@cart')->name('cart');
 Route::post('/cart/add', 'CartController@add')->name('cart_add'); // роут добавления товара в корзину post
@@ -97,6 +98,7 @@ Route::get('/about', 'MainController@about')->name('about');
 Route::get('/blog', 'BlogController@blog')->name('blog');
 Route::get('/blog/category/{blog}', 'BlogController@blogCategory')->name('blog_category');
 Route::get('/blog/{article}', 'BlogController@article')->name('article');
+Route::post('/blog/comment', 'BlogController@comment')->name('comment');
 
 Route::get('/contacts', 'MainController@contacts')->name('contacts');
 Route::post('/contacts/submit', 'FormsController@contactMessage')->name('contacts_submit');

@@ -326,6 +326,275 @@ function miniCartChanges() {
 /* удаление продукта / обновление продукта / добавление продукта в корзину / каталог -- end */
 
 
-/* cart header -----------------------------------  */
+/* admin panel - show image ------------------------------------ */
+function adminShowImage(input) { // предворительный просмотр изображения
+    let image = input.files[0];
+    let reader = new FileReader(); // ридер файлов
 
-/* cart header -------------------------------- end */
+    reader.readAsDataURL(image); // считываем файл как url
+
+    reader.onload = function() { // выводим изображение
+        let imgShowElement = document.getElementById('imgShowElement');
+        imgShowElement.setAttribute('src', reader.result)
+    };
+}
+function adminEditImg() {
+    imageShowElement = document.getElementById('image_show_input').click();
+}
+function adminDeleteImg() {
+    document.getElementById('image_show_input').value = '';
+    document.getElementById('imgShowElement').setAttribute('src', 'http://storm-shop.loc/media/photos/photo1.jpg');
+
+    deleteImageDB(); // удаление изображения в бд (страница редактирования)
+}
+function deleteImageDB() {
+    // удаление изображения в бд (страница редактирования)
+    delete_image = document.getElementById('delete_image');
+    delete_image.setAttribute('value', 'yes');
+}
+/* admin panel - show image -------------------------------- end */
+
+
+
+/* функции ----------------------------------------------------- */
+function clickElem(info) { // имитация клика по элементу
+    document.getElementById(info).click();
+}
+/* функции ------------------------------------------------- end */
+
+/* текстовый редактор summernote ------------------------------- */
+jQuery(function ($) {
+    $("#text").summernote({
+        height: 350,
+        toolbar:[
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ],
+    });
+});
+jQuery(function ($) {
+    $("#text_en").summernote({
+        height: 350,
+        toolbar:[
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ],
+    });
+});
+
+jQuery(function ($) {
+    $("#description").summernote({
+        height: 350,
+        toolbar:[
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ],
+    });
+});
+jQuery(function ($) {
+    $("#description_en").summernote({
+        height: 350,
+        toolbar:[
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ],
+    });
+});
+
+jQuery(function ($) {
+    $("#information").summernote({
+        height: 350,
+        toolbar:[
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ],
+    });
+});
+jQuery(function ($) {
+    $("#information_en").summernote({
+        height: 350,
+        toolbar:[
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
+        ],
+    });
+});
+/* текстовый редактор summernote --------------------------- end */
+
+<!-- DropzoneJS ----------------------------------------------- -->
+Dropzone.autoDiscover = false;
+$("div#dropzoneImages").dropzone({
+    url: 'admin/catalog/products',
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 3,
+    maxFiles: 3,
+    acceptedFiles: 'image/*',
+    addRemoveLinks: true,
+});
+
+/*Dropzone.options.dropzoneImages = {
+    url: 'admin/catalog/products',
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 3,
+    maxFiles: 3,
+    acceptedFiles: 'image/*',
+    addRemoveLinks: true,
+    init: function() {
+        dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+        // for Dropzone to process the queue (instead of default form behavior):
+        document.getElementById("submit-all").addEventListener("click", function(e) {
+            // Make sure that the form isn't actually being sent.
+            e.preventDefault();
+            e.stopPropagation();
+            dzClosure.processQueue();
+        });
+
+        //send all the form data along with the files:
+        this.on("sendingmultiple", function(data, xhr, formData) {
+            formData.append("firstname", jQuery("#firstname").val());
+            formData.append("lastname", jQuery("#lastname").val());
+        });
+    }
+};*/
+<!-- DropzoneJS ------------------------------------------- end -->
+
+/* манипуляции свойствами на странице продукта --- */
+function attributeChange(data) {
+    productId = data[0];
+    valueId = data[1];
+    attributeId = data[2];
+    //console.log(productId);
+
+    // получаем все элементы значений свойств выбранного продукта продукта
+    attributesProductWrapper = document.getElementById('attributes-wrapper_product-'+productId); // обертка выбранного продукта
+    allAttributeValuesElements =  attributesProductWrapper.getElementsByClassName('product-attribute_element'); // все элементы значений свойств продукта
+    /*for(i=0; i < allAttributeValuesElements.length; i++) {
+        if(allAttributeValuesElements[i].classList.contains('product_'+productId+'-attribute_'+attributeId)) { // если аттрибут по которому кликнули
+
+            if(allAttributeValuesElements[i].getAttribute('id') == 'value_'+valueId) { // если значение по которому кликнули
+                allAttributeValuesElements[i].classList.add('active'); // делаем свойство активным
+                allAttributeValuesElements[i].classList.remove('attribute-color_disabled');
+
+                //console.log(allAttributeValuesElements[i]);
+            } else { // если другое значение
+                allAttributeValuesElements[i].classList.remove('active'); // делаем свойство не активным
+                //allAttributeValuesElements[i].classList.add('attribute-color_disabled');
+            }
+        }
+    }*/
+
+    // делаем активным элемент по которому кликнули
+    selectedElement = document.getElementById('value_'+valueId).classList.add('active');
+
+    // проверка установленна ли комбинация
+    combinationSet = false;
+    for (i=0; i < allAttributeValuesElements.length; i++) {
+        if(allAttributeValuesElements[i].classList.contains('attribute-color_disabled')) {
+            combinationSet = true;
+            break
+        }
+    }
+
+    $.ajax({
+        url:"/catalog/sku",
+        type: "POST",
+        data: {
+            productId: productId, // передаем id продукта
+            valueId: valueId, // передаем id свойства
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            console.log(data);
+            // получаем свойства в виде массива которые комбинируются с выбранным
+            valuesBeforeReplaceSymbols = data.split('","');
+            combinableValues = []; // массив с комбинируемыми свойствами с выбранным свойством
+            for (i=0; i < valuesBeforeReplaceSymbols.length; i++) {
+                valuesBeforeReplaceSymbols_1 = valuesBeforeReplaceSymbols[i].replace('["', ''); // убираем лишние симфолы в начале строки
+                valuesBeforeReplaceSymbols_2 = valuesBeforeReplaceSymbols_1.replace('"]', ''); // убираем лишние симфолы в конце строки
+                combinableValues.push(valuesBeforeReplaceSymbols_2);
+            }
+
+            if(combinationSet == false) { // если аттрибут выбирается первый раз на странице
+                // находим в html комбинируемые свойства и устанавливаем как комбинируемые
+                for(i=0; i < allAttributeValuesElements.length; i++) {
+                    if(combinableValues.indexOf(allAttributeValuesElements[i].getAttribute('data-value')) != -1 == true) { // если значение аттрибута комбинируется
+                        allAttributeValuesElements[i].classList.remove('attribute-color_disabled');
+                    } else { // если не комбинируется
+                        allAttributeValuesElements[i].classList.remove('active');
+                        allAttributeValuesElements[i].classList.add('attribute-color_disabled');
+                    }
+                }
+            } else { // если выбранный аттрибут уже не первый выбранный на странице
+                if(document.getElementById('value_'+valueId).classList.contains('attribute-color_disabled')) { // если кликнутый аттрибут вне комбинации
+                    // находим в html комбинируемые свойства и устанавливаем как комбинируемые
+                    for(i=0; i < allAttributeValuesElements.length; i++) {
+                        if(combinableValues.indexOf(allAttributeValuesElements[i].getAttribute('data-value')) != -1 == true) { // если значение аттрибута комбинируется
+                            allAttributeValuesElements[i].classList.remove('attribute-color_disabled');
+                        } else { // если не комбинируется
+                            allAttributeValuesElements[i].classList.remove('active');
+                            allAttributeValuesElements[i].classList.add('attribute-color_disabled');
+                        }
+                    }
+                } else { // если выбранный аттрибут в комбинации
+                    // получаем элементы значений кликнутого атрибута
+                    clickedAttributeElements = document.getElementById('attribute_'+attributeId).getElementsByClassName('product-attribute_element');
+                    // делаем не активными все кроме кликнутого значения
+                    for(i=0; i < clickedAttributeElements.length; i++) {
+                        if(clickedAttributeElements[i].getAttribute('id') != 'value_'+valueId) {
+                            clickedAttributeElements[i].classList.remove('active');
+                        }
+                    }
+                }
+            }
+
+        }
+    });
+}
+/* манипуляции свойствами на странице продукта end */

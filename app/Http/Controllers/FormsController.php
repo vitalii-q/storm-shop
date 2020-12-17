@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class FormsController extends Controller
 {
     public function contactMessage(Request $request) {
-        //dd($request);
-
         // кладем файл в файловую систему
         if(isset($request['file'])) {
             Storage::disk('public')->put('messages_files/'.$request->file->getClientOriginalName(), file_get_contents($request->file));

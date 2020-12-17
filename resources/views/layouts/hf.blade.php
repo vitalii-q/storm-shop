@@ -758,7 +758,7 @@
 												<i class="flaticon-phone-call"></i>
 											</span>
                                     <div class="contact-text">
-                                        <strong>Телефон: </strong> +7 (985) 234 789  + 7(+985) 222 888
+                                        <strong>Телефон: </strong> +7 (985) 234 789  + 7(985) 222 888
                                     </div>
                                 </li>
                                 <li>

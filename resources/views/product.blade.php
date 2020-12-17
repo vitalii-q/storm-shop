@@ -100,7 +100,7 @@
 
                     <!-- product-details-content - start -->
                     <div class="col-lg-6 col-md-10 col-sm-12">
-                        <div class="product-details-content">
+                        <div id="attributes-wrapper_product-{{ $selected_product->id }}" class="product-details-content">
 
                             {{--<div class="product-code ul-li mb-30">--}}
                                 {{--<ul class="clearfix">--}}
@@ -129,15 +129,61 @@
                                 {!! $selected_product->description !!}
                             </p>
 
+                            <!-- формируем массив с ids аттрибутов -->
+                            @php($attributesId = [])
+                            @foreach($attributes as $attribute)
+                                @php(array_push($attributesId, $attribute->id))
+                            @endforeach
+
+
+                            @php($i=0) @foreach($attributes as $attribute)
+                                @if($attribute->code == 'size')
+                                    <div id="attribute_{{$attributesId[$i]}}" class="product-size ul-li mb-30">
+                                        <h3 class="list-title">Размер:</h3>
+                                        <ul class="clearfix">
+                                            @foreach($attribute->attributeValues as $value)
+                                                @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                    <li><a id="value_{{ $value->id }}" data-attribute-id="{{$attributesId[$i]}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" data-value="{{ $value->value }}">{{ $value->value }}</a></li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @elseif($attribute->code == 'color')
+                                    <div id="attribute_{{$attributesId[$i]}}" class="product-color ul-li mb-30">
+                                        <h3 class="list-title">Цвет:</h3>
+                                        <ul class="clearfix">
+                                            @foreach($attribute->attributeValues as $value)
+                                                @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                <li><a id="value_{{ $value->id }}" data-attribute-id="{{$attributesId[$i]}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @else
+                                    <div id="attribute_{{$attributesId[$i]}}" class="ul-li mb-30">
+                                        <h3 class="list-title">Цвет:</h3>
+                                        <ul class="clearfix">
+                                        @foreach($attribute->attributeValues as $value)
+                                            @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                <li><a id="value_{{ $value->id }}" data-attribute-id="{{$attributesId[$i]}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                            @php($i++) @endforeach
+
                             {{--<div class="product-size ul-li mb-30">--}}
                                 {{--<h3 class="list-title">size:</h3>--}}
-                                {{--<ul class="clearfix">--}}
-                                    {{--<li><a href="#!">xs</a></li>--}}
-                                    {{--<li><a href="#!">s</a></li>--}}
-                                    {{--<li><a class="active" href="#!">m</a></li>--}}
-                                    {{--<li><a href="#!">l</a></li>--}}
-                                    {{--<li><a href="#!">xl</a></li>--}}
-                                {{--</ul>--}}
+                                {{--<form action="#">--}}
+                                    {{--<ul class="clearfix">--}}
+                                        {{--<li><a href="#!">xs</a></li>--}}
+                                        {{--<li><a href="#!">s</a></li>--}}
+                                        {{--<li><a class="active" href="#!">m</a></li>--}}
+                                        {{--<li><a href="#!">l</a></li>--}}
+                                        {{--<li><a href="#!">xl</a></li>--}}
+                                    {{--</ul>--}}
+                                {{--</form>--}}
                             {{--</div>--}}
 
                             {{--<div class="product-color ul-li mb-30">--}}

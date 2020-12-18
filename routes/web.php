@@ -53,6 +53,33 @@ Route::group([
         'destroy' => 'admin.catalog.products.destroy',
     ]]);
 
+    Route::resource('catalog/attributes', 'Catalog\AttributesController', ['names' => [ // свойства каталога
+        'index' => 'admin.catalog.attributes.index',
+        'create' => 'admin.catalog.attributes.create',
+        'store' => 'admin.catalog.attributes.store',
+        'edit' => 'admin.catalog.attributes.edit',
+        'update' => 'admin.catalog.attributes.update',
+        'destroy' => 'admin.catalog.attributes.destroy',
+    ]]);
+
+    Route::resource('catalog/attribute/{attribute}/values', 'Catalog\AttributeValuesController', ['names' => [ // значения свойств каталога
+        'index' => 'admin.catalog.attribute_values.index',
+        'create' => 'admin.catalog.attribute_values.create',
+        'store' => 'admin.catalog.attribute_values.store',
+        'edit' => 'admin.catalog.attribute_values.edit',
+        'update' => 'admin.catalog.attribute_values.update',
+        'destroy' => 'admin.catalog.attribute_values.destroy',
+    ]]);
+
+    Route::resource('catalog/product/{product}/skus', 'Catalog\SkusController', ['names' => [ // торговые предложения
+        'index' => 'admin.catalog.skus.index',
+        'create' => 'admin.catalog.skus.create',
+        'store' => 'admin.catalog.skus.store',
+        'edit' => 'admin.catalog.skus.edit',
+        'update' => 'admin.catalog.skus.update',
+        'destroy' => 'admin.catalog.skus.destroy',
+    ]]);
+
     Route::resource('blog/categories', 'Blog\CategoriesController', ['names' => [ // категории блога
         'index' => 'admin.blog.categories.index',
         'create' => 'admin.blog.categories.create',

@@ -496,6 +496,9 @@ MAIN CONTENT LAYOUT
                             <li>
                                 <a href="{{ route('admin.catalog.products.index') }}">Продукция</a>
                             </li>
+                            <li>
+                                <a href="{{ route('admin.catalog.attributes.index') }}">Свойства</a>
+                            </li>
                         </ul>
                     </li>
 

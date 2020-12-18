@@ -17,6 +17,10 @@ class Product extends Model
         return $this->hasMany(Sku::class);
     }
 
+    public function attributes() {
+        return $this->belongsToMany(Attribute::class, 'attribute_product');
+    }
+
     public function getCategory() { // функция с помощью которой получаем текущую категорию
         return Category::find($this->category_id);
     }

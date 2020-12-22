@@ -150,11 +150,16 @@
                             <h2 class="title-text">{{ $article->title }}</h2>
                             <div class="post-meta ul-li">
                                 <ul class="clearfix">
-                                    <li>post by: <a href="">{{ $user->first_name }}</a></li>
-                                    <li>
-                                        <a href="#!">Beauty Tips,</a>
-                                        <a href="#!">Lifestyle</a>
-                                    </li>
+                                    <li>опубликованно: <a href="">{{ $user->first_name }}</a></li>
+
+                                    @if(count($article->tags) >= 1)
+                                        <li>
+                                            @php($i=1) @foreach($article->tags as $tag)
+                                                <a href="{{ route('tag_blog', $tag->code) }}">{{ $tag->name }}@if($i!=count($article->tags)), @endif</a>
+                                            @php($i++) @endforeach
+                                        </li>
+                                    @endif
+
                                     {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
                                     <li>{{ Date::parse($article->created_at)->format('j F Y') }}</li>
                                 </ul>

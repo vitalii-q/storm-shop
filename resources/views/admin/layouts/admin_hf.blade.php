@@ -518,7 +518,42 @@ MAIN CONTENT LAYOUT
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-layers"></i><span class="sidebar-mini-hide">Страницы</span></a>
                         <ul>
                             <li>
-                                <a href="be_tables_styles.html">Styles</a>
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#">Главная</a>
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('admin.pages.main.slider.index') }}">Слайдер</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Преимущества</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Топ товаров</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>
+                                        <ul>
+                                            <li>
+                                                <a href="#">Link 3-1</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 2</a>
+                                <ul>
+                                    <li>
+                                        <a href="#">Link 2-1</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>
+                                        <ul>
+                                            <li>
+                                                <a href="#">Link 3-1</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

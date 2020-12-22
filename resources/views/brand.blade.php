@@ -239,20 +239,21 @@
 
                                                 <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
+                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }} ₽" data-img="{{ Storage::url($product->image_1) }}">
 
-                                                        {{--<div class="post-labels">--}}
-                                                        {{--<ul class="clearfix">--}}
-                                                        {{--<li class="bg-primary">new</li>--}}
-                                                        {{--<li class="bg-danger">-50%</li>--}}
-                                                        {{--</ul>--}}
-                                                        {{--</div>--}}
+                                                        <div class="post-labels">
+                                                            <ul class="clearfix">
+                                                                @if($product->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
+                                                                @if($product->new == 1)<li class="bg-primary">Новинка</li>@endif
+                                                                @if($product->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                                            </ul>
+                                                        </div>
 
                                                         <div class="image-container">
-                                                            <img src="{{ Storage::url($product->image_1) }}" alt="image_not_found">
+                                                            <img src="{{ URL::asset($product->image_1) }}" alt="image_not_found">
                                                             <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="quick-view">
                                                                 <i class="fas fa-eye"></i>
-                                                                quick view
+                                                                Смотреть
                                                             </a>
                                                         </div>
 

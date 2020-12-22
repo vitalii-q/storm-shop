@@ -18,12 +18,16 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('privilege')->default(0); // права пользователя // 1 - администратор
 
             $table->string('first_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
 
             $table->string('city')->nullable();
             $table->string('street')->nullable();
             $table->string('apartment')->nullable();
+
+            $table->string('image')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

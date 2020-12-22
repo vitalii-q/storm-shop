@@ -10,6 +10,10 @@
 .mb-14 {margin-bottom: 14px;}
 .mb-16 {margin-bottom: 16px;}
 .mb-43 {margin-bottom: 43px;}
+
+.width-100 {width: 100% !important;}
+.pl-0 {padding-left: 0px!important;}
+
 /* checkbox на странице авторизации / регистрации */
 .custom-form-check_custom {
     margin-bottom: 30px;
@@ -120,10 +124,10 @@
     max-height: 100%;
 }
 
-.attribute-color_disabled {
-    opacity: 0.5;
+.attribute-value_disabled {
+    opacity: 0.3;
 }
-.attribute-color_disabled:hover {
+.attribute-value_disabled:hover {
     color: #1ec7a6;
     border-color: #ffffff;
     background-color: #ffffff;
@@ -174,4 +178,12 @@
     width: max-content;
     margin-left: auto;
 }
+.btn-group_table-custom {
+    margin-left: auto;
+    margin-right: 0px;
+    display: table;
+    min-width: 92px;
+    text-align: right;
+}
 /* админ панель =============================================================================== end */
+

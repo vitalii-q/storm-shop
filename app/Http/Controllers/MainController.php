@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Blog;
 use App\Models\BlogCategory;
@@ -20,7 +21,12 @@ class MainController extends Controller
     public function index() {
         $sliders = MainSlider::get(); // получаем слайдеры на главной странице
         $advantages = Advantage::get(); // получаем преимущества
-        return view('index', compact('sliders', 'advantages'));
+
+        $sales = Product::where('sale', 1)->get()->random(4); // скидки
+        $bestsellers = Product::where('bestseller', 1)->get()->random(4); // бестселлеры
+        $news = Product::where('new', 1)->get()->random(4); // новинки
+
+        return view('index', compact('sliders', 'advantages', 'sales', 'bestsellers', 'news'));
     }
 
     public function catalog() {
@@ -35,11 +41,14 @@ class MainController extends Controller
     public function category($selected_category) {
         $categories = Category::get(); // все категории
         $selected_category = Category::where('code', $selected_category)->first(); // выбранная категория
+        if (!$selected_category) { abort(404); } // error 404
+
+        $brands = Brand::get(); // все брэнды
 
         $products = Product::where('category_id', $selected_category->id)->paginate(9); // привязанные к категории продукты
         $cartProducts = session('cart.products'); // продукты в корзине
 
-        return view('category', compact( 'categories', 'selected_category', 'products', 'cartProducts'));
+        return view('category', compact( 'categories', 'brands', 'selected_category', 'products', 'cartProducts'));
     }
     public function brand($selected_brand) {
         $brands = Brand::get(); // все брэнды
@@ -57,6 +66,8 @@ class MainController extends Controller
 
         $categories = $selected_brand->getCategories(); // катигории относящиеся к бренду
         $selected_category = Category::where('code', $selected_category)->first();
+        if (!$selected_category) { abort(404); } // error 404
+
         $products = Product::where('brand_id', $selected_brand->id)->where('category_id', $selected_category->id)->paginate(9);
         $cartProducts = session('cart.products'); // продукты в корзине
 
@@ -64,6 +75,7 @@ class MainController extends Controller
     }
     public function product($selected_category, $selected_product) {
         $selected_product = Product::where('code', $selected_product)->first(); // выбранный продукт
+        if (!$selected_product) { abort(404); } // error 404
 
         $cartProducts = session('cart.products'); // продукты в корзине
 
@@ -80,31 +92,12 @@ class MainController extends Controller
             }
         }
 
-        // =====================================================================
-        // получаем ids sku
-        /*$skusIds = []; //массив с ids трорговых предложений
-        foreach ($selected_product->skus as $sku) {
-            if(!in_array($sku->id, $skusIds)) {
-                array_push($skusIds, $sku->id);
-
-
-            }
+        $related = Product::where('category_id', $selected_product->category_id)->get()->except($selected_product->id); // пожожие товары
+        if(count($related) >= 4) {
+            $related = $related->random(4);
         }
 
-        // формируем массив торговых предложений
-        $skus = []; // массив торговых предложений
-        foreach ($selected_product->skus as $sku) {
-            $skuValues = []; // массив значений торгового предложения
-            foreach ($sku->skuValue as $value) {
-                array_push($skuValues, $value->attributeValue->value);
-            }
-            array_push($skus,  $skuValues);
-        }
-
-        // формируем массив формата: ключ (id sku) / значение (массив значений sku)
-        $skus = array_combine ($skusIds, $skus);*/
-
-        return view('product', compact('selected_product', 'cartProducts', 'attributes', 'productAttributeValuesId'));
+        return view('product', compact('selected_product', 'cartProducts', 'attributes', 'productAttributeValuesId', 'related'));
     }
     public function sku(Request $request) {
         $productId = json_decode($request['productId']);
@@ -140,7 +133,40 @@ class MainController extends Controller
             }
         }
 
-        return response(json_encode($valuesWithSelectedValue)); // ответ в js
+
+        // ==============================
+        /*$array = [];
+        foreach ($valuesCombination as $valueCombination) {
+            unset($valueCombination[array_search($attributeValue->value, $valueCombination)]);
+            array_push($array, $valueCombination);
+
+        }*/
+
+        // получаем массив значений которые в комбинации с выбранным, но не выбранны
+        $arrayWithValue = [];
+        foreach ($valuesCombination as $valueCombination) {
+            foreach ($valueCombination as $valueCombinationValue) {
+                if($valueCombinationValue != $attributeValue->value) {
+                    array_push($arrayWithValue, $valueCombinationValue);
+                }
+            }
+        }
+
+        // получаем id значений которые в комбинации с выбранным, но не выбранны
+        $valueIds = [];
+        foreach ($arrayWithValue as $arrayWithValueElem) {
+            array_push($valueIds, AttributeValue::where('value', $arrayWithValueElem)->first()->id);
+        }
+
+        $test = [$valuesWithSelectedValue, $valueIds];
+
+        //return response(json_encode($valuesWithSelectedValue)); // ответ в js
+
+        // получаем значения атрибута привязанные к выбранному значению атрибута =====================
+
+
+
+        return response(json_encode($test)); // ответ в js
     }
     public function getAttributeValues() {
 

@@ -83,13 +83,11 @@
                             <div class="sidebar-title">
                                 <h2>brands</h2>
                             </div>
+
                             <ul class="clearfix">
-                                <li><a href="#!">New Arrivals <span class="float-right">(50)</span></a></li>
-                                <li><a href="#!">Beard Grooming <span class="float-right">(20)</span></a></li>
-                                <li><a href="#!">Beard Oil <span class="float-right">(40)</span></a></li>
-                                <li><a href="#!">Clothing <span class="float-right">(70)</span></a></li>
-                                <li><a href="#!">Accessories <span class="float-right">(30)</span></a></li>
-                                <li><a href="#!">Backpack <span class="float-right">(10)</span></a></li>
+                                @foreach($brands as $brand)
+                                    <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->name }} <span class="float-right">({{ $brand->getProducts()->count() }})</span></a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <!-- brand-list - end -->
@@ -240,25 +238,26 @@
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                                     <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
 
-                                                        {{--<div class="post-labels">--}}
-                                                        {{--<ul class="clearfix">--}}
-                                                        {{--<li class="bg-primary">new</li>--}}
-                                                        {{--<li class="bg-danger">-50%</li>--}}
-                                                        {{--</ul>--}}
-                                                        {{--</div>--}}
+                                                        <div class="post-labels">
+                                                            <ul class="clearfix">
+                                                                @if($product->new == 1)<li class="bg-primary">Новинка</li>@endif
+                                                                @if($product->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                                                @if($product->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
+                                                            </ul>
+                                                        </div>
 
                                                         <div class="image-container">
                                                             <img src="{{ URL::asset($product->image_1) }}" alt="image_not_found">
                                                             <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="quick-view">
                                                                 <i class="fas fa-eye"></i>
-                                                                quick view
+                                                                Смотреть
                                                             </a>
                                                         </div>
 
                                                         <div class="item-content text-center">
                                                             <a href="#!" class="item-title">{{ $product->name }}</a>
                                                             <div class="item-price">
-                                                                <strong class="color-black">{{ $product->price }}₽</strong>
+                                                                <strong class="color-black">{{ $product->price }} ₽</strong>
                                                                 {{--<del>$359.00</del>--}}
                                                             </div>
                                                         </div>

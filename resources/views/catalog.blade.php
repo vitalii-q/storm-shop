@@ -82,6 +82,7 @@
                             <div class="sidebar-title">
                                 <h2>Брэнды</h2>
                             </div>
+
                             <ul class="clearfix">
                                 @foreach($brands as $brand)
                                     <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->name }} <span class="float-right">({{ $brand->getProducts()->count() }})</span></a></li>
@@ -234,18 +235,19 @@
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                                     <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
 
-                                                        {{--<div class="post-labels">--}}
-                                                        {{--<ul class="clearfix">--}}
-                                                        {{--<li class="bg-primary">new</li>--}}
-                                                        {{--<li class="bg-danger">-50%</li>--}}
-                                                        {{--</ul>--}}
-                                                        {{--</div>--}}
+                                                        <div class="post-labels">
+                                                            <ul class="clearfix">
+                                                                @if($product->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
+                                                                @if($product->new == 1)<li class="bg-primary">Новинка</li>@endif
+                                                                @if($product->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                                            </ul>
+                                                        </div>
 
                                                         <div class="image-container">
                                                             <img src="{{ URL::asset($product->image_1) }}" alt="image_not_found">
                                                             <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="quick-view">
                                                                 <i class="fas fa-eye"></i>
-                                                                quick view
+                                                                Смотреть
                                                             </a>
                                                         </div>
 
@@ -411,178 +413,5 @@
     </section>
     <!-- product-section end
     ================================================== -->
-
-
-
-
-
-
-    <!-- promotion-section - start
-            ================================================== -->
-    <div class="promotion-section clearfix">
-        <div class="fashion-promotion-masonry grid">
-            <div class="grid-sizer"></div>
-
-            <div class="grid-item grid-height">
-                <div class="image-container">
-                    <img src="images/promotion/fashion/masonry-img-1.jpg" alt="image_not_found">
-                </div>
-                <div class="item-content content-left">
-                    <h3>Men’s</h3>
-                    <h2>Flash Sale</h2>
-                    <a href="#!" class="color-gplus-red"><u>SHOP NOW</u></a>
-                </div>
-            </div>
-            <div class="grid-item grid-square">
-                <div class="image-container">
-                    <img src="images/promotion/fashion/masonry-img-2.jpg" alt="image_not_found">
-                </div>
-                <div class="item-content content-right">
-                    <h3>Men’s</h3>
-                    <h2>Sungglass</h2>
-                    <a href="#!" class="color-gplus-red"><u>SHOP NOW</u></a>
-                </div>
-            </div>
-            <div class="grid-item grid-height">
-                <div class="image-container">
-                    <img src="images/promotion/fashion/masonry-img-4.jpg" alt="image_not_found">
-                </div>
-                <div class="item-content content-left">
-                    <h3>women’s</h3>
-                    <strong>Sale</strong>
-                    <h2>50% Off</h2>
-                    <a href="#!" class="color-gplus-red"><u>SHOP NOW</u></a>
-                </div>
-            </div>
-            <div class="grid-item grid-square">
-                <div class="image-container">
-                    <img src="images/promotion/fashion/masonry-img-3.jpg" alt="image_not_found">
-                </div>
-                <div class="item-content content-right">
-                    <h3>Men’s</h3>
-                    <h2>shoes</h2>
-                    <a href="#!" class="color-gplus-red"><u>SHOP NOW</u></a>
-                </div>
-            </div>
-            <div class="grid-item grid-square">
-                <div class="image-container">
-                    <img src="images/promotion/fashion/masonry-img-5.jpg" alt="image_not_found">
-                </div>
-                <div class="item-content content-left">
-                    <h3>woMen’s</h3>
-                    <h2>Accessories</h2>
-                    <p class="text-uppercase">caps & hats</p>
-                    <a href="#!" class="color-gplus-red"><u>SHOP NOW</u></a>
-                </div>
-            </div>
-            <div class="grid-item grid-square">
-                <div class="image-container">
-                    <img src="images/promotion/fashion/masonry-img-6.jpg" alt="image_not_found">
-                </div>
-                <div class="item-content content-right">
-                    <h3>woMen’s</h3>
-                    <h2>Handbags</h2>
-                    <p class="text-uppercase color-black">Find your perfect match</p>
-                    <a href="#!" class="color-gplus-red"><u>SHOP NOW</u></a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- promotion-section - end
-    ================================================== -->
-
-
-
-
-
-    <!-- category-section - start
-    ================================================== -->
-    <div id="category-section" class="category-section sec-ptb-60 clearfix">
-        <div class="fashion-category-list">
-            <ul class="clearfix">
-
-                <li class="text-left">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-sweatshirt"></i>
-							</span>
-                        <small class="title">Sweatshirts</small>
-                    </a>
-                </li>
-                <li class="text-center">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-pants"></i>
-							</span>
-                        <small class="title">shorts</small>
-                    </a>
-                </li>
-                <li class="text-center">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-parka"></i>
-							</span>
-                        <small class="title">parkas</small>
-                    </a>
-                </li>
-
-                <li class="text-center">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-men-suit-accesories"></i>
-							</span>
-                        <small class="title">Men Suit Accessories</small>
-                    </a>
-                </li>
-                <li class="text-center">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-fashion"></i>
-							</span>
-                        <small class="title">dress</small>
-                    </a>
-                </li>
-                <li class="text-center">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-children-clothing"></i>
-							</span>
-                        <small class="title">Children Clothing</small>
-                    </a>
-                </li>
-
-                <li class="text-center">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-pajamas"></i>
-							</span>
-                        <small class="title">Pajamas</small>
-                    </a>
-                </li>
-                <li class="text-center">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-socks"></i>
-							</span>
-                        <small class="title">socks</small>
-                    </a>
-                </li>
-                <li class="text-right">
-                    <a href="#!" class="text-center">
-							<span class="icon">
-								<i class="flaticon-swimming-suit"></i>
-							</span>
-                        <small class="title">Swimming Suits</small>
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-    <!-- category-section - end
-    ================================================== -->
-
-
 
 @endsection

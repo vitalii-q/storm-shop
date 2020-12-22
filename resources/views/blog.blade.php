@@ -94,33 +94,23 @@
                                 <h2>Популярное</h2>
                             </div>
                             <ul class="clearfix">
-                                <li>
-                                            <span class="image-container">
-                                                <img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-1.jpg') }}" alt="image_not_found">
-                                            </span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-                                            <span class="image-container">
-                                                <img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-2.jpg') }}" alt="image_not_found">
-                                            </span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-                                            <span class="image-container">
-                                                <img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-3.jpg') }}" alt="image_not_found">
-                                            </span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
+
+                                @foreach($popArticles as $popArticle)
+                                    <li>
+                                        <span class="image-container">
+                                            <img src="{{ URL::asset($popArticle->image) }}" alt="image_not_found">
+                                        </span>
+
+                                        <div class="content">
+                                            <a href="" class="item-title">{{ mb_strimwidth($popArticle->title, 0 , 18, "...") }}</a>
+                                            <small class="post-date">
+                                                {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                                {{ Date::parse($popArticle->created_at)->format('j F Y') }}
+                                            </small>
+                                        </div>
+                                    </li>
+                                @endforeach
+
                             </ul>
                         </div>
                         <!-- recent-post - end -->
@@ -130,17 +120,14 @@
                             <div class="sidebar-title">
                                 <h2>Теги</h2>
                             </div>
+
                             <ul class="clearfix mb-30">
-                                <li><a href="#!">fashion</a></li>
-                                <li><a href="#!">clothing</a></li>
-                                <li><a href="#!">jewelry</a></li>
-                                <li><a href="#!">accessories</a></li>
-                                <li><a href="#!">hot</a></li>
-                                <li><a href="#!">backpack</a></li>
-                                <li><a href="#!">shoes</a></li>
-                                <li><a href="#!">clothings</a></li>
+                                @php($i=1) @foreach($tags as $tag)
+                                        <li><a href="#!" onclick="ajaxTag({{ $tag->id }})">{{ $tag->name }}</a></li>
+                                @php($i++) @endforeach
                             </ul>
-                            <a href="#!" class="view-all-btn">+<u>Посмотреть все</u></a>
+
+                            {{--<a href="#!" class="view-all-btn">+<u>Посмотреть все</u></a>--}}
                         </div>
                         <!-- popular-tags - end -->
 
@@ -149,7 +136,7 @@
                 <!-- sidebar-section - end -->
 
 
-                <div class="col-lg-9 col-md-10 col-sm-12">
+                <div id="ajax_tag-articles" class="col-lg-9 col-md-10 col-sm-12">
 
                     @foreach($blog as $article)
                         <!-- blog-big-item - start -->
@@ -158,12 +145,20 @@
                                 <a href="{{ route('article', $article->code) }}" class="title-text">{{ $article->title }}</a>
                                 <div class="post-meta ul-li">
                                     <ul class="clearfix">
-                                        <li>post by: <a href="#!">admin</a></li>
+                                        <li>опубликованно: <a href="#!">admin</a></li>
+
+                                        @if(count($article->tags) >= 1)
+                                            <li>
+                                                @php($i=1) @foreach($article->tags as $tag)
+                                                    <a href="#!" onclick="ajaxTag({{ $tag->id }})">{{ $tag->name }}@if($i!=count($article->tags)), @endif</a>
+                                                @php($i++) @endforeach
+                                            </li>
+                                        @endif
+
                                         <li>
-                                            <a href="#!">Beauty Tips,</a>
-                                            <a href="#!">Lifestyle</a>
+                                            {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                            {{ Date::parse($article->created_at)->format('j F Y') }}
                                         </li>
-                                        <li>On March 16, 2018</li>
                                     </ul>
                                 </div>
                             </div>
@@ -174,7 +169,7 @@
                                 <p class="mb-30">
                                     {{ $article->preview_text }}
                                 </p>
-                                <a href="{{ route('article', $article->code) }}" class="read-more">continue reading</a>
+                                <a href="{{ route('article', $article->code) }}" class="read-more">Продолжить чтение</a>
                             </div>
                         </div>
                         <!-- blog-big-item - end -->

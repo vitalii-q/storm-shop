@@ -21,7 +21,7 @@ class MainSliderSeeder extends Seeder
                 'text_bottom_en' => 'Your world of fashion in numbers',
                 'text_position' => 'text-center',
                 'button' => 1,
-                'image' => 'main_slider/shoes-1.jpg'
+                'image' => 'files/pages/main/slider/shoes-1.jpg',
             ],
             [
                 'text_top' => 'Получите скидку до 25%',
@@ -32,7 +32,7 @@ class MainSliderSeeder extends Seeder
                 'text_bottom_en' => 'Your world of fashion in numbers',
                 'text_position' => 'text-right',
                 'button' => 1,
-                'image' => 'main_slider/shoes-2.jpg'
+                'image' => 'files/pages/main/slider/shoes-2.jpg',
             ],
             [
                 'text_top' => 'Получите скидку до 50%',
@@ -43,7 +43,7 @@ class MainSliderSeeder extends Seeder
                 'text_bottom_en' => 'Your world of fashion in numbers',
                 'text_position' => 'text-left',
                 'button' => 1,
-                'image' => 'main_slider/shoes-3.jpg'
+                'image' => 'files/pages/main/slider/shoes-3.jpg',
             ],
         ]);
     }

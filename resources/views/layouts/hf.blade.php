@@ -32,6 +32,8 @@
     <!-- others css include -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/magnific-popup.css') }}">
 
+    @yield('css')
+
     <!-- custom css include -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style_custom.css') }}">
@@ -40,10 +42,6 @@
 
 
 <body class="home-shoes-2">
-
-
-
-
 
 <!-- backtotop - start -->
 <div id="thetop" class="thetop"></div>
@@ -54,12 +52,10 @@
 </div>
 <!-- backtotop - end -->
 
+
 <!-- preloader - start -->
 {{--<div id="preloader"></div>--}}
 <!-- preloader - end -->
-
-
-
 
 
 <!-- header-section (bicycle-header) - start
@@ -263,10 +259,10 @@
                                     <li class="@if(Route::currentRouteNamed('about')) active @endif"><a href="{{ route('about') }}">О нас</a></li>
                                     <li class="menu-item-has-children @if(Route::currentRouteNamed(['blog', 'blog_category', 'article'])) active @endif">
                                         <a href="{{ route('blog') }}">Блог</a>
-                                        <ul class="sub-menu clearfix">
-                                            <li><a href="blog.html">Blog page</a></li>
-                                            <li><a href="blog-details.html">Blog details</a></li>
-                                        </ul>
+                                        {{--<ul class="sub-menu clearfix">--}}
+                                            {{--<li><a href="blog.html">Blog page</a></li>--}}
+                                            {{--<li><a href="blog-details.html">Blog details</a></li>--}}
+                                        {{--</ul>--}}
                                     </li>
                                     <li class="@if(Route::currentRouteNamed('contacts')) active @endif"><a href="{{ route('contacts') }}">Контакты</a></li>
 
@@ -758,7 +754,7 @@
 												<i class="flaticon-phone-call"></i>
 											</span>
                                     <div class="contact-text">
-                                        <strong>Телефон: </strong> +7 (985) 234 789  + 7(985) 222 888
+                                        <strong>Телефон: </strong> +7 (985) 234 789  + 7 (985) 222 888
                                     </div>
                                 </li>
                                 <li>

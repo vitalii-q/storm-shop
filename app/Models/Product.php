@@ -10,7 +10,8 @@ class Product extends Model
 {
     protected $fillable = [
         'name', 'name_en', 'code', 'category_id', 'brand_id', 'description', 'description_en', 'description_bottom',
-        'description_bottom_en', 'information', 'information_en', 'price' , 'image_1', 'image_2', 'image_3'
+        'description_bottom_en', 'information', 'information_en', 'price' , 'image_1', 'image_2', 'image_3',
+        'new', 'sale', 'bestseller'
     ];
 
     public function skus() {

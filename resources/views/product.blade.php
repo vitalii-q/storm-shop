@@ -122,7 +122,7 @@
                                 {{--</div>--}}
 
                                 <h2>{{ $selected_product->name }}</h2>
-                                <h3>{{ $selected_product->price }}₽</h3>
+                                <h3>{{ $selected_product->price }} ₽</h3>
                             </div>
 
                             <p class="mb-30">
@@ -138,7 +138,7 @@
 
                             @php($i=0) @foreach($attributes as $attribute)
                                 @if($attribute->code == 'size')
-                                    <div id="attribute_{{$attributesId[$i]}}" class="product-size ul-li mb-30">
+                                    <div id="attribute_{{$attributesId[$i]}}" class="attribute_container product-size ul-li mb-30">
                                         <h3 class="list-title">Размер:</h3>
                                         <ul class="clearfix">
                                             @foreach($attribute->attributeValues as $value)
@@ -149,7 +149,7 @@
                                         </ul>
                                     </div>
                                 @elseif($attribute->code == 'color')
-                                    <div id="attribute_{{$attributesId[$i]}}" class="product-color ul-li mb-30">
+                                    <div id="attribute_{{$attributesId[$i]}}" class="attribute_container product-color ul-li mb-30">
                                         <h3 class="list-title">Цвет:</h3>
                                         <ul class="clearfix">
                                             @foreach($attribute->attributeValues as $value)
@@ -348,198 +348,76 @@
     ================================================== -->
 
 
+    @if(count($related) >= 1)
+        <!-- featured-section - start
+        ================================================== -->
+        <section id="featured-section" class="featured-section sec-ptb-60 clearfix">
+            <div class="container">
+                <div class="row">
 
-    <!-- featured-section - start
-    ================================================== -->
-    <section id="featured-section" class="featured-section sec-ptb-60 clearfix">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="section-title">
-                        <h2>related products</h2>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="product-item">
-                        <div class="post-labels">
-                            <ul class="clearfix">
-                                <li class="bg-primary">new</li>
-                                <li class="bg-danger">-50%</li>
-                            </ul>
-                        </div>
-                        <div class="image-container">
-                            <img src="{{ URL::asset('images/featured/fashion/img-2.jpg') }}" alt="image_not_found">
-                            <a href="#!" class="quick-view">
-                                <i class="fas fa-eye"></i>
-                                quick view
-                            </a>
-                        </div>
-                        <div class="item-content text-center">
-                            <a href="#!" class="item-title">Smartphone 7 Plus 128GB Silver MN492</a>
-                            <div class="item-price">
-                                <strong class="color-black">$129.00</strong>
-                                <del>$359.00</del>
-                            </div>
-                        </div>
-                        <div class="hover-content">
-                            <div class="color-options ul-li-center mb-15">
-                                <ul>
-                                    <li><a href="#!" class="color-1"></a></li>
-                                    <li><a href="#!" class="color-2"></a></li>
-                                    <li><a href="#!" class="color-3"></a></li>
-                                </ul>
-                            </div>
-                            <a href="#!" class="add-to-cart">
-                                <i class="flaticon-shopping-basket"></i>
-                                add to cart
-                            </a>
-                            <div class="product-meta ul-li-center">
-                                <ul class="clearfix">
-                                    <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                    <li><a href="#!"><i class="flaticon-libra"></i></a></li>
-                                </ul>
-                            </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="section-title">
+                            <h2>Похожие товары</h2>
                         </div>
                     </div>
+
+                    @foreach($related as $relate)
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <div class="product-item">
+
+                                <div class="post-labels">
+                                    <ul class="clearfix">
+                                        @if($relate->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
+                                        @if($relate->new == 1)<li class="bg-primary">Новинка</li>@endif
+                                        @if($relate->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                    </ul>
+                                </div>
+
+                                <div class="image-container">
+                                    <img src="{{ URL::asset($relate->image_1) }}" alt="image_not_found">
+                                    <a href="#!" class="quick-view">
+                                        <i class="fas fa-eye"></i>
+                                        Смотреть
+                                    </a>
+                                </div>
+
+                                <div class="item-content text-center">
+                                    <a href="#!" class="item-title">{{ $relate->name }}</a>
+                                    <div class="item-price">
+                                        <strong class="color-black">{{ $relate->price }}</strong>
+                                        {{--<del>$359.00</del>--}}
+                                    </div>
+                                </div>
+
+                                <div class="hover-content">
+                                    <div class="color-options ul-li-center mb-15">
+                                        <ul>
+                                            <li><a href="#!" class="color-1"></a></li>
+                                            <li><a href="#!" class="color-2"></a></li>
+                                            <li><a href="#!" class="color-3"></a></li>
+                                        </ul>
+                                    </div>
+                                    <a href="#!" class="add-to-cart">
+                                        <i class="flaticon-shopping-basket"></i>
+                                        В корзину
+                                    </a>
+                                    <div class="product-meta ul-li-center">
+                                        <ul class="clearfix">
+                                            <li><a href="#!"><i class="flaticon-heart"></i></a></li>
+                                            <li><a href="#!"><i class="flaticon-libra"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endforeach
+
                 </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="product-item">
-                        <div class="post-labels">
-                            <ul class="clearfix">
-                                <li class="bg-danger">-50%</li>
-                            </ul>
-                        </div>
-                        <div class="image-container">
-                            <img src="{{ URL::asset('images/featured/fashion/img-4.jpg') }}" alt="image_not_found">
-                            <a href="#!" class="quick-view">
-                                <i class="fas fa-eye"></i>
-                                quick view
-                            </a>
-                        </div>
-                        <div class="item-content text-center">
-                            <a href="#!" class="item-title"> Acer Aspire E 15.6" Core i3 Laptop</a>
-                            <div class="item-price">
-                                <strong class="color-black">$129.00</strong>
-                                <del>$359.00</del>
-                            </div>
-                        </div>
-                        <div class="hover-content">
-                            <div class="color-options ul-li-center mb-15">
-                                <ul>
-                                    <li><a href="#!" class="color-1"></a></li>
-                                    <li><a href="#!" class="color-2"></a></li>
-                                    <li><a href="#!" class="color-3"></a></li>
-                                </ul>
-                            </div>
-
-                            <a href="#!" class="add-to-cart">
-                                <i class="flaticon-shopping-basket"></i>
-                                add to cart
-                            </a>
-
-                            <div class="product-meta ul-li-center">
-                                <ul class="clearfix">
-                                    <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                    <li><a href="#!"><i class="flaticon-libra"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="product-item">
-                        <div class="post-labels">
-                            <ul class="clearfix">
-                                <li class="bg-primary">new</li>
-                                <li class="bg-success">best seller</li>
-                            </ul>
-                        </div>
-                        <div class="image-container">
-                            <img src="{{ URL::asset('images/featured/fashion/img-5.jpg') }}" alt="image_not_found">
-                            <a href="#!" class="quick-view">
-                                <i class="fas fa-eye"></i>
-                                quick view
-                            </a>
-                        </div>
-                        <div class="item-content text-center">
-                            <a href="#!" class="item-title"> Apple 128GB iPad mini 4</a>
-                            <div class="item-price">
-                                <strong class="color-black">$129.00</strong>
-                                <del>$359.00</del>
-                            </div>
-                        </div>
-                        <div class="hover-content">
-                            <div class="color-options ul-li-center mb-15">
-                                <ul>
-                                    <li><a href="#!" class="color-1"></a></li>
-                                    <li><a href="#!" class="color-2"></a></li>
-                                    <li><a href="#!" class="color-3"></a></li>
-                                </ul>
-                            </div>
-                            <a href="#!" class="add-to-cart">
-                                <i class="flaticon-shopping-basket"></i>
-                                add to cart
-                            </a>
-                            <div class="product-meta ul-li-center">
-                                <ul class="clearfix">
-                                    <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                    <li><a href="#!"><i class="flaticon-libra"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="product-item">
-                        <div class="post-labels">
-                            <ul class="clearfix">
-                                <li class="bg-danger">-50%</li>
-                            </ul>
-                        </div>
-                        <div class="image-container">
-                            <img src="{{ URL::asset('images/featured/fashion/img-7.jpg') }}" alt="image_not_found">
-                            <a href="#!" class="quick-view">
-                                <i class="fas fa-eye"></i>
-                                quick view
-                            </a>
-                        </div>
-                        <div class="item-content text-center">
-                            <a href="#!" class="item-title"> Sound  P6 Stereo Headphones</a>
-                            <div class="item-price">
-                                <strong class="color-black">$129.00</strong>
-                                <del>$359.00</del>
-                            </div>
-                        </div>
-                        <div class="hover-content">
-                            <div class="color-options ul-li-center mb-15">
-                                <ul>
-                                    <li><a href="#!" class="color-1"></a></li>
-                                    <li><a href="#!" class="color-2"></a></li>
-                                    <li><a href="#!" class="color-3"></a></li>
-                                </ul>
-                            </div>
-                            <a href="#!" class="add-to-cart">
-                                <i class="flaticon-shopping-basket"></i>
-                                add to cart
-                            </a>
-                            <div class="product-meta ul-li-center">
-                                <ul class="clearfix">
-                                    <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                    <li><a href="#!"><i class="flaticon-libra"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </section>
-    <!-- featured-section - end
-    ================================================== -->
+        </section>
+        <!-- featured-section - end
+        ================================================== -->
+    @endif
+
 @endsection

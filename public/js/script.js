@@ -343,7 +343,7 @@ function adminEditImg() {
 }
 function adminDeleteImg() {
     document.getElementById('image_show_input').value = '';
-    document.getElementById('imgShowElement').setAttribute('src', 'http://storm-shop.loc/media/photos/photo1.jpg');
+    document.getElementById('imgShowElement').setAttribute('src', 'http://storm-shop.loc/media/photos/photo5.jpg');
 
     deleteImageDB(); // удаление изображения в бд (страница редактирования)
 }
@@ -463,46 +463,6 @@ jQuery(function ($) {
 });
 /* текстовый редактор summernote --------------------------- end */
 
-<!-- DropzoneJS ----------------------------------------------- -->
-Dropzone.autoDiscover = false;
-$("div#dropzoneImages").dropzone({
-    url: 'admin/catalog/products',
-    autoProcessQueue: false,
-    uploadMultiple: true,
-    parallelUploads: 3,
-    maxFiles: 3,
-    acceptedFiles: 'image/*',
-    addRemoveLinks: true,
-});
-
-/*Dropzone.options.dropzoneImages = {
-    url: 'admin/catalog/products',
-    autoProcessQueue: false,
-    uploadMultiple: true,
-    parallelUploads: 3,
-    maxFiles: 3,
-    acceptedFiles: 'image/*',
-    addRemoveLinks: true,
-    init: function() {
-        dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
-
-        // for Dropzone to process the queue (instead of default form behavior):
-        document.getElementById("submit-all").addEventListener("click", function(e) {
-            // Make sure that the form isn't actually being sent.
-            e.preventDefault();
-            e.stopPropagation();
-            dzClosure.processQueue();
-        });
-
-        //send all the form data along with the files:
-        this.on("sendingmultiple", function(data, xhr, formData) {
-            formData.append("firstname", jQuery("#firstname").val());
-            formData.append("lastname", jQuery("#lastname").val());
-        });
-    }
-};*/
-<!-- DropzoneJS ------------------------------------------- end -->
-
 /* манипуляции свойствами на странице продукта --- */
 function attributeChange(data) {
     productId = data[0];
@@ -513,20 +473,6 @@ function attributeChange(data) {
     // получаем все элементы значений свойств выбранного продукта продукта
     attributesProductWrapper = document.getElementById('attributes-wrapper_product-'+productId); // обертка выбранного продукта
     allAttributeValuesElements =  attributesProductWrapper.getElementsByClassName('product-attribute_element'); // все элементы значений свойств продукта
-    /*for(i=0; i < allAttributeValuesElements.length; i++) {
-        if(allAttributeValuesElements[i].classList.contains('product_'+productId+'-attribute_'+attributeId)) { // если аттрибут по которому кликнули
-
-            if(allAttributeValuesElements[i].getAttribute('id') == 'value_'+valueId) { // если значение по которому кликнули
-                allAttributeValuesElements[i].classList.add('active'); // делаем свойство активным
-                allAttributeValuesElements[i].classList.remove('attribute-color_disabled');
-
-                //console.log(allAttributeValuesElements[i]);
-            } else { // если другое значение
-                allAttributeValuesElements[i].classList.remove('active'); // делаем свойство не активным
-                //allAttributeValuesElements[i].classList.add('attribute-color_disabled');
-            }
-        }
-    }*/
 
     // делаем активным элемент по которому кликнули
     selectedElement = document.getElementById('value_'+valueId).classList.add('active');
@@ -534,7 +480,7 @@ function attributeChange(data) {
     // проверка установленна ли комбинация
     combinationSet = false;
     for (i=0; i < allAttributeValuesElements.length; i++) {
-        if(allAttributeValuesElements[i].classList.contains('attribute-color_disabled')) {
+        if(allAttributeValuesElements[i].classList.contains('attribute-value_disabled')) {
             combinationSet = true;
             break
         }
@@ -551,9 +497,22 @@ function attributeChange(data) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: (data) => {
-            console.log(data);
+            //console.log(data);
+            // формаруем два массива (1: с выбранной комбинацией. 2: с привязанными к выбранному значению значениями)
+            // массив 1 (с выбранной комбинацией)
+            splitDoubleArray = data.split('],[');
+            raplaceOneArray = splitDoubleArray[0].replace('[', ''); // обрезаем лишнее
+            split1OneArray = raplaceOneArray+']'; // массив с выбранной комбинацией
+
+            // массив 2 (с привязанными к выбранному значению значения)
+            raplaceTwoArray = splitDoubleArray[1].replace(']', ''); // обрезаем лишнее
+            attachedValuesString = raplaceTwoArray.replace(']', ''); // строка с привязанными к выбранному значению значениями
+            attachedValues = attachedValuesString.split(','); // массив с привязанными к выбранному значению значениями
+            //console.log(attachedValues);
+
+            // ==================================================================
             // получаем свойства в виде массива которые комбинируются с выбранным
-            valuesBeforeReplaceSymbols = data.split('","');
+            valuesBeforeReplaceSymbols = split1OneArray.split('","');
             combinableValues = []; // массив с комбинируемыми свойствами с выбранным свойством
             for (i=0; i < valuesBeforeReplaceSymbols.length; i++) {
                 valuesBeforeReplaceSymbols_1 = valuesBeforeReplaceSymbols[i].replace('["', ''); // убираем лишние симфолы в начале строки
@@ -565,24 +524,26 @@ function attributeChange(data) {
                 // находим в html комбинируемые свойства и устанавливаем как комбинируемые
                 for(i=0; i < allAttributeValuesElements.length; i++) {
                     if(combinableValues.indexOf(allAttributeValuesElements[i].getAttribute('data-value')) != -1 == true) { // если значение аттрибута комбинируется
-                        allAttributeValuesElements[i].classList.remove('attribute-color_disabled');
+                        allAttributeValuesElements[i].classList.remove('attribute-value_disabled');
                     } else { // если не комбинируется
                         allAttributeValuesElements[i].classList.remove('active');
-                        allAttributeValuesElements[i].classList.add('attribute-color_disabled');
+                        allAttributeValuesElements[i].classList.add('attribute-value_disabled');
                     }
                 }
             } else { // если выбранный аттрибут уже не первый выбранный на странице
-                if(document.getElementById('value_'+valueId).classList.contains('attribute-color_disabled')) { // если кликнутый аттрибут вне комбинации
+                if(document.getElementById('value_'+valueId).classList.contains('attribute-value_disabled')) { // если кликнутый аттрибут вне комбинации
+                    //console.log('1');
                     // находим в html комбинируемые свойства и устанавливаем как комбинируемые
                     for(i=0; i < allAttributeValuesElements.length; i++) {
                         if(combinableValues.indexOf(allAttributeValuesElements[i].getAttribute('data-value')) != -1 == true) { // если значение аттрибута комбинируется
-                            allAttributeValuesElements[i].classList.remove('attribute-color_disabled');
+                            allAttributeValuesElements[i].classList.remove('attribute-value_disabled');
                         } else { // если не комбинируется
                             allAttributeValuesElements[i].classList.remove('active');
-                            allAttributeValuesElements[i].classList.add('attribute-color_disabled');
+                            allAttributeValuesElements[i].classList.add('attribute-value_disabled');
                         }
                     }
                 } else { // если выбранный аттрибут в комбинации
+                    //console.log('2');
                     // получаем элементы значений кликнутого атрибута
                     clickedAttributeElements = document.getElementById('attribute_'+attributeId).getElementsByClassName('product-attribute_element');
                     // делаем не активными все кроме кликнутого значения
@@ -591,6 +552,33 @@ function attributeChange(data) {
                             clickedAttributeElements[i].classList.remove('active');
                         }
                     }
+
+                    // формируем массив с привязаными значениями там что бы елементы массива были вида value_{{id}} как id значений
+                    attachedValuesUpdatedArray = []; // обновленный массив
+                    for(i=0; i < attachedValues.length; i++) {
+                        attachedValuesUpdatedArray.push('value_'+attachedValues[i]);
+                        //console.log(attachedValues[i]);
+                    }
+                    //console.log(attachedValuesUpdatedArray);
+
+                    // получаем элементы значений паралельного атрибута
+                    attributeContainers = document.getElementsByClassName('attribute_container'); // получаем все атрибуты на странице
+                    for(i=0; i < attributeContainers.length; i++) { // находим паралельные атрибуты
+                        if(attributeContainers[i].getAttribute('id') != ('attribute_'+attributeId)) { // находим паралельные атрибуты
+                            valuesParallelAttrElems = attributeContainers[i].getElementsByClassName('product-attribute_element'); // значения паралельного атрибута
+                            console.log('------------------------');
+                            for(i=0; i < valuesParallelAttrElems.length; i++) {
+                                if(attachedValuesUpdatedArray.indexOf(valuesParallelAttrElems[i].getAttribute('id')) != -1) { // если есть в массиве с привязаными значениями
+                                    valuesParallelAttrElems[i].classList.remove('attribute-value_disabled'); // устанавливаем как комбинируемое
+                                } else {
+                                    valuesParallelAttrElems[i].classList.add('attribute-value_disabled'); // устанавливаем как не комбинируемое
+                                }
+                            }
+                        }
+                    }
+
+                    // делаем не отключенными значения которые могут комбинироватся с выбранным
+                    //console.log(clickedAttributeElements);
                 }
             }
 
@@ -598,3 +586,22 @@ function attributeChange(data) {
     });
 }
 /* манипуляции свойствами на странице продукта end */
+
+/* ajax теги (блог) --------------------------------------- */
+function ajaxTag(tagId) {
+    $.ajax({
+        url:"/blog/tag",
+        type: "POST",
+        data: {
+            id: tagId, // передаем id продукта
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            //console.log(data);
+            document.getElementById('ajax_tag-articles').innerHTML = data;
+        }
+    })
+}
+/* ajax теги (блог) ----------------------------------- end */

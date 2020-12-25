@@ -49,8 +49,10 @@
     <section id="product-details-section" class="product-details-section sec-ptb-60 clearfix">
         <div class="container">
 
+            {{--@dump(\App\Models\AttributeValue::where('id', 9)->first()->skuValues)--}}
+
             <!-- product-details - start -->
-            <div id="product-item_{{ $selected_product->id }}" class="product-details" data-name="{{ $selected_product->name }}" data-price="{{ $selected_product->price }}₽" data-img="{{ Storage::url($selected_product->image_1) }}">
+            <div id="product-item_{{ $selected_product->id }}" class="product-details" data-name="{{ $selected_product->name }}" data-price="{{ $selected_product->price }}₽" data-attr-values="" data-img="{{ URL::asset($selected_product->image_1) }}">
                 <div class="row justify-content-md-center">
 
                     <!-- product-details-carousel - start -->
@@ -236,7 +238,7 @@
                                         <a id="cartAddButton_{{ $selected_product->id }}" onclick="addToCartButtonCatalog({{ $selected_product->id }})"
                                            @if($productInCart == true)class="add-to-cart display-none" @else
                                            class="add-to-cart"@endif
-                                        >
+                                        disabled="disabled">
                                             <i class="flaticon-shopping-basket"></i>
                                             В корзину
                                         </a>

@@ -66,7 +66,7 @@
                             <tr id="productBlockInCart_{{ $product['id'] }}">
                                 <td class="text-left" colspan="2">
                                             <span class="image-container float-left">
-                                                <img src="{{ Storage::url($product['image_1']) }}" alt="image_not_found">
+                                                <img src="{{ URL::asset($product['image_1']) }}" alt="image_not_found">
                                             </span>
                                     <span class="item-title">{{ $product['name'] }}</span>
                                     <ul class="clearfix">

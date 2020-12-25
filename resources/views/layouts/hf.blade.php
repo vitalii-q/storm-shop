@@ -284,10 +284,18 @@
 
                                 <ul class="clearfix">
                                     <li class="wishlist-btn">
-                                        <a href="#!">
-                                            <i class="flaticon-heart"></i>
-                                            <span class="item-counter bg-past">0</span>
-                                        </a>
+                                        @if(Auth::check())
+                                            <a href="{{ route('login') }}">
+                                                <i class="flaticon-heart"></i>
+                                                <span class="item-counter bg-past">0</span>
+                                            </a>
+                                        @else
+                                            <a href="#!">
+                                                <i class="flaticon-heart"></i>
+                                                <span class="item-counter bg-past">0</span>
+                                            </a>
+                                        @endif
+
                                         <div class="wishlist-items-container no-items">
 													<span class="empty-text">
 														<i class="flaticon-shopping-basket"></i> У вас нет товаров в вашем списке желаний.
@@ -312,15 +320,19 @@
                                                 <div class="image-container">
                                                     <img class="hf-img-teg" src="" alt="image_not_found"> <!-- $ -->
                                                 </div>
+
                                                 <div class="item-content clearfix">
                                                     <h3 class="item-title mb-15"></h3>
-                                                    <div class="item-price mb-30">
+                                                    <div class="item-price mb-30 flex-container">
                                                         <strong class="for-inner-price color-black"></strong>
+
+                                                        <div class="hf_cart-product_sku-values flex-container"></div>
                                                     </div>
                                                     <ul class="clearfix">
                                                         <li>
                                                             <span class="qty-text">К-во:</span>
-                                                            <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="" data-position="header" class="quantity-input quantity_get-value" name="quantity" type="number" value="1" min="1" placeholder="quantity">
+                                                            <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="" data-product-id="" data-sku-values=""
+                                                            data-position="header" class="quantity-input quantity_get-value" name="quantity" type="number" value="1" min="1" placeholder="quantity">
                                                         </li>
                                                         <li>
                                                             <button onclick="removeProductCart()" type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button> <!-- $ -->
@@ -342,19 +354,36 @@
                                                 @foreach($cartHF as $cartProductHF)
                                                     <div id="hf_cart-product-{{ $cartProductHF['id'] }}" class="cart-item clearfix">
                                                         <div class="image-container">
-                                                            <img src="{{  Storage::url($cartProductHF['image_1']) }}" alt="image_not_found">
+                                                            <img src="{{  URL::asset($cartProductHF['image_1']) }}" alt="image_not_found">
                                                         </div>
                                                         <div class="item-content clearfix">
                                                             <h3 class="item-title mb-15">{{ $cartProductHF['name'] }}</h3>
-                                                            <div class="item-price mb-30">
+                                                            <div class="item-price mb-30 flex-container">
                                                                 <strong class="color-black">{{ $cartProductHF['price'] }}₽</strong>
+
+                                                                <div class="hf_cart-product_sku-values flex-container">
+                                                                @foreach(\App\Models\Sku::where('id', $cartProductHF['id'])->first()->skuValues as $skuValue)
+                                                                    <p>&nbsp;&nbsp;&nbsp;<b>{{ $skuValue->attributeValue->attribute->name }}:</b> {{ $skuValue->attributeValue->name }}</p>
+                                                                @endforeach
+                                                                </div>
+
                                                                 {{--<del>359₽</del>--}}
+
+                                                                {{--<div class="flex-container">--}}
+                                                                {{--@foreach($cartProductHF['sku']->skuValues as $skuValue)--}}
+                                                                    {{--<p><b>{{ $skuValue->attributeValue->attribute->name }}:</b> {{ $skuValue->attributeValue->name }}</p>--}}
+                                                                {{--@endforeach--}}
+                                                                {{--</div>--}}
+
                                                             </div>
                                                             <ul class="clearfix">
                                                                 <li>
                                                                     <span class="qty-text">К-во:</span>
 
-                                                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $cartProductHF['id'] }}" @if(Route::current()->getName() == 'cart')data-position="header-cart" @else data-position="header" @endif class="quantity-input quantity_get-value" name="quantity" type="number" value="{{ $cartProductHF['quantity'] }}" min="1" placeholder="quantity">
+                                                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $cartProductHF['id'] }}" data-product-id="{{ $cartProductHF['product_id'] }}"
+                                                                    data-sku-values="@php($i=0)@foreach(\App\Models\Sku::where('id', $cartProductHF['id'])->first()->skuValues as $skuValue)@if($i>0),@endif{{$skuValue->attributeValue->value}}@php($i++)@endforeach"
+                                                                    @if(Route::current()->getName() == 'cart')data-position="header-cart" @else data-position="header" @endif class="quantity-input quantity_get-value" name="quantity" type="number" value="{{ $cartProductHF['quantity'] }}" min="1" placeholder="quantity">
+
                                                                 </li>
                                                                 {{--<li>--}}
                                                                     {{--<button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>--}}

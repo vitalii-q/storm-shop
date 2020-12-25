@@ -83,7 +83,7 @@ class MainController extends Controller
         $attributes = []; // аттрибуты продукта
         $productAttributeValuesId = []; // id значений атрибутов продукта
         foreach ($selected_product->skus as $sku) {
-            foreach ($sku->skuValue as $value) {
+            foreach ($sku->skuValues as $value) {
                 if(!in_array($value->attributeValue->attribute, $attributes)) { // если в массиве аттрибутов нет такого атрибута
                     array_push($attributes, $value->attributeValue->attribute); // вкладываем аттрибут в массив аттрибутов
                 }
@@ -109,7 +109,7 @@ class MainController extends Controller
         $skusCombinations = []; // массив комбинаций торгового предложения
         foreach ($product->skus as $sku) {
             $skuValues = []; // массив значений торгового предложения
-            foreach ($sku->skuValue as $value) {
+            foreach ($sku->skuValues as $value) {
                 array_push($skuValues, $value->attributeValue->value);
             }
             array_push($skusCombinations,  $skuValues);
@@ -133,15 +133,6 @@ class MainController extends Controller
             }
         }
 
-
-        // ==============================
-        /*$array = [];
-        foreach ($valuesCombination as $valueCombination) {
-            unset($valueCombination[array_search($attributeValue->value, $valueCombination)]);
-            array_push($array, $valueCombination);
-
-        }*/
-
         // получаем массив значений которые в комбинации с выбранным, но не выбранны
         $arrayWithValue = [];
         foreach ($valuesCombination as $valueCombination) {
@@ -158,18 +149,9 @@ class MainController extends Controller
             array_push($valueIds, AttributeValue::where('value', $arrayWithValueElem)->first()->id);
         }
 
-        $test = [$valuesWithSelectedValue, $valueIds];
-
-        //return response(json_encode($valuesWithSelectedValue)); // ответ в js
-
-        // получаем значения атрибута привязанные к выбранному значению атрибута =====================
-
-
+        $test = [$valuesWithSelectedValue, $valueIds]; // массивы(1: с выбранными значениями 2: с id комбинируемыми значениями)
 
         return response(json_encode($test)); // ответ в js
-    }
-    public function getAttributeValues() {
-
     }
 
     public function about() {

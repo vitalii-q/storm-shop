@@ -233,7 +233,7 @@
 
                                             <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
+                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
 
                                                         <div class="post-labels">
                                                             <ul class="clearfix">
@@ -261,11 +261,19 @@
 
                                                         <div class="hover-content">
                                                             <div class="color-options ul-li-center mb-15">
+
+                                                                <ul class="size-list clearfix">
+                                                                    <li><a href="#!">xs</a></li>
+                                                                    <li><a href="#!">s</a></li>
+                                                                    <li><a href="#!" class="active">m</a></li>
+                                                                </ul>
+
                                                                 <ul>
                                                                     <li><a href="#!" class="color-1"></a></li>
                                                                     <li><a href="#!" class="color-2"></a></li>
                                                                     <li><a href="#!" class="color-3"></a></li>
                                                                 </ul>
+
                                                             </div>
 
                                                             {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
@@ -325,7 +333,7 @@
                                             <!-- product-list-item - start -->
                                                 <div class="product-list-item clearfix">
                                                     <div class="image-container float-left">
-                                                        <img src="{{ Storage::url($product->image_1) }}" alt="image_not_found">
+                                                        <img src="{{ URL::asset($product->image_1) }}" alt="image_not_found">
                                                     </div>
                                                     <div class="item-content">
                                                         <a href="#!" class="item-title">{{ $product->name }}</a>

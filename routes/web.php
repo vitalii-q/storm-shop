@@ -58,6 +58,8 @@ Route::get('/cart', 'CartController@cart')->name('cart');
 Route::post('/cart/add', 'CartController@add')->name('cart_add'); // роут добавления товара в корзину post
 Route::post('/cart/remove', 'CartController@remove')->name('cart_remove'); // роут удаления товара из корзины post
 Route::post('/cart/update', 'CartController@update')->name('cart_update'); // роут обновления корзины
+Route::post('/cart/check', 'CartController@check'); // роут проверки sku в корзине
+Route::post('/cart/get/skuinfo', 'CartController@getAttributesNameAndValuesName'); // получить имена атрибутов и значений
 Route::get('/cart/clear', 'CartController@clear')->name('cart_clear'); // роут обновления корзины
 Route::get('/checkout', 'CartController@checkout')->name('checkout'); // страница оформления заказа
 Route::get('/buy', 'CartController@buy')->name('buy'); // оформление заказа

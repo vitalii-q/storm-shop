@@ -305,10 +305,15 @@
                                     @foreach($products as $product)
                                         <div class="item-summary checkout_product-block">
                                             <div class="image-container">
-                                                <img src="{{ Storage::url($product['image_1']) }}" alt="image_not_found">
+                                                <img src="{{ URL::asset($product['image_1']) }}" alt="image_not_found">
                                             </div>
                                             <div class="item-content">
                                                 <h3 class="title-text">{{ $product['name'] }}</h3>
+
+                                                @foreach($product['sku']->skuValues as $skuValue)
+                                                    <p><b>{{ $skuValue->attributeValue->attribute->name }}:</b> {{ $skuValue->attributeValue->name }}</p>
+                                                @endforeach
+
                                                 <span class="qty-text mb-15">К-во: <small>{{ $product['quantity'] }}</small></span>
                                                 <div class="item-price">
                                                     <strong class="color-black">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</strong>

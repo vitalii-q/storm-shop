@@ -236,7 +236,7 @@
 
                                                 <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ Storage::url($product->image_1) }}">
+                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
 
                                                         <div class="post-labels">
                                                             <ul class="clearfix">

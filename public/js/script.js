@@ -28,6 +28,9 @@ function addToCart(productId) {
 
     selectedAttrValues = getSelectedAttributeValues(selectedElement);
 
+    console.log(productId);
+    console.log(quantity);
+    console.log(selectedAttrValues);
     $.ajax({ // добавляем в корзину
         url:"/cart/add",
         type: "POST",
@@ -233,6 +236,7 @@ function updateProductInCart(clickedElement) { // обновление прод�
 }
 
 function changeQuantityInAllElements(clickedElement = null) { // обновляем и связываем колличество товаров в разных местах верстки
+
     productId = clickedElement.getAttribute('data-product-id');
     skuId = clickedElement.getAttribute('data-id'); // получаем id sku
     positionProductQuantityElem = clickedElement.getAttribute('data-position'); // смотрим откуда был клик
@@ -589,9 +593,9 @@ function attributeChange(data) {
     productId = data[0];
     valueId = data[1];
     attributeId = data[2];
-    //console.log(productId);
+    //console.log(data);
 
-    selectedElement = document.getElementById('value_'+valueId).classList.add('active');// делаем активным элемент по которому кликнули
+    selectedElement = document.getElementById('product_'+productId+'_value_'+valueId).classList.add('active');// делаем активным элемент по которому кликнули
 
     attributesProductWrapper = document.getElementById('attributes-wrapper_product-'+productId); // обертка атрибутов выбранного продукта
     allAttributeValuesElements =  attributesProductWrapper.getElementsByClassName('product-attribute_element'); // все элементы значений свойств продукта
@@ -647,7 +651,7 @@ function attributeChange(data) {
                     }
                 }
             } else { // если выбранный аттрибут уже не первый выбранный на странице
-                if(document.getElementById('value_'+valueId).classList.contains('attribute-value_disabled')) { // если кликнутый аттрибут вне комбинации
+                if(document.getElementById('product_'+productId+'_value_'+valueId).classList.contains('attribute-value_disabled')) { // если кликнутый аттрибут вне комбинации
                     // находим в html комбинируемые свойства и устанавливаем как комбинируемые
                     for(i=0; i < allAttributeValuesElements.length; i++) {
                         if(combinableValues.indexOf(allAttributeValuesElements[i].getAttribute('data-value')) != -1 == true) { // если значение аттрибута комбинируется
@@ -659,10 +663,10 @@ function attributeChange(data) {
                     }
                 } else { // если выбранный аттрибут в комбинации
                     // получаем элементы значений кликнутого атрибута
-                    clickedAttributeElements = document.getElementById('attribute_'+attributeId).getElementsByClassName('product-attribute_element');
+                    clickedAttributeElements = document.getElementById('product_'+productId+'_attribute_'+attributeId).getElementsByClassName('product-attribute_element');
                     // делаем не активными все кроме кликнутого значения
                     for(i=0; i < clickedAttributeElements.length; i++) {
-                        if(clickedAttributeElements[i].getAttribute('id') != 'value_'+valueId) {
+                        if(clickedAttributeElements[i].getAttribute('id') != 'product_'+productId+'_value_'+valueId) {
                             clickedAttributeElements[i].classList.remove('active');
                         }
                     }
@@ -670,13 +674,15 @@ function attributeChange(data) {
                     // формируем массив с привязаными значениями там что бы елементы массива были вида value_{{id}} как id значений
                     attachedValuesUpdatedArray = []; // обновленный массив
                     for(i=0; i < attachedValues.length; i++) {
-                        attachedValuesUpdatedArray.push('value_'+attachedValues[i]);
+                        attachedValuesUpdatedArray.push('product_'+productId+'_value_'+attachedValues[i]);
                     }
 
                     // получаем элементы значений паралельного атрибута
-                    attributeContainers = document.getElementsByClassName('attribute_container'); // получаем все атрибуты на странице
+                    productAttributesWrapper = document.getElementById('attributes-wrapper_product-'+productId); // получаем обертку атрибутов продукта
+                    attributeContainers = productAttributesWrapper.getElementsByClassName('attribute_container'); // получаем все атрибуты продукта
+                    //console.log(attributeContainers);
                     for(i=0; i < attributeContainers.length; i++) { // находим паралельные атрибуты
-                        if(attributeContainers[i].getAttribute('id') != ('attribute_'+attributeId)) { // находим паралельные атрибуты
+                        if(attributeContainers[i].getAttribute('id') != ('product_'+productId+'_attribute_'+attributeId)) { // находим паралельные атрибуты
                             valuesParallelAttrElems = attributeContainers[i].getElementsByClassName('product-attribute_element'); // значения паралельного атрибута
                             for(i=0; i < valuesParallelAttrElems.length; i++) {
                                 if(attachedValuesUpdatedArray.indexOf(valuesParallelAttrElems[i].getAttribute('id')) != -1) { // если есть в массиве с привязаными значениями
@@ -723,7 +729,8 @@ function attributeChange(data) {
 
             // скрываем контейнер апдейта, если не установленна полная комбинация
             let combinationSet = checkCombinationSet(productId); // проверка, установлена ли комбинация
-            if(combinationSet == false) { // если установленна комбинация
+
+            if(combinationSet == false) { // если комбинация не установленна
                 cartAddButton = document.getElementById('cartAddButton_'+productId);
                 cartAddButton.classList.remove('display-none'); // показываем кнопку добавления товара
                 cartAddButton.classList.add('display-block'); // показываем кнопку добавления товара
@@ -755,3 +762,191 @@ function ajaxTag(tagId) {
     })
 }
 /* ajax теги (блог) ----------------------------------- end */
+
+/* ajax виды ------------------------------------------------ */
+function searchView(view) {
+    $.ajax({ // устанавливаем вид в сессию
+        url:"/search/view",
+        type: "POST",
+        data: {
+            view: view,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            //console.log(data);
+        }
+    })
+}
+
+function catalogView(view) {
+    $.ajax({ // устанавливаем вид в сессию
+        url:"/catalog/view",
+        type: "POST",
+        data: {
+            view: view,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            //console.log(data);
+        }
+    })
+
+    catalogViewChangeProductIds(view);
+}
+function catalogViewChangeProductIds(view) {
+    productsGrid = document.getElementsByClassName('product-item_view-grid');
+    productsList = document.getElementsByClassName('product-item_view-list');
+
+    attributesWrapperGrid = document.getElementsByClassName('attributes-wrapper_product-grid');
+    attributesWrapperList = document.getElementsByClassName('attributes-wrapper_product-list');
+
+    attributeContainerGrid = document.getElementsByClassName('attribute_container-grid');
+    attributeContainerList = document.getElementsByClassName('attribute_container-list');
+
+    attributeValueGrid = document.getElementsByClassName('attribute_value-grid');
+    attributeValueList = document.getElementsByClassName('attribute_value-list');
+
+    PlusMinusContainerGrid = document.getElementsByClassName('cart_add-plus_minus-container-grid');
+    PlusMinusContainerList = document.getElementsByClassName('cart_add-plus_minus-container-list');
+
+    quantityElementGrig = document.getElementsByClassName('catalogQuantityProduct-grid');
+    quantityElementList = document.getElementsByClassName('catalogQuantityProduct-list');
+
+    buttonAddGrid = document.getElementsByClassName('cartAddButton-grid');
+    buttonAddList = document.getElementsByClassName('cartAddButton-list');
+
+
+
+    if(view == 'grid') {
+        if(productsList[0].getAttribute('id') != '') { // переключаем ids в view grid если еще не переключены
+            for(i=0; i < productsGrid.length; i++) { // обертки продукта
+                productsGrid[i].setAttribute('id', productsList[i].getAttribute('id'));
+                productsList[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < attributesWrapperGrid.length; i++) { // обертки атрибутов
+                attributesWrapperGrid[i].setAttribute('id', attributesWrapperList[i].getAttribute('id'));
+                attributesWrapperList[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < attributeContainerGrid.length; i++) { // контейнеры атрибутов
+                attributeContainerGrid[i].setAttribute('id', attributeContainerList[i].getAttribute('id'));
+                attributeContainerList[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < attributeValueGrid.length; i++) { // значения атрибутов
+                attributeValueGrid[i].setAttribute('id', attributeValueList[i].getAttribute('id'));
+                attributeValueList[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < PlusMinusContainerGrid.length; i++) { // переключатели количества
+                PlusMinusContainerGrid[i].setAttribute('id', PlusMinusContainerList[i].getAttribute('id'));
+                PlusMinusContainerList[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < quantityElementGrig.length; i++) { // элементы количества
+                quantityElementGrig[i].setAttribute('id', quantityElementList[i].getAttribute('id'));
+                quantityElementList[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < buttonAddGrid.length; i++) { // кнопки добавления
+                buttonAddGrid[i].setAttribute('id', buttonAddList[i].getAttribute('id'));
+                buttonAddList[i].setAttribute('id', '');
+            }
+        }
+    } else if (view == 'list') {
+        if(productsGrid[0].getAttribute('id') != '') { // переключаем ids в view list если еще не переключены
+            for(i=0; i < productsList.length; i++) { // обертки продукта
+                productsList[i].setAttribute('id', productsGrid[i].getAttribute('id'));
+                productsGrid[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < attributesWrapperList.length; i++) { // обертки атрибутов
+                attributesWrapperList[i].setAttribute('id', attributesWrapperGrid[i].getAttribute('id'));
+                attributesWrapperGrid[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < attributeContainerList.length; i++) { // контейнеры атрибутов
+                attributeContainerList[i].setAttribute('id', attributeContainerGrid[i].getAttribute('id'));
+                attributeContainerGrid[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < attributeValueList.length; i++) { // значения атрибутов
+                attributeValueList[i].setAttribute('id', attributeValueGrid[i].getAttribute('id'));
+                attributeValueGrid[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < PlusMinusContainerList.length; i++) { // переключатели количества
+                PlusMinusContainerList[i].setAttribute('id', PlusMinusContainerGrid[i].getAttribute('id'));
+                PlusMinusContainerGrid[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < quantityElementList.length; i++) { // элементы количества
+                quantityElementList[i].setAttribute('id', quantityElementGrig[i].getAttribute('id'));
+                quantityElementGrig[i].setAttribute('id', '');
+            }
+
+            for(i=0; i < buttonAddList.length; i++) { // кнопки добавления
+                buttonAddList[i].setAttribute('id', buttonAddGrid[i].getAttribute('id'));
+                buttonAddGrid[i].setAttribute('id', '');
+            }
+        }
+    }
+}
+/* ajax виды --------------------------------------------------------- end */
+
+/* desires --------------------------------------------------------------- */
+function desire(productId) {
+    $.ajax({
+        url:"/desire",
+        type: "POST",
+        data: {
+            productId: productId,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            let response = data;
+            countElement = document.getElementById('wishlist_count-element');
+            if(response == '"add"') {
+                countElement.innerHTML = Number(countElement.innerHTML) +1;
+            } else if(response == '"delete"') {
+                countElement.innerHTML = Number(countElement.innerHTML) -1;
+            }
+        }
+    })
+
+    desireActive(productId);
+}
+
+function desireActive(productId) {
+    clickedElem = document.getElementById('desire_'+productId);
+    if(clickedElem != null) {
+        clickedElem.classList.toggle('active');
+    } else {
+        clickedElem = document.getElementById('personal_desire_'+productId);
+        clickedElem.remove();
+    }
+}
+
+function viewPersonal(view) { // вид личного кабинета
+    $.ajax({
+        url:"/personal/view",
+        type: "POST",
+        data: {
+            view: view,
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            //console.log(data);
+        }
+    })
+}
+/* desires ----------------------------------------------------------- end */

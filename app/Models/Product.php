@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Sku;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -24,5 +25,13 @@ class Product extends Model
 
     public function getCategory() { // функция с помощью которой получаем текущую категорию
         return Category::find($this->category_id);
+    }
+
+    public static function getSku($id) {
+        return Sku::where('id', $id)->first();
+    }
+
+    public function getUserDesire() {
+        return Desire::where('user_id', Auth::user()->id)->where('product_id', $this->id)->first();
     }
 }

@@ -41,27 +41,41 @@ Route::group([
 
 // личный кабинет
 Route::group(['middleware' => 'auth'], function () { // доступ авторизованным пользователям
-    Route::get('/personal', 'PersonalController@index')->name('personal');
-    Route::get('/personal/edit', 'PersonalController@edit')->name('personal_edit');
-    Route::post('/personal/update', 'PersonalController@update')->name('personal_update');
+    Route::group(['middleware' => 'PersonalView'], function () {
+        Route::get('/personal/{user_id}', 'PersonalController@index')->name('personal');
+        Route::get('/personal/{user_id}/order/{order_id}', 'PersonalController@order')->name('personal_order');
+        Route::get('/personal/{user_id}/edit', 'PersonalController@edit')->name('personal_edit');
+        Route::post('/personal/update', 'PersonalController@update')->name('personal_update');
+        Route::post('/personal/view', 'PersonalController@view'); // переключатель вида
+        Route::post('/desire', 'DesiresController@desire'); // добавление желания
+    });
+
+    Route::get('/personal/{user_id}/desires', 'PersonalController@index')->name('desires')->middleware('PersonalDesiresView'); // вид желаний
 });
 
 // сайт
-Route::get('/catalog', 'MainController@catalog')->name('catalog');
-Route::get('/catalog/{category}', 'MainController@category')->name('category');
-Route::get('/catalog/brand/{brand}', 'MainController@brand')->name('brand');
-Route::get('/catalog/brand/{brand}/{category}', 'MainController@brandCategory')->name('brand_category');
-Route::get('/catalog/{category}/{product}', 'MainController@product')->name('product');
-Route::post('/catalog/sku', 'MainController@sku')->name('sku');
+Route::group([
+    'middleware' => 'catalogView', // вид каталога
+    'prefix' => 'catalog',
+], function () {
+    Route::get('/', 'MainController@catalog')->name('catalog');
+    Route::post('view', 'MainController@catalogView');
+    Route::post('filter', 'FilterController@filter')->name('filter');
+    Route::get('{category}', 'MainController@category')->name('category');
+    Route::get('brand/{brand}', 'MainController@brand')->name('brand');
+    Route::get('brand/{brand}/{category}', 'MainController@brandCategory')->name('brand_category');
+    Route::get('{category}/{product}', 'MainController@product')->name('product');
+    Route::post('sku', 'MainController@sku')->name('sku');
+});
 
-Route::get('/cart', 'CartController@cart')->name('cart');
+Route::get('/cart', 'CartController@cart')->name('cart')->middleware('CheckCartIsNotEmpty');
 Route::post('/cart/add', 'CartController@add')->name('cart_add'); // роут добавления товара в корзину post
 Route::post('/cart/remove', 'CartController@remove')->name('cart_remove'); // роут удаления товара из корзины post
 Route::post('/cart/update', 'CartController@update')->name('cart_update'); // роут обновления корзины
 Route::post('/cart/check', 'CartController@check'); // роут проверки sku в корзине
 Route::post('/cart/get/skuinfo', 'CartController@getAttributesNameAndValuesName'); // получить имена атрибутов и значений
 Route::get('/cart/clear', 'CartController@clear')->name('cart_clear'); // роут обновления корзины
-Route::get('/checkout', 'CartController@checkout')->name('checkout'); // страница оформления заказа
+Route::get('/checkout', 'CartController@checkout')->name('checkout')->middleware('CheckCartIsNotEmpty'); // страница оформления заказа
 Route::get('/buy', 'CartController@buy')->name('buy'); // оформление заказа
 
 Route::get('/about', 'MainController@about')->name('about');
@@ -78,3 +92,7 @@ Route::post('/contacts/submit', 'FormsController@contactMessage')->name('contact
 
 Route::post('/subscription', 'FormsController@subscription')->name('subscription');
 
+Route::get('/search', 'SearchController@index')->name('search')->middleware('SearchView');
+Route::post('/search/view', 'SearchController@searchView');
+
+Route::fallback(function(){ return response()->view('errors.404', [], 404); }); // добавил для видимости авторизованного пользователя на странице 404

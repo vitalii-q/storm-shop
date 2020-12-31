@@ -36,4 +36,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function desires() {
+        return $this->belongsToMany(Product::class, 'desires', 'user_id', 'product_id');
+    }
 }

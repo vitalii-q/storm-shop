@@ -122,9 +122,10 @@
                                 @endguest
                                 @auth
                                     @if(Auth::user()->privilege == 1)
-                                        <li><a href="{{ route('admin') }}">{{ Auth::user()->first_name }}</a></li>
+                                        <li><a href="{{ route('admin') }}">Панель администрации</a></li>
+                                        <li><a href="{{ route('personal', Auth::user()->id) }}">{{ Auth::user()->first_name }}</a></li>
                                     @else
-                                        <li><a href="{{ route('personal') }}">{{ Auth::user()->first_name }}</a></li>
+                                        <li><a href="{{ route('personal', Auth::user()->id) }}">{{ Auth::user()->first_name }}</a></li>
                                     @endif
 
                                     <li><a href="{{ route('get_logout') }}">Выйти</a></li>
@@ -274,8 +275,8 @@
                             <div class="btns-list ul-li-right">
 
                                 <div class="main-search">
-                                    <form action="#!">
-                                        <input type="search" placeholder="ПОИСК...">
+                                    <form action="{{ route('search') }}" method="get">
+                                        <input type="search" name="search" placeholder="ПОИСК...">
                                         <button type="submit" class="search-btn">
                                             <i class="flaticon-search"></i>
                                         </button>
@@ -285,22 +286,56 @@
                                 <ul class="clearfix">
                                     <li class="wishlist-btn">
                                         @if(Auth::check())
-                                            <a href="{{ route('login') }}">
+                                            <a href="{{ route('desires', Auth::user()->id) }}">
                                                 <i class="flaticon-heart"></i>
-                                                <span class="item-counter bg-past">0</span>
+                                                <span id="wishlist_count-element" class="item-counter bg-past">{{ count($desiresHF) }}</span>
                                             </a>
                                         @else
-                                            <a href="#!">
+                                            <a href="{{ route('login') }}">
                                                 <i class="flaticon-heart"></i>
-                                                <span class="item-counter bg-past">0</span>
+                                                {{--<span class="item-counter bg-past">0</span>--}}
                                             </a>
                                         @endif
 
-                                        <div class="wishlist-items-container no-items">
-													<span class="empty-text">
-														<i class="flaticon-shopping-basket"></i> У вас нет товаров в вашем списке желаний.
-													</span>
-                                        </div>
+                                        {{--<div class="wishlist-items-container no-items">--}}
+                                            {{--<span class="empty-text">--}}
+                                            {{--<i class="flaticon-shopping-basket"></i> У вас нет товаров в вашем списке желаний.--}}
+                                            {{--</span>--}}
+
+                                            {{--<div id="hf_wishlist-products_wrapper">--}}
+                                                {{--@if(!empty($cartHF))--}}
+                                                    {{--@php($i=1) @foreach($cartHF as $cartProductHF)--}}
+                                                        {{--@if($i != 1)<div class="wishlist_space-element"></div> @endif--}}
+                                                        {{--<div id="hf_wishlist-product-{{ $cartProductHF['id'] }}" class="wishlist-item clearfix flex-container">--}}
+                                                            {{--<div class="wishlist_image-container image-container">--}}
+                                                                {{--<img src="{{  URL::asset($cartProductHF['image_1']) }}" alt="image_not_found">--}}
+                                                            {{--</div>--}}
+
+                                                            {{--<div class="item-content clearfix">--}}
+                                                                {{--<a href="" class="wishlist_item-title item-title mb-15">{{ $cartProductHF['name'] }}</a>--}}
+                                                                {{--<div class="item-price mb-30 flex-container">--}}
+                                                                    {{--<strong class="color-black">{{ $cartProductHF['price'] }}₽</strong>--}}
+                                                                {{--</div>--}}
+
+                                                                {{--<div class="wishlist_product-description"></div>--}}
+
+                                                                {{--<ul class="clearfix">--}}
+                                                                    {{--<li>--}}
+                                                                    {{--<button type="button" class="edit-btn"><i class="flaticon-pencil"></i></button>--}}
+                                                                    {{--</li>--}}
+                                                                    {{--<li>--}}
+                                                                        {{--<button onclick="" type="button" class="remove-btn"><i class="flaticon-dustbin"></i></button>--}}
+                                                                    {{--</li>--}}
+                                                                {{--</ul>--}}
+                                                            {{--</div>--}}
+                                                        {{--</div>--}}
+                                                    {{--@php($i++) @endforeach--}}
+                                                {{--@endif--}}
+                                            {{--</div>--}}
+
+                                            {{--<div class="wishlist_text-bottom">Показанно 2 желания из 46</div>--}}
+
+                                        {{--</div>--}}
                                     </li>
 
                                     <li class="cart-btn">

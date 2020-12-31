@@ -145,7 +145,7 @@
                                 <a href="{{ route('article', $article->code) }}" class="title-text">{{ $article->title }}</a>
                                 <div class="post-meta ul-li">
                                     <ul class="clearfix">
-                                        <li>опубликованно: <a href="#!">admin</a></li>
+                                        <li>опубликованно: <a href="{{ '/personal/' . $article->user_id }}">admin</a></li>
 
                                         @if(count($article->tags) >= 1)
                                             <li>

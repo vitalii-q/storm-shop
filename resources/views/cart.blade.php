@@ -52,10 +52,10 @@
                 <table class="table table-bordered mb-30">
                     <thead>
                     <tr>
-                        <th colspan="2">products</th>
-                        <th scope="col">price</th>
-                        <th scope="col">quantity</th>
-                        <th scope="col">total</th>
+                        <th colspan="2">Продукты</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Стоимость</th>
                     </tr>
                     </thead>
 
@@ -69,17 +69,29 @@
                                                 <img src="{{ URL::asset($product['image_1']) }}" alt="image_not_found">
                                             </span>
                                     <span class="item-title">{{ $product['name'] }}</span>
+
+                                    <div class="hf_cart-product_sku-values flex-container">
+                                        @php($skuValues = []) <!-- массив с значенияеми свойств -->
+                                        @foreach(\App\Models\Sku::where('id', $product['id'])->first()->skuValues as $skuValue)
+                                            <p><b>{{ $skuValue->attributeValue->attribute->name }}:</b> {{ $skuValue->attributeValue->name }}&nbsp;&nbsp;&nbsp;</p>
+                                            @php(array_push($skuValues, $skuValue->attributeValue->value))
+                                        @endforeach
+                                    </div>
+
                                     <ul class="clearfix">
                                         {{--<li><a href="#!"><i class="flaticon-pencil"></i></a></li>--}}
                                         {{--<li><a href="{{ route('cart_remove', $product['id']) }}"><i class="flaticon-dustbin"></i></a></li>--}}
                                         <li><a onclick="removeProductCart({{ $product['id'] }})"><i class="flaticon-dustbin"></i></a></li>
                                     </ul>
                                 </td>
-                                <td class="item-price product-price_get-price text-center">{{ $product['price'] }}</td>
+
+                                <td class="item-price product-price_get-price text-center">{{ $product['price'] }}₽</td>
+
                                 <td class="item-quantity text-center">
-                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $product['id'] }}" data-position="cart" class="quantity_get-value" name="quantity" type="number" value="{{ $product['quantity'] }}" min="1" placeholder="quantity">
+                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-product-id="{{ $product['product_id'] }}" data-id="{{ $product['id'] }}" data-sku-values="{{ implode(",", $skuValues) }}" data-position="cart" class="quantity_get-value" name="quantity" type="number" value="{{ $product['quantity'] }}" min="1" placeholder="quantity">
                                 </td>
-                                <td class="total-price product-sum_get-sum text-center">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</td>
+
+                                <td class="total-price product-sum_get-sum text-center">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}₽</td>
                             </tr>
                         @endforeach
                     @endif

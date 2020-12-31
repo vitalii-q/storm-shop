@@ -102,7 +102,7 @@
 
                     <!-- product-details-content - start -->
                     <div class="col-lg-6 col-md-10 col-sm-12">
-                        <div id="attributes-wrapper_product-{{ $selected_product->id }}" class="product-details-content">
+                        <div class="product-details-content">
 
                             {{--<div class="product-code ul-li mb-30">--}}
                                 {{--<ul class="clearfix">--}}
@@ -138,42 +138,44 @@
                             @endforeach
 
 
-                            @php($i=0) @foreach($attributes as $attribute)
+                            <div id="attributes-wrapper_product-{{ $selected_product->id }}">
+                            @foreach($attributes as $attribute)
                                 @if($attribute->code == 'size')
-                                    <div id="attribute_{{$attributesId[$i]}}" class="attribute_container product-size ul-li mb-30">
+                                    <div id="product_{{$selected_product->id}}_attribute_{{$attribute->id}}" class="attribute_container product-size ul-li mb-30">
                                         <h3 class="list-title">Размер:</h3>
                                         <ul class="clearfix">
                                             @foreach($attribute->attributeValues as $value)
                                                 @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
-                                                    <li><a id="value_{{ $value->id }}" data-attribute-id="{{$attributesId[$i]}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" data-value="{{ $value->value }}">{{ $value->value }}</a></li>
+                                                    <li><a id="product_{{$selected_product->id}}_value_{{ $value->id }}" data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" data-value="{{ $value->value }}">{{ $value->value }}</a></li>
                                                 @endif
                                             @endforeach
                                         </ul>
                                     </div>
                                 @elseif($attribute->code == 'color')
-                                    <div id="attribute_{{$attributesId[$i]}}" class="attribute_container product-color ul-li mb-30">
+                                    <div id="product_{{$selected_product->id}}_attribute_{{$attribute->id}}" class="attribute_container product-color ul-li mb-30">
                                         <h3 class="list-title">Цвет:</h3>
                                         <ul class="clearfix">
                                             @foreach($attribute->attributeValues as $value)
                                                 @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
-                                                <li><a id="value_{{ $value->id }}" data-attribute-id="{{$attributesId[$i]}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                <li><a id="product_{{$selected_product->id}}_value_{{ $value->id }}" data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
                                                 @endif
                                             @endforeach
                                         </ul>
                                     </div>
                                 @else
-                                    <div id="attribute_{{$attributesId[$i]}}" class="ul-li mb-30">
+                                    <div id="product_{{$selected_product->id}}_attribute_{{$attribute->id}}" class="ul-li mb-30">
                                         <h3 class="list-title">Цвет:</h3>
                                         <ul class="clearfix">
                                         @foreach($attribute->attributeValues as $value)
                                             @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
-                                                <li><a id="value_{{ $value->id }}" data-attribute-id="{{$attributesId[$i]}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                <li><a id="product_{{$selected_product->id}}_value_{{ $value->id }}" data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $selected_product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $selected_product->id }}-attribute_{{ $attribute->id }}" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
                                                 @endif
                                             @endforeach
                                         </ul>
                                     </div>
                                 @endif
-                            @php($i++) @endforeach
+                            @endforeach
+                            </div>
 
                             {{--<div class="product-size ul-li mb-30">--}}
                                 {{--<h3 class="list-title">size:</h3>--}}
@@ -238,13 +240,13 @@
                                         <a id="cartAddButton_{{ $selected_product->id }}" onclick="addToCartButtonCatalog({{ $selected_product->id }})"
                                            @if($productInCart == true)class="add-to-cart display-none" @else
                                            class="add-to-cart"@endif
-                                        disabled="disabled">
+                                        >
                                             <i class="flaticon-shopping-basket"></i>
                                             В корзину
                                         </a>
                                     </li>
-                                    <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                    <li><a href="#!"><i class="flaticon-libra"></i></a></li>
+                                    <li><a id="desire_{{$selected_product->id}}" onclick="desire({{$selected_product->id}})" class="product-details_desire-button @if($selected_product->getUserDesire() != null)active @endif"><i class="flaticon-heart"></i></a></li>
+                                    <li><a href="#"><i class="flaticon-libra"></i></a></li>
                                 </ul>
                             </div>
 
@@ -365,7 +367,17 @@
 
                     @foreach($related as $relate)
                         <div class="col-lg-3 col-md-6 col-sm-12">
-                            <div class="product-item">
+                            <div id="product-item_{{$relate->id}}" class="product-item" data-name="{{ $relate->name }}" data-price="{{ $relate->price }}₽" data-img="{{ URL::asset($relate->image_1) }}">
+
+                                <!-- проверка, есть ли продукт в корзине --- -->
+                                @php($productInCart = false) @php($cartProductQuantity = 0)
+
+                                @if(!empty($cartProducts))
+                                    @foreach($cartProducts as $cartProduct)
+                                        @if($relate->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
+                                    @endforeach
+                                @endif
+                                <!-- проверка, есть ли продукт в корзине end -->
 
                                 <div class="post-labels">
                                     <ul class="clearfix">
@@ -377,14 +389,14 @@
 
                                 <div class="image-container">
                                     <img src="{{ URL::asset($relate->image_1) }}" alt="image_not_found">
-                                    <a href="#!" class="quick-view">
+                                    <a href="{{ '/catalog/' . $relate->getCategory()->code . '/' . $relate->code }}" class="quick-view">
                                         <i class="fas fa-eye"></i>
                                         Смотреть
                                     </a>
                                 </div>
 
                                 <div class="item-content text-center">
-                                    <a href="#!" class="item-title">{{ $relate->name }}</a>
+                                    <a href="{{ '/catalog/' . $relate->getCategory()->code . '/' . $relate->code }}" class="item-title">{{ $relate->name }}</a>
                                     <div class="item-price">
                                         <strong class="color-black">{{ $relate->price }}</strong>
                                         {{--<del>$359.00</del>--}}
@@ -392,23 +404,94 @@
                                 </div>
 
                                 <div class="hover-content">
-                                    <div class="color-options ul-li-center mb-15">
-                                        <ul>
-                                            <li><a href="#!" class="color-1"></a></li>
-                                            <li><a href="#!" class="color-2"></a></li>
-                                            <li><a href="#!" class="color-3"></a></li>
-                                        </ul>
+                                    <div class="attribute-options color-options ul-li-center mb-15">
+
+                                        <div id="attributes-wrapper_product-{{ $relate->id }}" class="attributes-wrapper_product-grid">
+                                        @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
+                                            @foreach($relate->skus as $sku)
+                                                @foreach($sku->skuValues as $value)
+                                                    @php( array_push($productAttributeValuesId, $value->attributeValue->id))
+                                                @endforeach
+                                            @endforeach
+
+                                            @foreach($relate->attributes as $attribute)
+                                                @if($attribute->code == 'size')
+                                                    <div id="product_{{$relate->id}}_attribute_{{$attribute->id}}" class="attribute_container product-size ul-li attribute_container-grid">
+                                                        <ul class="size-list clearfix">
+                                                        @foreach($attribute->attributeValues as $value)
+                                                            @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                <li><a id="product_{{$relate->id}}_value_{{ $value->id }}" data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $relate->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $relate->id }}-attribute_{{ $attribute->id }} attribute_value-grid" data-value="{{ $value->value }}">{{ $value->value }}</a></li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @elseif($attribute->code == 'color')
+                                                    <div id="product_{{$relate->id}}_attribute_{{$attribute->id}}" class="attribute_container product-color ul-li attribute_container-grid">
+                                                        <ul class="color-list clearfix">
+                                                        @foreach($attribute->attributeValues as $value)
+                                                            @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                <li><a id="product_{{$relate->id}}_value_{{ $value->id }}" data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $relate->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $relate->id }}-attribute_{{ $attribute->id }} attribute_value-grid" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @else
+                                                    <div id="product_{{$relate->id}}_attribute_{{$attribute->id}}" class="ul-li attribute_container-grid">
+                                                        <ul class="clearfix">
+                                                        @foreach($attribute->attributeValues as $value)
+                                                            @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                <li><a id="product_{{$relate->id}}_value_{{ $value->id }}" data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $relate->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $relate->id }}-attribute_{{ $attribute->id }} attribute_value-grid" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+
                                     </div>
-                                    <a href="#!" class="add-to-cart">
+
+                                    {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
+                                    {{--@csrf--}}
+                                    {{--<button type="submit" class="add-to-cart">--}}
+                                    {{--<i class="flaticon-shopping-basket"></i>--}}
+                                    {{--В корзину--}}
+                                    {{--</button>--}}
+                                    {{--</form>--}}
+
+                                    <div id="cart_add-plus_minus-container_{{ $relate->id }}"
+                                    @if($productInCart == true)class="cart_add-plus_minus-container cart_add-plus_minus-container-grid flex-container" @else
+                                         class="cart_add-plus_minus-container cart_add-plus_minus-container-grid display-none flex-container"@endif
+                                    >
+                                        <div onclick="cartMinusProduct({{ $relate->id }})" class="cart_add-minus">-</div>
+
+                                        <div id="catalogQuantityProduct_{{ $relate->id }}" data-id="{{ $relate->id }}" data-position="catalog" class="cart_add-plus_minus-count catalogQuantityProduct-grid">
+                                            @if($productInCart == true){{ $cartProductQuantity }} @else
+                                                {{ '1' }} @endif
+                                        </div>
+
+                                        <div onclick="cartPlusProduct({{ $relate->id }})" class="cart_add-plus">+</div>
+                                    </div>
+
+                                    <a id="cartAddButton_{{ $relate->id }}" onclick="addToCartButtonCatalog({{ $relate->id }})"
+                                       @if($productInCart == true)class="add-to-cart cartAddButton-grid display-none" @else
+                                       class="add-to-cart cartAddButton-grid"@endif
+                                    >
                                         <i class="flaticon-shopping-basket"></i>
                                         В корзину
                                     </a>
-                                    <div class="product-meta ul-li-center">
-                                        <ul class="clearfix">
-                                            <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                            <li><a href="#!"><i class="flaticon-libra"></i></a></li>
-                                        </ul>
-                                    </div>
+
+                                    {{--<div onclick="addToCart({{ $product->id }})" class="add-to-cart cursor-p">--}}
+                                    {{--<i class="flaticon-shopping-basket"></i>--}}
+                                    {{--В корзину--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="product-meta ul-li-center">--}}
+                                    {{--<ul class="clearfix">--}}
+                                    {{--<li><a href="#!"><i class="flaticon-heart"></i></a></li>--}}
+                                    {{--<li><a href="#!"><i class="flaticon-libra"></i></a></li>--}}
+                                    {{--</ul>--}}
+                                    {{--</div>--}}
                                 </div>
 
                             </div>

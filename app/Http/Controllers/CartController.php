@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttributeValue;
+use function GuzzleHttp\options;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use App\Models\Order;
@@ -10,6 +11,7 @@ use App\Models\Product;
 use App\Models\Sku;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class CartController extends Controller
 {
@@ -67,7 +69,7 @@ class CartController extends Controller
         $product = DB::table('products')->where('id', $productId)->first();
         $sku = Sku::getSelectedSku($productId, $selectedAttrValuesArray); // получаем sku
 
-        // сохраняем id пользователя в сессию или закаем уникальный
+        // сохраняем id пользователя в сессию или записывааем уникальный
         $cart = session('cart');
         if(is_null($cart)) {
             if(Auth::check()) {
@@ -98,6 +100,8 @@ class CartController extends Controller
                         "category_id" => $product->category_id,
                         "price" => $product->price,
                         'sku_price' => $sku->price,
+
+                        "options" => $selectedAttrValuesArray,
                         "image_1" => $product->image_1,
 
                         "quantity" => $cartProduct['quantity'] + $productQuantity,
@@ -116,6 +120,8 @@ class CartController extends Controller
                 "category_id" => $product->category_id,
                 "price" => $product->price,
                 'sku_price' => $sku->price,
+
+                "options" => $selectedAttrValuesArray,
                 "image_1" => $product->image_1,
 
                 "quantity" => $productQuantity,
@@ -188,6 +194,8 @@ class CartController extends Controller
                     "category_id" => $product['category_id'],
                     "price" => $product['price'],
                     'sku_price' => $sku->price,
+
+                    "options" => $selectedAttrValuesArray,
                     "image_1" => $product['image_1'],
 
                     "quantity" => $quantity,
@@ -213,7 +221,7 @@ class CartController extends Controller
             $i++;
         }
 
-        return response(json_encode($products)); // ответ в js
+        return response(json_encode($productId)); // ответ в js
     }
 
     public function clear() {
@@ -226,39 +234,20 @@ class CartController extends Controller
         $products = session('cart.products');
         return view('checkout', compact('products'));
     }
+    public function getSku($id) {
+        return Sku::where('id', $id)->first();
+    }
 
     public function buy(Request $request) {
-        if(Auth::check() == true) {
-            if(Auth::user()->last_name != null and Auth::user()->phone != null) {
-                $request->validate([
-                    'shipping_city' => ['required'],
-                    'shipping_street' => ['required'],
-                    'shipping_apartment' => ['required'],
-                    'message' => ['max:500'],
-                ]);
-            } else {
-                $request->validate([
-                    'first_name' => ['required', 'max:100'],
-                    'last_name' => ['required', 'max:100'],
-                    'phone' => ['required'],
-                    'shipping_city' => ['required'],
-                    'shipping_street' => ['required'],
-                    'shipping_apartment' => ['required'],
-                    'message' => ['max:500'],
-                ]);
-            }
-        } else {
-            $request->validate([
-                'first_name' => ['required', 'max:100'],
-                'last_name' => ['required', 'max:100'],
-                'email' => ['required'],
-                'phone' => ['required'],
-                'shipping_city' => ['required'],
-                'shipping_street' => ['required'],
-                'shipping_apartment' => ['required'],
-                'message' => ['max:500'],
-            ]);
-        }
+        $request->validate([
+            'first_name' => ['required', 'max:100'],
+            'last_name' => ['required', 'max:100'],
+            'phone' => ['required'],
+            'shipping_city' => ['required'],
+            'shipping_street' => ['required'],
+            'shipping_apartment' => ['required'],
+            'message' => ['max:500'],
+        ]);
 
         /* Создаем заказ ------------------------------------------ */
         $order = new Order();
@@ -268,11 +257,11 @@ class CartController extends Controller
 
         $order->first_name = $request->input('first_name') ? $request->input('first_name') : Auth::user()->first_name;
         $order->last_name = $request->input('last_name') ? $request->input('last_name') : Auth::user()->last_name;
-        $order->phone = $request->input('phone') ? $request->input('phone') : Auth::user()->Auth::user()->phone;
-        $order->email = $request->input('email') ? $request->input('email') : Auth::user()->Auth::user()->email;
+        $order->phone = $request->input('phone') ? $request->input('phone') : Auth::user()->phone;
+        $order->email = $request->input('email') ? $request->input('email') : Auth::user()->email;
 
         $order->currency_id = 1; // настроить
-        $order->sum = \Cart::getTotal();
+        $order->sum = $this->getTotalSum();
 
         $order->shipping_city = $request->input('shipping_city');
         $order->shipping_street = $request->input('shipping_street');
@@ -285,12 +274,13 @@ class CartController extends Controller
         $order->save(); // сохраняем заказ в БД
 
         /* создаем order_connector -------------------------------------------- */
-        $order = Order::find($order->id)->products();
+        $order = Order::find($order->id)->skus();
         $cart_products = session('cart.products');;
-        foreach ($cart_products as $cart_product) {
-            $order->attach($cart_product['id'], ['count' => $cart_product['quantity']]);
-        }
 
+        foreach ($cart_products as $cart_product) {
+            $options = implode(',', $cart_product['options']);
+            $order->attach($cart_product['id'], ['count' => $cart_product['quantity'], 'options' => $options]);
+        }
         // чистим сессию
         session()->forget('cart');
 

@@ -59,7 +59,7 @@
                             </div>
                             <ul class="clearfix">
                                 @foreach($categories as $category)
-                                <li><a href="{{ route('category', $category->code) }}">{{ $category->name }} <span class="float-right">({{ $category->getProducts()->count() }})</span></a></li>
+                                <li><a href="{{ route('category', $category->code) }}">{{ $category->name }} <span class="float-right">({{ $category->getSkus()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -85,47 +85,45 @@
 
                             <ul class="clearfix">
                                 @foreach($brands as $brand)
-                                    <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->name }} <span class="float-right">({{ $brand->getProducts()->count() }})</span></a></li>
+                                    <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->name }} <span class="float-right">({{ $brand->getSkus()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
                         <!-- brand-list - end -->
 
-                        <!-- size-list - start -->
-                        <div class="sidebar-item size-list ul-li mb-30">
-                            <div class="sidebar-title">
-                                <h2>sizes</h2>
-                            </div>
-                            <ul class="clearfix">
-                                <li><a href="#!">xs</a></li>
-                                <li><a href="#!">s</a></li>
-                                <li><a href="#!">m</a></li>
-                                <li><a href="#!">l</a></li>
-                                <li><a href="#!">xl</a></li>
-                                <li><a href="#!">xxl</a></li>
-                            </ul>
-                        </div>
-                        <!-- size-list - end -->
+                        @foreach($attributes as $attribute)
+                            @if($attribute->code == 'size')
+                                <!-- size-list - start -->
+                                <div class="sidebar-item size-list ul-li mb-30">
+                                    <div class="sidebar-title">
+                                        <h2>Размеры</h2>
+                                    </div>
 
-                        <!-- colors-list - start -->
-                        <div class="sidebar-item colors-list ul-li mb-30">
-                            <div class="sidebar-title">
-                                <h2>colors</h2>
-                            </div>
-                            <ul class="clearfix">
-                                <li><a href="#!" class="bg-gray"></a></li>
-                                <li><a href="#!" class="bg-past"></a></li>
-                                <li><a href="#!" class="bg-royal-blue active"></a></li>
-                                <li><a href="#!" class="bg-sky-blue"></a></li>
-                                <li><a href="#!" class="bg-pure-red"></a></li>
-                                <li><a href="#!" class="bg-green"></a></li>
-                                <li><a href="#!" class="bg-maroon"></a></li>
-                                <li><a href="#!" class="bg-orange"></a></li>
-                                <li><a href="#!" class="bg-black"></a></li>
-                                <li><a href="#!" class="bg-olive-green"></a></li>
-                            </ul>
-                        </div>
-                        <!-- colors-list - end -->
+                                    <ul class="clearfix">
+                                        @foreach($attribute->attributeValues as $value)
+                                            <li><a href="{{ route('filter', $value->value) }}">{{ $value->name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <!-- size-list - end -->
+                            @elseif($attribute->code == 'color')
+                                <!-- colors-list - start -->
+                                <div class="sidebar-item colors-list ul-li mb-30">
+                                    <div class="sidebar-title">
+                                        <h2>Цвета</h2>
+                                    </div>
+
+                                    <ul class="clearfix">
+                                        @foreach($attribute->attributeValues as $value)
+                                            <li><a href="#!" style="background-color: {{ $value->value }}"></a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <!-- colors-list - end -->
+                            @else
+
+                            @endif
+                        @endforeach
 
                         <!-- popular-tags - start -->
                         {{--<div class="sidebar-item popular-tags ul-li mb-30">--}}
@@ -147,21 +145,49 @@
                         <!-- popular-tags - end -->
 
                         <!-- compare-products - start -->
-                        <div class="sidebar-item compare-products ul-li mb-30">
-                            <div class="sidebar-title">
-                                <h2>Compare Products</h2>
-                            </div>
-                            <p class="m-0">You have no items to compare.</p>
-                        </div>
-                        <!-- compare-products - end -->
+                        {{--<div class="sidebar-item compare-products ul-li mb-30">--}}
+                            {{--<div class="sidebar-title">--}}
+                                {{--<h2>Compare Products</h2>--}}
+                            {{--</div>--}}
+                            {{--<p class="m-0">You have no items to compare.</p>--}}
+                        {{--</div>--}}
+                        {{--<!-- compare-products - end -->--}}
 
-                        <!-- wishlist - start -->
-                        <div class="sidebar-item wishlist ul-li mb-30">
+                    <!-- recent-post - start -->
+                        <div class="sidebar-item recent-post ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>My Wishlist</h2>
+                                <h2>Мой список желаний</h2>
                             </div>
-                            <p class="m-0">You have no items in your wishlist.</p>
+
+                            {{--<p class="m-0">You have no items in your wishlist.</p>--}}
+
+                            <ul class="clearfix">
+
+                                @foreach($desires as $desire)
+                                <li>
+                                    <span class="image-container">
+                                        <img src="{{ URL::asset($desire->image_1) }}" alt="image_not_found">
+                                    </span>
+
+                                    <div class="content">
+                                        <a href="{{ '/catalog/' . $desire->getCategory()->code . '/' . $desire->code }}" class="item-title">{{ $desire->name }}</a>
+                                        <small class="post-date">{{ Date::parse($desire->created_at)->format('j F Y') }}</small>
+                                    </div>
+                                </li>
+                                @endforeach
+
+                            </ul>
                         </div>
+                        <!-- recent-post - end -->
+
+                        {{--<!-- wishlist - start -->--}}
+                        {{--<div class="sidebar-item wishlist ul-li mb-30">--}}
+                            {{--<div class="sidebar-title">--}}
+                                {{--<h2>My Wishlist</h2>--}}
+                            {{--</div>--}}
+
+                            {{--<p class="m-0">You have no items in your wishlist.</p>--}}
+                        {{--</div>--}}
                         <!-- wishlist - end -->
 
                     </div>
@@ -202,8 +228,8 @@
 
                                         <div class="col-lg-2 col-md-6 col-sm-12">
                                             <ul class="nav filter-nav">
-                                                <li><a class="active" data-toggle="tab" href="#grid-style"><i class="flaticon-grid"></i></a></li>
-                                                <li><a data-toggle="tab" href="#list-style"><i class="flaticon-menu"></i></a></li>
+                                                <li><a onclick="catalogView('grid')" @if($catalogView == 'grid')class="active" @endif data-toggle="tab" href="#grid-style"><i class="flaticon-grid"></i></a></li>
+                                                <li><a onclick="catalogView('list')" @if($catalogView == 'list')class="active" @endif data-toggle="tab" href="#list-style"><i class="flaticon-menu"></i></a></li>
                                             </ul>
                                         </div>
 
@@ -216,24 +242,25 @@
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="tab-content mb-60">
 
-                                    <div id="grid-style" class="tab-pane fade in active show">
+                                    <div id="grid-style" class="tab-pane fade in @if($catalogView == 'grid')active show @endif">
                                         <div class="row">
 
                                         @foreach($products as $product)
 
                                             <!-- проверка, есть ли продукт в корзине --- -->
-                                                @php($productInCart = false) @php($cartProductQuantity = 0)
+                                            @php($productInCart = false) @php($cartProductQuantity = 0)
 
-                                                @if(!empty($cartProducts))
-                                                    @foreach($cartProducts as $cartProduct)
-                                                        @if($product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
-                                                    @endforeach
-                                                @endif
+                                            @if(!empty($cartProducts))
+                                                @foreach($cartProducts as $cartProduct)
+                                                    @if($product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
+                                                @endforeach
+                                            @endif
                                             <!-- проверка, есть ли продукт в корзине end -->
 
                                             <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                                    <div id="product-item_{{ $product->id }}" class="product-item" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
+
+                                                    <div @if($catalogView == 'grid')id="product-item_{{ $product->id }}" @endif class="product-item product-item_view-grid" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
 
                                                         <div class="post-labels">
                                                             <ul class="clearfix">
@@ -252,7 +279,7 @@
                                                         </div>
 
                                                         <div class="item-content text-center">
-                                                            <a href="#!" class="item-title">{{ $product->name }}</a>
+                                                            <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="item-title">{{ $product->name }}</a>
                                                             <div class="item-price">
                                                                 <strong class="color-black">{{ $product->price }}₽</strong>
                                                                 {{--<del>$359.00</del>--}}
@@ -260,19 +287,50 @@
                                                         </div>
 
                                                         <div class="hover-content">
-                                                            <div class="color-options ul-li-center mb-15">
+                                                            <div class="attribute-options color-options ul-li-center mb-15">
 
-                                                                <ul class="size-list clearfix">
-                                                                    <li><a href="#!">xs</a></li>
-                                                                    <li><a href="#!">s</a></li>
-                                                                    <li><a href="#!" class="active">m</a></li>
-                                                                </ul>
+                                                                <div @if($catalogView == 'grid')id="attributes-wrapper_product-{{ $product->id }}" @endif class="attributes-wrapper_product-grid">
+                                                                @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
+                                                                @foreach($product->skus as $sku)
+                                                                    @foreach($sku->skuValues as $value)
+                                                                        @php( array_push($productAttributeValuesId, $value->attributeValue->id))
+                                                                    @endforeach
+                                                                @endforeach
 
-                                                                <ul>
-                                                                    <li><a href="#!" class="color-1"></a></li>
-                                                                    <li><a href="#!" class="color-2"></a></li>
-                                                                    <li><a href="#!" class="color-3"></a></li>
-                                                                </ul>
+                                                                @foreach($product->attributes as $attribute)
+                                                                    @if($attribute->code == 'size')
+                                                                        <div @if($catalogView == 'grid')id="product_{{$product->id}}_attribute_{{$attribute->id}}" @endif class="attribute_container product-size ul-li attribute_container-grid">
+                                                                            <ul class="size-list clearfix">
+                                                                            @foreach($attribute->attributeValues as $value)
+                                                                                @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                                    <li><a @if($catalogView == 'grid')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-grid" data-value="{{ $value->value }}">{{ $value->value }}</a></li>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </div>
+                                                                    @elseif($attribute->code == 'color')
+                                                                        <div @if($catalogView == 'grid')id="product_{{$product->id}}_attribute_{{$attribute->id}}" @endif class="attribute_container product-color ul-li attribute_container-grid">
+                                                                            <ul class="color-list clearfix">
+                                                                            @foreach($attribute->attributeValues as $value)
+                                                                                @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                                    <li><a @if($catalogView == 'grid')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-grid" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </div>
+                                                                    @else
+                                                                        <div @if($catalogView == 'grid')id="product_{{$product->id}}_attribute_{{$attribute->id}}" @endif class="ul-li attribute_container-grid">
+                                                                            <ul class="clearfix">
+                                                                            @foreach($attribute->attributeValues as $value)
+                                                                                @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                                    <li><a @if($catalogView == 'grid')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-grid" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </div>
+                                                                    @endif
+                                                                @endforeach
+                                                                </div>
 
                                                             </div>
 
@@ -284,13 +342,13 @@
                                                                 {{--</button>--}}
                                                             {{--</form>--}}
 
-                                                            <div id="cart_add-plus_minus-container_{{ $product->id }}"
-                                                             @if($productInCart == true)class="cart_add-plus_minus-container flex-container" @else
-                                                             class="cart_add-plus_minus-container display-none flex-container"@endif
+                                                            <div @if($catalogView == 'grid')id="cart_add-plus_minus-container_{{ $product->id }}" @endif
+                                                             @if($productInCart == true)class="cart_add-plus_minus-container cart_add-plus_minus-container-grid flex-container" @else
+                                                             class="cart_add-plus_minus-container cart_add-plus_minus-container-grid display-none flex-container"@endif
                                                             >
                                                                 <div onclick="cartMinusProduct({{ $product->id }})" class="cart_add-minus">-</div>
 
-                                                                <div id="catalogQuantityProduct_{{ $product->id }}" data-id="{{ $product->id }}" data-position="catalog" class="cart_add-plus_minus-count">
+                                                                <div @if($catalogView == 'grid')id="catalogQuantityProduct_{{ $product->id }}" @endif data-id="{{ $product->id }}" data-position="catalog" class="cart_add-plus_minus-count catalogQuantityProduct-grid">
                                                                     @if($productInCart == true){{ $cartProductQuantity }} @else
                                                                     {{ '1' }} @endif
                                                                 </div>
@@ -298,9 +356,9 @@
                                                                 <div onclick="cartPlusProduct({{ $product->id }})" class="cart_add-plus">+</div>
                                                             </div>
 
-                                                            <a id="cartAddButton_{{ $product->id }}" onclick="addToCartButtonCatalog({{ $product->id }})"
-                                                               @if($productInCart == true)class="add-to-cart display-none" @else
-                                                               class="add-to-cart"@endif
+                                                            <a @if($catalogView == 'grid')id="cartAddButton_{{ $product->id }}" @endif onclick="addToCartButtonCatalog({{ $product->id }})"
+                                                               @if($productInCart == true)class="add-to-cart cartAddButton-grid display-none" @else
+                                                               class="add-to-cart cartAddButton-grid"@endif
                                                             >
                                                                 <i class="flaticon-shopping-basket"></i>
                                                                 В корзину
@@ -311,12 +369,12 @@
                                                                 {{--В корзину--}}
                                                             {{--</div>--}}
 
-                                                            <div class="product-meta ul-li-center">
-                                                                <ul class="clearfix">
-                                                                    <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                                                    <li><a href="#!"><i class="flaticon-libra"></i></a></li>
-                                                                </ul>
-                                                            </div>
+                                                            {{--<div class="product-meta ul-li-center">--}}
+                                                                {{--<ul class="clearfix">--}}
+                                                                    {{--<li><a href="#!"><i class="flaticon-heart"></i></a></li>--}}
+                                                                    {{--<li><a href="#!"><i class="flaticon-libra"></i></a></li>--}}
+                                                                {{--</ul>--}}
+                                                            {{--</div>--}}
                                                         </div>
 
                                                     </div>
@@ -327,45 +385,116 @@
                                         </div>
                                     </div>
 
-                                    <div id="list-style" class="tab-pane fade">
+                                    <div id="list-style" class="tab-pane fade @if($catalogView == 'list')active show @endif">
 
                                         @foreach($products as $product)
+
+                                            <!-- проверка, есть ли продукт в корзине --- -->
+                                            @php($productInCart = false) @php($cartProductQuantity = 0)
+
+                                            @if(!empty($cartProducts))
+                                                @foreach($cartProducts as $cartProduct)
+                                                    @if($product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
+                                                @endforeach
+                                            @endif
+                                            <!-- проверка, есть ли продукт в корзине end -->
+
                                             <!-- product-list-item - start -->
-                                                <div class="product-list-item clearfix">
+                                                <div @if($catalogView == 'list')id="product-item_{{ $product->id }}" @endif class="product-item_view-list product-list-item clearfix" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
+
+                                                    <div class="post-labels">
+                                                        <ul class="clearfix">
+                                                            @if($product->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
+                                                            @if($product->new == 1)<li class="bg-primary">Новинка</li>@endif
+                                                            @if($product->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                                        </ul>
+                                                    </div>
+
                                                     <div class="image-container float-left">
                                                         <img src="{{ URL::asset($product->image_1) }}" alt="image_not_found">
                                                     </div>
+
                                                     <div class="item-content">
                                                         <a href="#!" class="item-title">{{ $product->name }}</a>
+
                                                         <div class="item-price mb-30">
                                                             <strong class="color-black">{{ $product->price }}₽</strong>
                                                             <!--<del>$359.00</del>-->
                                                         </div>
+
                                                         <div class="item-size-color ul-li mb-30 clearfix">
 
-                                                            <ul class="size-list clearfix">
-                                                                <li><a href="#!">xs</a></li>
-                                                                <li><a href="#!">s</a></li>
-                                                                <li><a href="#!" class="active">m</a></li>
-                                                                <li><a href="#!">l</a></li>
-                                                            </ul>
+                                                            <div @if($catalogView == 'list')id="attributes-wrapper_product-{{ $product->id }}" @endif class="attributes-wrapper_product-list">
+                                                            @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
+                                                                @foreach($product->skus as $sku)
+                                                                    @foreach($sku->skuValues as $value)
+                                                                        @php( array_push($productAttributeValuesId, $value->attributeValue->id))
+                                                                    @endforeach
+                                                                @endforeach
 
-                                                            <ul class="color-list clearfix">
-                                                                <li><a href="#!" class="color-1"></a></li>
-                                                                <li><a href="#!" class="color-2"></a></li>
-                                                                <li><a href="#!" class="active color-3"></a></li>
-                                                                <li><a href="#!" class="color-4"></a></li>
-                                                            </ul>
+                                                                @foreach($product->attributes as $attribute)
+                                                                    @if($attribute->code == 'size')
+                                                                        <div @if($catalogView == 'list')id="product_{{$product->id}}_attribute_{{$attribute->id}}" @endif class="attribute_container product-size ul-li attribute_container-list">
+                                                                            <ul class="size-list clearfix size-list_list-custom">
+                                                                            @foreach($attribute->attributeValues as $value)
+                                                                                @if(in_array($value->id, $productAttributeValuesId))
+                                                                                    <li><a @if($catalogView == 'list')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-list" data-value="{{ $value->value }}">{{ $value->value }}</a></li>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </div>
+                                                                    @elseif($attribute->code == 'color')
+                                                                        <div @if($catalogView == 'list')id="product_{{$product->id}}_attribute_{{$attribute->id}}" @endif class="attribute_container product-color ul-li attribute_container-list">
+                                                                            <ul class="color-list clearfix">
+                                                                            @foreach($attribute->attributeValues as $value)
+                                                                                @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                                    <li><a @if($catalogView == 'list')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-list" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </div>
+                                                                    @else
+                                                                        <div @if($catalogView == 'list')id="product_{{$product->id}}_attribute_{{$attribute->id}}" @endif class="ul-li attribute_container-list">
+                                                                            <ul class="clearfix">
+                                                                            @foreach($attribute->attributeValues as $value)
+                                                                                @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
+                                                                                    <li><a @if($catalogView == 'list')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-list" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </div>
+                                                                    @endif
+                                                                @endforeach
+                                                            </div>
 
                                                         </div>
+
                                                         <p class="mb-30">
                                                             {{ $product->description }}
                                                         </p>
+
                                                         <div class="item-btns-group ul-li clearfix">
                                                             <ul class="clearfix">
                                                                 <li>
-                                                                    <a href="#!" class="add-to-cart">
-                                                                        <i class="flaticon-shopper"></i>
+                                                                    <div @if($catalogView == 'list')id="cart_add-plus_minus-container_{{ $product->id }}" @endif
+                                                                    @if($productInCart == true)class="cart_add-plus_minus-container cart_add-plus_minus-container-list flex-container" @else
+                                                                         class="cart_add-plus_minus-container cart_add-plus_minus-container-list display-none flex-container"@endif
+                                                                    >
+                                                                        <div onclick="cartMinusProduct({{ $product->id }})" class="cart_add-minus">-</div>
+
+                                                                        <div @if($catalogView == 'list')id="catalogQuantityProduct_{{ $product->id }}" @endif data-id="{{ $product->id }}" data-position="catalog" class="cart_add-plus_minus-count catalogQuantityProduct-list">
+                                                                            @if($productInCart == true){{ $cartProductQuantity }} @else
+                                                                                {{ '1' }} @endif
+                                                                        </div>
+
+                                                                        <div onclick="cartPlusProduct({{ $product->id }})" class="cart_add-plus">+</div>
+                                                                    </div>
+
+                                                                    <a @if($catalogView == 'list')id="cartAddButton_{{ $product->id }}" @endif onclick="addToCartButtonCatalog({{ $product->id }})"
+                                                                       @if($productInCart == true)class="add-to-cart cartAddButton-list display-none" @else
+                                                                       class="add-to-cart cartAddButton-list"@endif
+                                                                    >
+                                                                        <i class="flaticon-shopping-basket"></i>
                                                                         В корзину
                                                                     </a>
                                                                 </li>
@@ -373,6 +502,7 @@
                                                                 <li><a href="#!"><i class="flaticon-libra"></i></a></li>
                                                             </ul>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                                 <!-- product-list-item - end -->

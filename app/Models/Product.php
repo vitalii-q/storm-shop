@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Translatable;
+use App\Services\CurrencyConversion;
+use App\Services\CurrencyRates;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Sku;
@@ -9,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
+    use Translatable;
+
     protected $fillable = [
         'name', 'name_en', 'code', 'category_id', 'brand_id', 'description', 'description_en', 'description_bottom',
         'description_bottom_en', 'information', 'information_en', 'price' , 'image_1', 'image_2', 'image_3',
@@ -33,5 +38,9 @@ class Product extends Model
 
     public function getUserDesire() {
         return Desire::where('user_id', Auth::user()->id)->where('product_id', $this->id)->first();
+    }
+
+    public function currency() {
+        return CurrencyConversion::convert($this->price);
     }
 }

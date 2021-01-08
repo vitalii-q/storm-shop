@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'name_en', 'code', 'description', 'description_en', 'image'];
+    use Translatable;
 
-    /*public function getProducts() { // функция с помощью которой получаем продукты категории
-        return Product::where('category_id', $this->id)->get();
-    }*/
+    protected $fillable = ['name', 'name_en', 'code', 'description', 'description_en', 'image'];
 
     public function getSkus() {
         $skus = Sku::get();
@@ -22,10 +21,6 @@ class Category extends Model
 
         return $products;
     }
-
-    /*public function getBrandCategoryProducts($brandId) {
-        return  Product::where('category_id', $this->id)->where('brand_id', $brandId)->get();
-    }*/
 
     public function getBrandCategorySkus($brandId) {
         $skus = Sku::get();

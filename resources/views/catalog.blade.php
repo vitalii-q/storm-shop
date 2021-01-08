@@ -1,6 +1,6 @@
 @extends('layouts.hf')
 
-@section('title', 'Каталог')
+@section('title', __('main.menu.catalog'))
 
 @section('content')
     <!-- breadcrumb-section - start
@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text"><strong>скидка 50%</strong> на новинки</h2>
+                            <h2 class="title-text"><strong></strong>{{ __('catalog.title') }}</h2>
                         </div>
 
                     </div>
@@ -27,8 +27,8 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="{{ route('index') }}">Главная</a></li>
-                    <li class="active">Каталог</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li class="active">{{ __('main.menu.catalog') }}</li>
                 </ul>
             </div>
         </div>
@@ -55,11 +55,11 @@
                         <!-- category-list - start -->
                         <div class="sidebar-item category-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Категории</h2>
+                                <h2>{{ __('main.menu.categories') }}</h2>
                             </div>
                             <ul class="clearfix">
                                 @foreach($categories as $category)
-                                <li><a href="{{ route('category', $category->code) }}">{{ $category->name }} <span class="float-right">({{ $category->getSkus()->count() }})</span></a></li>
+                                <li><a href="{{ route('category', $category->code) }}">{{ $category->__('name') }} <span class="float-right">({{ $category->getSkus()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -80,50 +80,56 @@
                         <!-- brand-list - start -->
                         <div class="sidebar-item brand-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Брэнды</h2>
+                                <h2>{{ __('main.menu.brands') }}</h2>
                             </div>
 
                             <ul class="clearfix">
                                 @foreach($brands as $brand)
-                                    <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->name }} <span class="float-right">({{ $brand->getSkus()->count() }})</span></a></li>
+                                    <li><a href="{{ route('brand', $brand->code) }}">{{ $brand->__('name') }} <span class="float-right">({{ $brand->getSkus()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
                         <!-- brand-list - end -->
 
-                        @foreach($attributes as $attribute)
-                            @if($attribute->code == 'size')
-                                <!-- size-list - start -->
-                                <div class="sidebar-item size-list ul-li mb-30">
-                                    <div class="sidebar-title">
-                                        <h2>Размеры</h2>
+                        <div id="filter_attributes-wrapper">
+                            <!-- разбиваем строку сессии в массив для проверки активности элемента -->
+                            @php($filterValues = explode(',', session()->get('catalog.filter')))
+                            <!-- разбиваем строку сессии в массив для проверки активности элемента -->
+
+                            @foreach($attributes as $attribute)
+                                @if($attribute->code == 'size')
+                                    <!-- size-list - start -->
+                                    <div id="filter_{{$attribute->id}}" class="filter_attribute-wrapper sidebar-item size-list ul-li mb-30">
+                                        <div class="sidebar-title">
+                                            <h2>{{ __('catalog.attributes.sizes') }}</h2>
+                                        </div>
+
+                                        <ul class="clearfix">
+                                            @foreach($attribute->attributeValues as $value)
+                                                <li><a onclick="filter(this)" data-attribute-id="{{$attribute->id}}" data-value-id="{{$value->id}}" data-value="{{$value->value}}" class="filter_attribute-value filter_attribute-size-value @if(in_array($value->id, $filterValues))active @endif">{{ $value->name }}</a></li>
+                                            @endforeach
+                                        </ul>
                                     </div>
+                                    <!-- size-list - end -->
+                                @elseif($attribute->code == 'color')
+                                    <!-- colors-list - start -->
+                                    <div id="filter_{{$attribute->id}}" class="filter_attribute-wrapper sidebar-item colors-list ul-li mb-30">
+                                        <div class="sidebar-title">
+                                            <h2>{{ __('catalog.attributes.colors') }}</h2>
+                                        </div>
 
-                                    <ul class="clearfix">
-                                        @foreach($attribute->attributeValues as $value)
-                                            <li><a href="{{ route('filter', $value->value) }}">{{ $value->name }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <!-- size-list - end -->
-                            @elseif($attribute->code == 'color')
-                                <!-- colors-list - start -->
-                                <div class="sidebar-item colors-list ul-li mb-30">
-                                    <div class="sidebar-title">
-                                        <h2>Цвета</h2>
+                                        <ul class="clearfix">
+                                            @foreach($attribute->attributeValues as $value)
+                                                <li><a onclick="filter(this)" data-attribute-id="{{$attribute->id}}" data-value-id="{{$value->id}}" data-value="{{$value->value}}" style="background-color: {{ $value->value }}"class="filter_attribute-value filter_attribute-color-value @if(in_array($value->id, $filterValues))active @endif"></a></li>
+                                            @endforeach
+                                        </ul>
                                     </div>
+                                    <!-- colors-list - end -->
+                                @else
 
-                                    <ul class="clearfix">
-                                        @foreach($attribute->attributeValues as $value)
-                                            <li><a href="#!" style="background-color: {{ $value->value }}"></a></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <!-- colors-list - end -->
-                            @else
-
-                            @endif
-                        @endforeach
+                                @endif
+                            @endforeach
+                        </div>
 
                         <!-- popular-tags - start -->
                         {{--<div class="sidebar-item popular-tags ul-li mb-30">--}}
@@ -153,42 +159,34 @@
                         {{--</div>--}}
                         {{--<!-- compare-products - end -->--}}
 
-                    <!-- recent-post - start -->
-                        <div class="sidebar-item recent-post ul-li-block mb-30">
-                            <div class="sidebar-title">
-                                <h2>Мой список желаний</h2>
+                        @if(Auth::check())
+                            {{--<!-- wishlist - start -->--}}
+                            <div class="sidebar-item recent-post ul-li-block mb-30">
+                                <div class="sidebar-title">
+                                    <h2>{{ __('catalog.desires_list') }}</h2>
+                                </div>
+
+                                {{--<p class="m-0">You have no items in your wishlist.</p>--}}
+
+                                <ul class="clearfix">
+
+                                    @foreach($desires as $desire)
+                                    <li>
+                                        <span class="image-container">
+                                            <img src="{{ URL::asset($desire->image_1) }}" alt="image_not_found">
+                                        </span>
+
+                                        <div class="content">
+                                            <a href="{{ '/catalog/' . $desire->getCategory()->code . '/' . $desire->code }}" class="item-title">{{ $desire->__('name') }}</a>
+                                            <small class="post-date">{{ Date::parse($desire->created_at)->format('j F Y') }}</small>
+                                        </div>
+                                    </li>
+                                    @endforeach
+
+                                </ul>
                             </div>
-
-                            {{--<p class="m-0">You have no items in your wishlist.</p>--}}
-
-                            <ul class="clearfix">
-
-                                @foreach($desires as $desire)
-                                <li>
-                                    <span class="image-container">
-                                        <img src="{{ URL::asset($desire->image_1) }}" alt="image_not_found">
-                                    </span>
-
-                                    <div class="content">
-                                        <a href="{{ '/catalog/' . $desire->getCategory()->code . '/' . $desire->code }}" class="item-title">{{ $desire->name }}</a>
-                                        <small class="post-date">{{ Date::parse($desire->created_at)->format('j F Y') }}</small>
-                                    </div>
-                                </li>
-                                @endforeach
-
-                            </ul>
-                        </div>
-                        <!-- recent-post - end -->
-
-                        {{--<!-- wishlist - start -->--}}
-                        {{--<div class="sidebar-item wishlist ul-li mb-30">--}}
-                            {{--<div class="sidebar-title">--}}
-                                {{--<h2>My Wishlist</h2>--}}
-                            {{--</div>--}}
-
-                            {{--<p class="m-0">You have no items in your wishlist.</p>--}}
-                        {{--</div>--}}
-                        <!-- wishlist - end -->
+                            <!-- wishlist - end -->
+                        @endif
 
                     </div>
                 </div>
@@ -196,7 +194,7 @@
 
                 <!-- product-grid-section - start -->
                 <div class="col-lg-9 col-md-10 col-sm-12">
-                    <div class="product-grid-section">
+                    <div id="catalog-filter_content" @if(!empty($selected_category)) data-position="category" data-category="{{ $selected_category->id }}" @else data-position="catalog" @endif class="product-grid-section">
                         <div class="row">
 
                             <!-- filter-content - start -->
@@ -260,13 +258,13 @@
                                             <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
 
-                                                    <div @if($catalogView == 'grid')id="product-item_{{ $product->id }}" @endif class="product-item product-item_view-grid" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
+                                                    <div @if($catalogView == 'grid')id="product-item_{{ $product->id }}" @endif class="product-item product-item_view-grid" data-name="{{ $product->__('name') }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
 
                                                         <div class="post-labels">
                                                             <ul class="clearfix">
-                                                                @if($product->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
-                                                                @if($product->new == 1)<li class="bg-primary">Новинка</li>@endif
-                                                                @if($product->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                                                @if($product->bestseller == 1)<li class="bg-success">{{ __('main.stickers.bestseller') }}</li>@endif
+                                                                @if($product->new == 1)<li class="bg-primary">{{ __('main.stickers.new') }}</li>@endif
+                                                                @if($product->sale == 1)<li class="bg-danger">{{ __('main.stickers.sale') }}</li>@endif
                                                             </ul>
                                                         </div>
 
@@ -274,14 +272,14 @@
                                                             <img src="{{ URL::asset($product->image_1) }}" alt="image_not_found">
                                                             <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="quick-view">
                                                                 <i class="fas fa-eye"></i>
-                                                                Смотреть
+                                                                {{ __('main.product.view') }}
                                                             </a>
                                                         </div>
 
                                                         <div class="item-content text-center">
-                                                            <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="item-title">{{ $product->name }}</a>
+                                                            <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="item-title">{{ $product->__('name') }}</a>
                                                             <div class="item-price">
-                                                                <strong class="color-black">{{ $product->price }}₽</strong>
+                                                                <strong class="color-black">{{ $product->currency() }}</strong>
                                                                 {{--<del>$359.00</del>--}}
                                                             </div>
                                                         </div>
@@ -361,7 +359,7 @@
                                                                class="add-to-cart cartAddButton-grid"@endif
                                                             >
                                                                 <i class="flaticon-shopping-basket"></i>
-                                                                В корзину
+                                                                {{ __('main.product.add_to_cart') }}
                                                             </a>
 
                                                             {{--<div onclick="addToCart({{ $product->id }})" class="add-to-cart cursor-p">--}}
@@ -400,13 +398,13 @@
                                             <!-- проверка, есть ли продукт в корзине end -->
 
                                             <!-- product-list-item - start -->
-                                                <div @if($catalogView == 'list')id="product-item_{{ $product->id }}" @endif class="product-item_view-list product-list-item clearfix" data-name="{{ $product->name }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
+                                                <div @if($catalogView == 'list')id="product-item_{{ $product->id }}" @endif class="product-item_view-list product-list-item clearfix" data-name="{{ $product->__('name') }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
 
                                                     <div class="post-labels">
                                                         <ul class="clearfix">
-                                                            @if($product->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
-                                                            @if($product->new == 1)<li class="bg-primary">Новинка</li>@endif
-                                                            @if($product->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                                            @if($product->bestseller == 1)<li class="bg-success">{{ __('main.stickers.bestseller') }}</li>@endif
+                                                            @if($product->new == 1)<li class="bg-primary">{{ __('main.stickers.new') }}</li>@endif
+                                                            @if($product->sale == 1)<li class="bg-danger">{{ __('main.stickers.sale') }}</li>@endif
                                                         </ul>
                                                     </div>
 
@@ -415,7 +413,7 @@
                                                     </div>
 
                                                     <div class="item-content">
-                                                        <a href="#!" class="item-title">{{ $product->name }}</a>
+                                                        <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="item-title">{{ $product->__('name') }}</a>
 
                                                         <div class="item-price mb-30">
                                                             <strong class="color-black">{{ $product->price }}₽</strong>
@@ -470,7 +468,7 @@
                                                         </div>
 
                                                         <p class="mb-30">
-                                                            {{ $product->description }}
+                                                            {!! $product->__('description') !!}
                                                         </p>
 
                                                         <div class="item-btns-group ul-li clearfix">
@@ -495,11 +493,14 @@
                                                                        class="add-to-cart cartAddButton-list"@endif
                                                                     >
                                                                         <i class="flaticon-shopping-basket"></i>
-                                                                        В корзину
+                                                                        {{ __('main.product.add_to_cart') }}
                                                                     </a>
                                                                 </li>
-                                                                <li><a href="#!"><i class="flaticon-heart"></i></a></li>
-                                                                <li><a href="#!"><i class="flaticon-libra"></i></a></li>
+
+                                                                @if(Auth::check())
+                                                                    <li><a id="desire_{{$product->id}}" onclick="desire({{$product->id}})" class="product-details_desire-button @if($product->getUserDesire() != null)active @endif"><i class="flaticon-heart"></i></a></li>
+                                                                @endif
+                                                                {{--<li><a href="#!"><i class="flaticon-libra"></i></a></li>--}}
                                                             </ul>
                                                         </div>
 
@@ -529,7 +530,7 @@
                                                 {{--</select>--}}
                                             {{--</form>--}}
 
-                                            <span class="filter-result">Показано {{ $products->count() }} из {{ $products->total() }}</span>
+                                            <span class="filter-result">{{ __('main.pagination.shown') }} {{ $products->count() }} {{ __('main.pagination.from') }} {{ $products->total() }} {{ __('main.pagination.results') }}</span>
                                         </div>
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">

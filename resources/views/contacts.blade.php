@@ -137,6 +137,9 @@
                                             <i class="far fa-user"></i>
                                         </label>
                                     </div>
+                                    @error('name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -146,6 +149,9 @@
                                             <i class="far fa-envelope"></i>
                                         </label>
                                     </div>
+                                    @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -164,6 +170,9 @@
                                         <i class="far fa-file-alt"></i>
                                     </div>
                                 </label>
+                                @error('file')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="form-textarea clearfix">
@@ -174,6 +183,9 @@
                                             </span>
                                     Ваше сообщение
                                 </label>
+                                @error('comment-textarea')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
 
                                 <div class="textarea-footer ul-li-right clearfix">
                                     <ul class="clearfix">

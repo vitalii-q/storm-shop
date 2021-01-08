@@ -28,5 +28,6 @@ class VievServiceProvider extends ServiceProvider
         View::composer('layouts.hf', 'App\ViewComposers\CategoriesComposer');
         View::composer('layouts.hf', 'App\ViewComposers\BrandsComposer');
         View::composer('layouts.hf', 'App\ViewComposers\DesiresComposer');
+        View::composer('layouts.hf', 'App\ViewComposers\CurrencyComposer');
     }
 }

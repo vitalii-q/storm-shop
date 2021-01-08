@@ -1,6 +1,6 @@
 @extends('layouts.hf')
 
-@section('title', $selected_product->name)
+@section('title', $selected_product->__('name'))
 
 @section('content')
     <!-- breadcrumb-section - start
@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">{{ $selected_product->name }}</h2>
+                            <h2 class="title-text">{{ $selected_product->__('name') }}</h2>
                         </div>
 
                     </div>
@@ -27,10 +27,10 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="{{ route('index') }}">Главная</a></li>
-                    <li><a href="{{ route('catalog') }}">Каталог</a></li>
-                    <li><a href="/catalog/{{ $selected_product->getCategory()->code }}">{{ $selected_product->getCategory()->name }}</a></li>
-                    <li class="active">{{ $selected_product->name }}</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li><a href="{{ route('catalog') }}">{{ __('main.menu.catalog') }}</a></li>
+                    <li><a href="/catalog/{{ $selected_product->getCategory()->code }}">{{ $selected_product->getCategory()->__('name') }}</a></li>
+                    <li class="active">{{ $selected_product->__('name') }}</li>
                 </ul>
             </div>
         </div>
@@ -52,7 +52,7 @@
             {{--@dump(\App\Models\AttributeValue::where('id', 9)->first()->skuValues)--}}
 
             <!-- product-details - start -->
-            <div id="product-item_{{ $selected_product->id }}" class="product-details" data-name="{{ $selected_product->name }}" data-price="{{ $selected_product->price }}₽" data-attr-values="" data-img="{{ URL::asset($selected_product->image_1) }}">
+            <div id="product-item_{{ $selected_product->id }}" class="product-details" data-name="{{ $selected_product->__('name') }}" data-price="{{ $selected_product->currency() }}" data-attr-values="" data-img="{{ URL::asset($selected_product->image_1) }}">
                 <div class="row justify-content-md-center">
 
                     <!-- product-details-carousel - start -->
@@ -123,12 +123,12 @@
                                     {{--<span><i>(05 review)</i></span>--}}
                                 {{--</div>--}}
 
-                                <h2>{{ $selected_product->name }}</h2>
-                                <h3>{{ $selected_product->price }} ₽</h3>
+                                <h2>{{ $selected_product->__('name') }}</h2>
+                                <h3>{{ $selected_product->currency() }}</h3>
                             </div>
 
                             <p class="mb-30">
-                                {!! $selected_product->description !!}
+                                {!! $selected_product->__('description') !!}
                             </p>
 
                             <!-- формируем массив с ids аттрибутов -->
@@ -142,7 +142,7 @@
                             @foreach($attributes as $attribute)
                                 @if($attribute->code == 'size')
                                     <div id="product_{{$selected_product->id}}_attribute_{{$attribute->id}}" class="attribute_container product-size ul-li mb-30">
-                                        <h3 class="list-title">Размер:</h3>
+                                        <h3 class="list-title">{{ __('catalog.attributes.sizes') }}:</h3>
                                         <ul class="clearfix">
                                             @foreach($attribute->attributeValues as $value)
                                                 @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
@@ -153,7 +153,7 @@
                                     </div>
                                 @elseif($attribute->code == 'color')
                                     <div id="product_{{$selected_product->id}}_attribute_{{$attribute->id}}" class="attribute_container product-color ul-li mb-30">
-                                        <h3 class="list-title">Цвет:</h3>
+                                        <h3 class="list-title">{{ __('catalog.attributes.colors') }}:</h3>
                                         <ul class="clearfix">
                                             @foreach($attribute->attributeValues as $value)
                                                 @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
@@ -242,11 +242,14 @@
                                            class="add-to-cart"@endif
                                         >
                                             <i class="flaticon-shopping-basket"></i>
-                                            В корзину
+                                            {{ __('main.product.add_to_cart') }}
                                         </a>
                                     </li>
+
+                                    @if(Auth::check())
                                     <li><a id="desire_{{$selected_product->id}}" onclick="desire({{$selected_product->id}})" class="product-details_desire-button @if($selected_product->getUserDesire() != null)active @endif"><i class="flaticon-heart"></i></a></li>
-                                    <li><a href="#"><i class="flaticon-libra"></i></a></li>
+                                    @endif
+                                    {{--<li><a href="#"><i class="flaticon-libra"></i></a></li>--}}
                                 </ul>
                             </div>
 
@@ -273,19 +276,19 @@
             <div class="product-details-tab sec-ptb-60">
                 <div class="tab-menu ul-li-center mb-30">
                     <ul class="nav">
-                        <li><a class="active" data-toggle="tab" href="#descriptions">Описание</a></li>
-                        <li><a data-toggle="tab" href="#informations">Информация</a></li>
+                        <li><a class="active" data-toggle="tab" href="#descriptions">{{ __('catalog.product.description') }}</a></li>
+                        <li><a data-toggle="tab" href="#informations">{{ __('catalog.product.information') }}</a></li>
                         {{--<li><a data-toggle="tab" href="#reviews">reviews<sup>(3)</sup></a></li>--}}
                     </ul>
                 </div>
 
                 <div class="tab-content">
                     <div id="descriptions" class="tab-pane fade in active show">
-                        {!! $selected_product->description_bottom !!}
+                        {!! $selected_product->__('description_bottom') !!}
                     </div>
 
                     <div id="informations" class="tab-pane fade">
-                        {!! $selected_product->information !!}
+                        {!! $selected_product->__('information') !!}
                     </div>
 
                     {{--<div id="reviews" class="tab-pane fade">--}}
@@ -361,13 +364,13 @@
 
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="section-title">
-                            <h2>Похожие товары</h2>
+                            <h2>{{ __('catalog.product.similar') }}</h2>
                         </div>
                     </div>
 
                     @foreach($related as $relate)
                         <div class="col-lg-3 col-md-6 col-sm-12">
-                            <div id="product-item_{{$relate->id}}" class="product-item" data-name="{{ $relate->name }}" data-price="{{ $relate->price }}₽" data-img="{{ URL::asset($relate->image_1) }}">
+                            <div id="product-item_{{$relate->id}}" class="product-item" data-name="{{ $relate->__('name') }}" data-price="{{ $relate->price }}₽" data-img="{{ URL::asset($relate->image_1) }}">
 
                                 <!-- проверка, есть ли продукт в корзине --- -->
                                 @php($productInCart = false) @php($cartProductQuantity = 0)
@@ -381,9 +384,9 @@
 
                                 <div class="post-labels">
                                     <ul class="clearfix">
-                                        @if($relate->bestseller == 1)<li class="bg-success">Бестселлер</li>@endif
-                                        @if($relate->new == 1)<li class="bg-primary">Новинка</li>@endif
-                                        @if($relate->sale == 1)<li class="bg-danger">Скидка</li>@endif
+                                        @if($relate->bestseller == 1)<li class="bg-success">{{ __('main.stickers.bestseller') }}</li>@endif
+                                        @if($relate->new == 1)<li class="bg-primary">{{ __('main.stickers.new') }}</li>@endif
+                                        @if($relate->sale == 1)<li class="bg-danger">{{ __('main.stickers.sale') }}</li>@endif
                                     </ul>
                                 </div>
 
@@ -391,14 +394,14 @@
                                     <img src="{{ URL::asset($relate->image_1) }}" alt="image_not_found">
                                     <a href="{{ '/catalog/' . $relate->getCategory()->code . '/' . $relate->code }}" class="quick-view">
                                         <i class="fas fa-eye"></i>
-                                        Смотреть
+                                        {{ __('main.product.view') }}
                                     </a>
                                 </div>
 
                                 <div class="item-content text-center">
-                                    <a href="{{ '/catalog/' . $relate->getCategory()->code . '/' . $relate->code }}" class="item-title">{{ $relate->name }}</a>
+                                    <a href="{{ '/catalog/' . $relate->getCategory()->code . '/' . $relate->code }}" class="item-title">{{ $relate->__('name') }}</a>
                                     <div class="item-price">
-                                        <strong class="color-black">{{ $relate->price }}</strong>
+                                        <strong class="color-black">{{ $relate->currency() }}</strong>
                                         {{--<del>$359.00</del>--}}
                                     </div>
                                 </div>
@@ -478,7 +481,7 @@
                                        class="add-to-cart cartAddButton-grid"@endif
                                     >
                                         <i class="flaticon-shopping-basket"></i>
-                                        В корзину
+                                        {{ __('main.product.add_to_cart') }}
                                     </a>
 
                                     {{--<div onclick="addToCart({{ $product->id }})" class="add-to-cart cursor-p">--}}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttributeValue;
+use App\Services\CurrencyConversion;
 use function GuzzleHttp\options;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
@@ -66,7 +67,7 @@ class CartController extends Controller
         $productQuantity = json_decode($request['quantity']);
         $selectedAttrValuesArray = explode(',', $request['selectedAttrValues']); // массив с выбранными значениями аттрибутов sku
 
-        $product = DB::table('products')->where('id', $productId)->first();
+        $product = Product::where('id', $productId)->first();
         $sku = Sku::getSelectedSku($productId, $selectedAttrValuesArray); // получаем sku
 
         // сохраняем id пользователя в сессию или записывааем уникальный
@@ -96,7 +97,7 @@ class CartController extends Controller
                         "id" => $sku->id,
                         "product_id" => $product->id,
 
-                        "name" => $product->name,
+                        "name" => $product->__('name'),
                         "category_id" => $product->category_id,
                         "price" => $product->price,
                         'sku_price' => $sku->price,
@@ -116,7 +117,7 @@ class CartController extends Controller
                 "id" => $sku->id,
                 "product_id" => $product->id,
 
-                "name" => $product->name,
+                "name" => $product->__('name'),
                 "category_id" => $product->category_id,
                 "price" => $product->price,
                 'sku_price' => $sku->price,
@@ -140,7 +141,7 @@ class CartController extends Controller
             }
         }
 
-        return response(json_encode(session('cart'))); // ответ в js / json_encode($request)
+        return response(json_encode($product->__('name'))); // ответ в js / json_encode($request)
     }
 
     public function getAttributesNameAndValuesName(Request $request) {
@@ -150,12 +151,12 @@ class CartController extends Controller
 
         $attributesNames = [];// получаем названия аттрибутов
         foreach ($selectedAttrValues as $selectedAttrValue) {
-            array_push($attributesNames, AttributeValue::where('value', $selectedAttrValue)->first()->attribute->name);
+            array_push($attributesNames, AttributeValue::where('value', $selectedAttrValue)->first()->attribute->__('name'));
         }
 
         $valuesNames = [];// получаем названия значений
         foreach ($selectedAttrValues as $valueName) {
-            array_push($valuesNames, AttributeValue::where('value', $valueName)->first()->name);
+            array_push($valuesNames, AttributeValue::where('value', $valueName)->first()->__('name'));
         }
 
         return response(json_encode([$attributesNames, $valuesNames, $sku->id])); // ответ в js / json_encode($request)
@@ -163,8 +164,6 @@ class CartController extends Controller
 
     public function remove(Request $request) {
         $skuId = json_decode($request['id']);
-        //$selectedAttrValuesArray = explode(',', $request['selectedAttrValues']); // массив с выбранными значениями аттрибутов sku
-        //$sku = Sku::getSelectedSku($skuId, $selectedAttrValuesArray); // получаем sku
 
         $products = session('cart.products');
         foreach ($products as $productKey => $product) {
@@ -202,22 +201,9 @@ class CartController extends Controller
                 ];
             } else { // если это не обновляемый продукт
                 $cartProductUpdate = $product;
-                /*$cartProductUpdate = [
-                    "id" => $sku->id,
-                    "product_id" => $product['id'],
-
-                    "name" => $product['name'],
-                    "category_id" => $product['category_id'],
-                    "price" => $product['price'],
-                    'sku_price' => $sku->price,
-                    "image_1" => $product['image_1'],
-
-                    "quantity" => $quantity,
-                ];*/
             }
             session()->forget('cart.products.'.$productKey);
             session()->push('cart.products', $cartProductUpdate);
-            //array_push($test, $cartProductUpdate);
             $i++;
         }
 
@@ -271,7 +257,7 @@ class CartController extends Controller
 
         $order->payment_method = 'cash_payment'; // настроить
 
-        $order->save(); // сохраняем заказ в БД
+        $success = $order->save(); // сохраняем заказ в БД
 
         /* создаем order_connector -------------------------------------------- */
         $order = Order::find($order->id)->skus();
@@ -283,6 +269,9 @@ class CartController extends Controller
         }
         // чистим сессию
         session()->forget('cart');
+        if($success) {
+            session()->flash('notification', __('notifications.buy'));
+        }
 
         return redirect()->route('index');
     }
@@ -311,7 +300,7 @@ class CartController extends Controller
         if(!empty($products)) {
             $totalSum = 0;
             foreach ($products as $product) {
-                $totalSum = $totalSum + $product['price'] * $product['quantity'];
+                $totalSum = CurrencyConversion::convert($totalSum + $product['price'] * $product['quantity']);
             }
             return $totalSum;
         }

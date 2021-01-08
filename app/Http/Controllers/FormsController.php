@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 class FormsController extends Controller
 {
     public function contactMessage(Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+
         // кладем файл в файловую систему
         if(isset($request['file'])) {
             Storage::disk('public')->put('messages_files/'.$request->file->getClientOriginalName(), file_get_contents($request->file));
@@ -40,15 +45,22 @@ class FormsController extends Controller
             $message->to('foo@example.com')->cc('bar@example.com');
         });
 
+        session()->flash('notification', 'Мы получили ваше сообщение. Благодарим за вашу связь с нами.');
         return redirect()->route('contacts');
     }
 
     public function subscription(Request $request) {
+        $request->validate([
+            'email_footer' => 'required',
+        ]);
+
         Subscription::create([ // создает новую запись в таблице Message
             'user_id' => Auth::check() ? Auth::user()->id : null,
-            'email' => $request->email,
+            'email' => $request->email_footer,
             'status' => 1,
         ]);
+
+        session()->flash('notification', 'Вы подписались на нашу рассылку');
         return redirect()->back();
     }
 }

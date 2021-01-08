@@ -1,6 +1,6 @@
 @extends('layouts.hf')
 
-@section('title', 'О нас')
+@section('title', __('main.menu.about'))
 
 @section('content')
 
@@ -15,7 +15,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">О нас</h2>
+                            <h2 class="title-text">{{ __('main.menu.about') }}</h2>
                         </div>
 
                     </div>
@@ -28,8 +28,8 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Главная</a></li>
-                    <li class="active">О нас</li>
+                    <li><a href="index.html">{{ __('main.menu.main') }}</a></li>
+                    <li class="active">{{ __('main.menu.about') }}</li>
                 </ul>
             </div>
         </div>
@@ -52,9 +52,9 @@
         </div>
 
         <div class="about-content">
-            <h2 class="mb-30">Добро пожаловать</h2>
+            <h2 class="mb-30">{{ __('about.title') }}</h2>
             <p>
-                Lorem Ipsum - это просто фиктивный текст в полиграфической и наборной индустрии. Lorem Ipsum был стандартным фиктивным текстом в отрасли с 1500-х годов, когда неизвестный типограф взял камбуз и скремблировал его, чтобы сделать книгу образцов шрифта. Он пережил не только пять веков, но и скачок в сеттинг, оставшись практически неизменным.
+                {{ __('about.text') }}
             </p>
         </div>
 
@@ -131,7 +131,7 @@
                 <!-- section-title - start -->
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="section-title text-center">
-                        <h2 class="m-0">Наша команда</h2>
+                        <h2 class="m-0">{{ __('about.team') }}</h2>
                     </div>
                 </div>
                 <!-- section-title - end -->
@@ -146,8 +146,8 @@
 
                             </div>
                             <div class="member-content">
-                                <h3 class="member-name">{{ $person->name }}</h3>
-                                <span class="member-title">{{ $person->description }}</span>
+                                <h3 class="member-name">{{ $person->__('name') }}</h3>
+                                <span class="member-title">{{ $person->__('description') }}</span>
                             </div>
 
                         </div>

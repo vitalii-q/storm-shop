@@ -1,6 +1,6 @@
 @extends('layouts.hf')
 
-@section('title', $article->title)
+@section('title', $article->__('title'))
 
 @section('content')
 
@@ -15,7 +15,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">{{ $article->title }}</h2>
+                            <h2 class="title-text">{{ $article->__('title') }}</h2>
                         </div>
 
                     </div>
@@ -28,9 +28,9 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="{{ route('index') }}">Главная</a></li>
-                    <li><a href="{{ route('blog') }}">Блог</a></li>
-                    <li class="active">{{ $article->title }}</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li><a href="{{ route('blog') }}">{{ __('blog.title') }}</a></li>
+                    <li class="active">{{ $article->__('title') }}</li>
                 </ul>
             </div>
         </div>
@@ -56,12 +56,12 @@
 
                         <!-- sidebar-search - start -->
                         <div class="sidebar-item sidebar-search ul-li-block mb-30">
-                            <form action="#!">
+                            <form action="{{ route('search') }}" method="get">
                                 <div class="form-item">
-                                    <input type="search" id="sidebar-search" placeholder="search">
-                                    <label for="sidebar-search" class="form-item-btn">
+                                    <input type="search" id="sidebar-search" name="search" placeholder="{{ __('main.search.search_input') }}">
+                                    <button type="submit" class="form-item-btn">
                                         <i class="flaticon-search"></i>
-                                    </label>
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -70,11 +70,11 @@
                         <!-- category-list - start -->
                         <div class="sidebar-item category-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Категории</h2>
+                                <h2>{{ __('main.menu.categories') }}</h2>
                             </div>
                             <ul class="clearfix">
                                 @foreach($blogCategories as $blogCategory)
-                                    <li><a href="{{ route('blog_category', $blogCategory['code']) }}">{{ $blogCategory['name'] }} <span class="float-right">({{ $blogCategory->getArticles()->count() }})</span></a></li>
+                                    <li><a href="{{ route('blog_category', $blogCategory['code']) }}">{{ $blogCategory->__('name') }} <span class="float-right">({{ $blogCategory->getArticles()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -83,37 +83,27 @@
                         <!-- recent-post - start -->
                         <div class="sidebar-item recent-post ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Популярное</h2>
+                                <h2>{{ __('blog.popular') }}</h2>
                             </div>
 
                             <ul class="clearfix">
-                                <li>
-										<span class="image-container">
-											<img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-1.jpg') }}" alt="image_not_found">
-										</span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-										<span class="image-container">
-											<img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-2.jpg') }}" alt="image_not_found">
-										</span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-										<span class="image-container">
-											<img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-3.jpg') }}" alt="image_not_found">
-										</span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
+
+                                @foreach($popArticles as $popArticle)
+                                    <li>
+                                        <span class="image-container">
+                                            <img src="{{ URL::asset($popArticle->image) }}" alt="image_not_found">
+                                        </span>
+
+                                        <div class="content">
+                                            <a href="{{ route('article', $popArticle->code) }}" class="item-title">{{ mb_strimwidth($popArticle->__('title'), 0 , 18, "...") }}</a>
+                                            <small class="post-date">
+                                                {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                                {{ Date::parse($popArticle->created_at)->format('j F Y') }}
+                                            </small>
+                                        </div>
+                                    </li>
+                                @endforeach
+
                             </ul>
                         </div>
                         <!-- recent-post - end -->
@@ -123,17 +113,16 @@
                             <div class="sidebar-title">
                                 <h2>tags</h2>
                             </div>
+
                             <ul class="clearfix mb-30">
-                                <li><a href="#!">fashion</a></li>
-                                <li><a href="#!">clothing</a></li>
-                                <li><a href="#!">jewelry</a></li>
-                                <li><a href="#!">accessories</a></li>
-                                <li><a href="#!">hot</a></li>
-                                <li><a href="#!">backpack</a></li>
-                                <li><a href="#!">shoes</a></li>
-                                <li><a href="#!">clothings</a></li>
+                                <ul class="clearfix mb-30">
+                                    @php($i=1) @foreach($tags as $tag)
+                                        <li><a href="{{ route('tag_blog', $tag->code) }}">{{ $tag->__('name') }}</a></li>
+                                        @php($i++) @endforeach
+                                </ul>
                             </ul>
-                            <a href="#!" class="view-all-btn">+<u>view all</u></a>
+
+                            {{--<a href="#!" class="view-all-btn">+<u>view all</u></a>--}}
                         </div>
                         <!-- popular-tags - end -->
 
@@ -147,15 +136,15 @@
                     <div class="blog-details mb-60">
 
                         <div class="blog-title mb-30">
-                            <h2 class="title-text">{{ $article->title }}</h2>
+                            <h2 class="title-text">{{ $article->__('title') }}</h2>
                             <div class="post-meta ul-li">
                                 <ul class="clearfix">
-                                    <li>опубликованно: <a href="">{{ $user->first_name }}</a></li>
+                                    <li>{{ __('blog.published') }}: <a href="{{ '/personal/' . $article->user_id }}">{{ $user->first_name }}</a></li>
 
                                     @if(count($article->tags) >= 1)
                                         <li>
                                             @php($i=1) @foreach($article->tags as $tag)
-                                                <a href="{{ route('tag_blog', $tag->code) }}">{{ $tag->name }}@if($i!=count($article->tags)), @endif</a>
+                                                <a href="{{ route('tag_blog', $tag->code) }}">{{ $tag->__('name') }}@if($i!=count($article->tags)), @endif</a>
                                             @php($i++) @endforeach
                                         </li>
                                     @endif
@@ -171,7 +160,7 @@
                         </div>
 
                         <div class="blog-content">
-                               {!! $article->text !!}
+                               {!! $article->__('text') !!}
                         </div>
 
                     </div>
@@ -239,14 +228,14 @@
 										<span class="admin-img">
 											<img src="{{ URL::asset('images/post-meta/admin-2.png') }}" alt="image_not_found">
 										</span>
-                                    Комментировать
+                                    {{ __('blog.comment') }}
                                 </label>
                                 <div class="textarea-footer ul-li-right clearfix">
                                     <ul class="clearfix">
                                         {{--<li><a href="#!"><i class="far fa-file-image"></i></a></li>--}}
                                         {{--<li><a href="#!"><i class="fas fa-paperclip"></i></a></li>--}}
                                         {{--<li><a href="#!"><i class="far fa-smile"></i></a></li>--}}
-                                        <li><button type="submit" class="submit-btn">Комментировать</button></li>
+                                        <li><button type="submit" class="submit-btn">{{ __('blog.comment') }}</button></li>
                                     </ul>
                                 </div>
                             </div>

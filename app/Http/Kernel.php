@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'SearchView' => \App\Http\Middleware\SearchView::class,
         'PersonalView' => \App\Http\Middleware\PersonalView::class,
         'PersonalDesiresView' => \App\Http\Middleware\PersonalDesiresView::class,
+        'SetLocale' => \App\Http\Middleware\SetLocale::class,
     ];
 
     /**

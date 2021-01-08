@@ -28,9 +28,6 @@ function addToCart(productId) {
 
     selectedAttrValues = getSelectedAttributeValues(selectedElement);
 
-    console.log(productId);
-    console.log(quantity);
-    console.log(selectedAttrValues);
     $.ajax({ // добавляем в корзину
         url:"/cart/add",
         type: "POST",
@@ -370,7 +367,8 @@ function miniCartChanges() {
 
             miniCartTotalSum = miniCartTotalSum + parseInt(productPrice) * productQuantity;
         }
-        miniCartTotalSumElement = document.getElementById('mini-cart_total-price').innerHTML = miniCartTotalSum; // записываем итоговую сумму в мини корзину
+        currency = document.getElementById('currencySelectElement').getAttribute('data-symbol'); // получаем символ выбранной валюты валюты
+        miniCartTotalSumElement = document.getElementById('mini-cart_total-price').innerHTML = miniCartTotalSum+currency; // записываем итоговую сумму в мини корзину
 
         // скрываем заглушку пустой корзины и показываем элементы корзины
         if(emptyMiniCartBlock.classList.contains('display-none') == false) {
@@ -750,7 +748,7 @@ function ajaxTag(tagId) {
         url:"/blog/tag",
         type: "POST",
         data: {
-            id: tagId, // передаем id продукта
+            id: tagId,
         },
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -950,3 +948,390 @@ function viewPersonal(view) { // вид личного кабинета
     })
 }
 /* desires ----------------------------------------------------------- end */
+
+/* filter ---------------------------------------------------------------- */
+function filter(clichedElement) { // фильтр
+    // манипуляции фильтром во фронте
+    filterWrapper = document.getElementById('filter_attributes-wrapper');
+    attributeId = clichedElement.getAttribute('data-attribute-id');
+    attributeWrapper = document.getElementById('filter_'+attributeId);
+
+    attributeValueElements = attributeWrapper.querySelectorAll('.filter_attribute-value'); // элементы значений выбранного атрибута
+    for (i=0; i < attributeValueElements.length; i++) { // делаем элементы значений, кроме выбранного атрибута, не активными
+        if(attributeValueElements[i].getAttribute('data-value-id') == clichedElement.getAttribute('data-value-id')) { // если кликнутый элемент
+
+            if(clichedElement.classList.contains('active') == true) { // если элемент уже активен
+                attributeValueElements[i].classList.remove('active');
+            } else { // если элемент еще не активен, делаем активным
+                attributeValueElements[i].classList.add('active');
+            }
+
+        } else {
+            attributeValueElements[i].classList.remove('active');
+        }
+    }
+
+    activeElements = filterWrapper.querySelectorAll('.active'); // выбранные значения аттрибутов
+    activeValueIds = []; // массив с ids выбранных значений
+    for(i=0; i < activeElements.length; i++) {
+        activeValueIds.push(activeElements[i].getAttribute('data-value-id'));
+    }
+
+    // определение страницы, категории и бренда для фильтрации в зависимости от местоположения
+    resultWrapper = document.getElementById('catalog-filter_content');
+    let position = resultWrapper.getAttribute('data-position');
+    let categoryId = resultWrapper.getAttribute('data-category-id');
+    let brandId = resultWrapper.getAttribute('data-brand-id');
+
+
+    //console.log(position);
+    //console.log(categoryId);
+    //console.log(brandId);
+
+    if(activeValueIds.length > 0) { // если выбран минимум одно значение атрибута
+        $.ajax({
+            url:"/catalog/filter",
+            type: "POST",
+            data: {
+                position: position,
+                categoryId: categoryId,
+                brandId: brandId,
+                valueIds: activeValueIds.join(),
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: (data) => {
+                console.log(data);
+                document.getElementById('catalog-filter_content').innerHTML = data;
+            }
+        })
+    } else { // если значения атрибутов не выбранны, сброс фильтра
+        $.ajax({
+            url:"/catalog/filter/reset",
+            type: "POST",
+            data: {
+                position: position,
+                categoryId: categoryId,
+                brandId: brandId,
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: (data) => {
+                //console.log(data);
+                resultWrapper.innerHTML = data;
+            }
+        })
+    }
+}
+/* filter ------------------------------------------------------------ end */
+
+/* products sales, bestsellers, news --------------------------------------- */
+function productTabsOnMainPage(tab) { // переключение ids в зависимости от активности табов
+    //console.log(tab);
+    // табы
+    sales = document.getElementById('sales');
+    bestsellers = document.getElementById('bestseller');
+    news = document.getElementById('news');
+
+    // продукты внутри табов
+    salesProducts = sales.getElementsByClassName('product-item');
+    bestsellersProducts = bestseller.getElementsByClassName('product-item');
+    newsProducts = news.getElementsByClassName('product-item');
+
+    // обертки атрибутов продуктов внутри табов
+    salesAttributesWrappers = sales.getElementsByClassName('attributes-wrapper_product-grid');
+    bestsellersAttributesWrappers = bestseller.getElementsByClassName('attributes-wrapper_product-grid');
+    newsAttributesWrappers = news.getElementsByClassName('attributes-wrapper_product-grid');
+
+    // обертки значений атрибутов
+    salesAttributeContainers = sales.getElementsByClassName('attribute_container-grid');
+    bestsellersAttributeContainers = bestsellers.getElementsByClassName('attribute_container-grid');
+    newsAttributeContainers = news.getElementsByClassName('attribute_container-grid');
+
+    // значения атрибутов
+    salesAttributeValues = sales.getElementsByClassName('attribute_value-grid');
+    bestsellersAttributeValues = bestsellers.getElementsByClassName('attribute_value-grid');
+    newsAttributeValues = news.getElementsByClassName('attribute_value-grid');
+
+    // обертки переключателей колличества
+    salesPlusMinusContainers = sales.getElementsByClassName('cart_add-plus_minus-container-grid');
+    bestsellersPlusMinusContainers = bestsellers.getElementsByClassName('cart_add-plus_minus-container-grid');
+    newsPlusMinusContainers = news.getElementsByClassName('cart_add-plus_minus-container-grid');
+
+    //  элементы колличества
+    salesQuantityElements = sales.getElementsByClassName('catalogQuantityProduct-grid');
+    bestsellersQuantityElements = bestsellers.getElementsByClassName('catalogQuantityProduct-grid');
+    newsQuantityElements = news.getElementsByClassName('catalogQuantityProduct-grid');
+
+    // кнопки добавления в корзину
+    salesButtonsAdd = sales.getElementsByClassName('cartAddButton-grid');
+    bestsellersButtonsAdd = bestsellers.getElementsByClassName('cartAddButton-grid');
+    newsButtonsAdd = news.getElementsByClassName('cartAddButton-grid');
+
+    if(tab == 'sales') { // таб скидок
+        // ids оберток продуктов
+        for(i=0; i < salesProducts.length; i++) { // убираем ids продуктов не активных табов
+            bestsellersProducts[i].setAttribute('id', '');
+            newsProducts[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < salesProducts.length; i++) { // заполняем ids продуктов активного таба
+            saleProductId = salesProducts[i].getAttribute('data-tabs-product-id');
+            salesProducts[i].setAttribute('id', 'product-item_'+saleProductId);
+        }
+
+        // ids оберток атрибутов
+        for(i=0; i < salesAttributesWrappers.length; i++) { // убираем ids атрибутов не активных табов
+            bestsellersAttributesWrappers[i].setAttribute('id', '');
+            newsAttributesWrappers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < salesAttributesWrappers.length; i++) { // заполняем ids атрибутов активного таба
+            saleProductId = salesAttributesWrappers[i].getAttribute('data-tabs-product-id');
+            salesAttributesWrappers[i].setAttribute('id', 'attributes-wrapper_product-'+saleProductId);
+        }
+
+        // ids оберток значений атрибутов
+        for(i=0; i < bestsellersAttributeContainers.length; i++) { // убираем ids
+            bestsellersAttributeContainers[i].setAttribute('id', '');
+            newsAttributeContainers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < salesAttributeContainers.length; i++) { // заполняем ids
+            saleProductId = salesAttributeContainers[i].getAttribute('data-tabs-product-id');
+            saleAttributeId = salesAttributeContainers[i].getAttribute('data-attribute-id');
+            salesAttributeContainers[i].setAttribute('id', 'product_'+saleProductId+'_attribute_'+saleAttributeId);
+        }
+
+        // ids значений атрибутов
+        for(i=0; i < bestsellersAttributeValues.length; i++) { // убираем ids
+            bestsellersAttributeValues[i].setAttribute('id', '');
+        }
+        for(i=0; i < newsAttributeValues.length; i++) { // убираем ids
+            newsAttributeValues[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < salesAttributeValues.length; i++) { // заполняем ids
+            saleProductId = salesAttributeValues[i].getAttribute('data-tabs-product-id');
+            saleValueId = salesAttributeValues[i].getAttribute('data-value-id');
+            salesAttributeValues[i].setAttribute('id', 'product_'+saleProductId+'_value_'+saleValueId);
+        }
+
+        // ids оберток переключателей колличества
+        for(i=0; i < salesPlusMinusContainers.length; i++) { // убираем ids
+            bestsellersPlusMinusContainers[i].setAttribute('id', '');
+            newsPlusMinusContainers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < salesPlusMinusContainers.length; i++) { // заполняем ids
+            saleProductId = salesPlusMinusContainers[i].getAttribute('data-tabs-product-id');
+            salesPlusMinusContainers[i].setAttribute('id', 'cart_add-plus_minus-container_'+saleProductId);
+        }
+
+        // ids элементов колличества
+        for(i=0; i < salesQuantityElements.length; i++) { // убираем ids
+            bestsellersQuantityElements[i].setAttribute('id', '');
+            newsQuantityElements[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < salesQuantityElements.length; i++) { // заполняем ids
+            saleProductId = salesQuantityElements[i].getAttribute('data-tabs-product-id');
+            salesQuantityElements[i].setAttribute('id', 'catalogQuantityProduct_'+saleProductId);
+        }
+
+        // ids кнопок добавления в корзину
+        for(i=0; i < salesButtonsAdd.length; i++) { // убираем ids
+            bestsellersButtonsAdd[i].setAttribute('id', '');
+            newsButtonsAdd[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < salesButtonsAdd.length; i++) { // заполняем ids
+            saleProductId = salesButtonsAdd[i].getAttribute('data-tabs-product-id');
+            salesButtonsAdd[i].setAttribute('id', 'cartAddButton_'+saleProductId);
+        }
+
+        //console.log(newsProducts);
+    } else if(tab == 'bestseller') { // таб бестселлеров
+        for(i=0; i < bestsellersProducts.length; i++) { // убираем ids продуктов не активных табов
+            salesProducts[i].setAttribute('id', '');
+            newsProducts[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < bestsellersProducts.length; i++) { // заполняем ids продуктов активного таба
+            bestsellerProductId = bestsellersProducts[i].getAttribute('data-tabs-product-id');
+            bestsellersProducts[i].setAttribute('id', 'product-item_'+bestsellerProductId);
+        }
+
+        // ids оберток атрибутов
+        for(i=0; i < bestsellersAttributesWrappers.length; i++) { // убираем ids атрибутов не активных табов
+            salesAttributesWrappers[i].setAttribute('id', '');
+            newsAttributesWrappers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < bestsellersAttributesWrappers.length; i++) { // заполняем ids атрибутов активного таба
+            bestsellerProductId = bestsellersAttributesWrappers[i].getAttribute('data-tabs-product-id');
+            bestsellersAttributesWrappers[i].setAttribute('id', 'attributes-wrapper_product-'+bestsellerProductId);
+        }
+
+        // ids оберток значений атрибутов
+        for(i=0; i < bestsellersAttributeContainers.length; i++) { // убираем ids
+            salesAttributeContainers[i].setAttribute('id', '');
+            newsAttributeContainers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < bestsellersAttributeContainers.length; i++) { // заполняем ids
+            bestsellerProductId = bestsellersAttributeContainers[i].getAttribute('data-tabs-product-id');
+            bestsellerAttributeId = bestsellersAttributeContainers[i].getAttribute('data-attribute-id');
+            bestsellersAttributeContainers[i].setAttribute('id', 'product_'+bestsellerProductId+'_attribute_'+bestsellerAttributeId);
+        }
+
+        // ids значений атрибутов
+        for(i=0; i < salesAttributeValues.length; i++) { // убираем ids
+            salesAttributeValues[i].setAttribute('id', '');
+        }
+        for(i=0; i < newsAttributeValues.length; i++) { // убираем ids
+            newsAttributeValues[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < bestsellersAttributeValues.length; i++) { // заполняем ids
+            bestsellerProductId = bestsellersAttributeValues[i].getAttribute('data-tabs-product-id');
+            bestsellerValueId = bestsellersAttributeValues[i].getAttribute('data-value-id');
+            bestsellersAttributeValues[i].setAttribute('id', 'product_'+bestsellerProductId+'_value_'+bestsellerValueId);
+        }
+
+        // ids оберток переключателей колличества
+        for(i=0; i < bestsellersPlusMinusContainers.length; i++) { // убираем ids
+            salesPlusMinusContainers[i].setAttribute('id', '');
+            newsPlusMinusContainers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < bestsellersPlusMinusContainers.length; i++) { // заполняем ids
+            bestsellerProductId = bestsellersPlusMinusContainers[i].getAttribute('data-tabs-product-id');
+            bestsellersPlusMinusContainers[i].setAttribute('id', 'cart_add-plus_minus-container_'+bestsellerProductId);
+        }
+
+        // ids элементов колличества
+        for(i=0; i < bestsellersQuantityElements.length; i++) { // убираем ids
+            salesQuantityElements[i].setAttribute('id', '');
+            newsQuantityElements[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < bestsellersQuantityElements.length; i++) { // заполняем ids
+            bestsellerProductId = bestsellersQuantityElements[i].getAttribute('data-tabs-product-id');
+            bestsellersQuantityElements[i].setAttribute('id', 'catalogQuantityProduct_'+bestsellerProductId);
+        }
+
+        // ids кнопок добавления в корзину
+        for(i=0; i < bestsellersButtonsAdd.length; i++) { // убираем ids
+            salesButtonsAdd[i].setAttribute('id', '');
+            newsButtonsAdd[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < bestsellersButtonsAdd.length; i++) { // заполняем ids
+            bestsellerProductId = bestsellersButtonsAdd[i].getAttribute('data-tabs-product-id');
+            bestsellersButtonsAdd[i].setAttribute('id', 'cartAddButton_'+bestsellerProductId);
+        }
+
+        //console.log(newsProducts);
+    } else if(tab == 'news') { // таб новинок
+        for(i=0; i < newsProducts.length; i++) { // убираем ids продуктов не активных табов
+            salesProducts[i].setAttribute('id', '');
+            bestsellersProducts[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < newsProducts.length; i++) { // заполняем ids продуктов активного таба
+            newProductId = newsProducts[i].getAttribute('data-tabs-product-id');
+            newsProducts[i].setAttribute('id', 'product-item_'+newProductId);
+        }
+
+        // ids оберток атрибутов
+        for(i=0; i < newsAttributesWrappers.length; i++) { // убираем ids атрибутов не активных табов
+            salesAttributesWrappers[i].setAttribute('id', '');
+            bestsellersAttributesWrappers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < newsAttributesWrappers.length; i++) { // заполняем ids атрибутов активного таба
+            newProductId = newsAttributesWrappers[i].getAttribute('data-tabs-product-id');
+            newsAttributesWrappers[i].setAttribute('id', 'attributes-wrapper_product-'+newProductId);
+        }
+
+        // ids оберток значений атрибутов
+        for(i=0; i < newsAttributeContainers.length; i++) { // убираем ids
+            salesAttributeContainers[i].setAttribute('id', '');
+            bestsellersAttributeContainers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < newsAttributeContainers.length; i++) { // заполняем ids
+            newProductId = newsAttributeContainers[i].getAttribute('data-tabs-product-id');
+            newAttributeId = newsAttributeContainers[i].getAttribute('data-attribute-id');
+            newsAttributeContainers[i].setAttribute('id', 'product_'+newProductId+'_attribute_'+newAttributeId);
+        }
+
+        // ids значений атрибутов
+        for(i=0; i < salesAttributeValues.length; i++) { // убираем ids
+            salesAttributeValues[i].setAttribute('id', '');
+        }
+        for(i=0; i < bestsellersAttributeValues.length; i++) { // убираем ids
+            bestsellersAttributeValues[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < newsAttributeValues.length; i++) { // заполняем ids
+            newProductId = newsAttributeValues[i].getAttribute('data-tabs-product-id');
+            newValueId = newsAttributeValues[i].getAttribute('data-value-id');
+            newsAttributeValues[i].setAttribute('id', 'product_'+newProductId+'_value_'+newValueId);
+        }
+
+        // ids оберток переключателей колличества
+        for(i=0; i < newsPlusMinusContainers.length; i++) { // убираем ids
+            salesPlusMinusContainers[i].setAttribute('id', '');
+            bestsellersPlusMinusContainers[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < newsPlusMinusContainers.length; i++) { // заполняем ids
+            newProductId = newsPlusMinusContainers[i].getAttribute('data-tabs-product-id');
+            newsPlusMinusContainers[i].setAttribute('id', 'cart_add-plus_minus-container_'+newProductId);
+        }
+
+        // ids элементов колличества
+        for(i=0; i < newsQuantityElements.length; i++) { // убираем ids
+            salesQuantityElements[i].setAttribute('id', '');
+            bestsellersQuantityElements[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < newsQuantityElements.length; i++) { // заполняем ids
+            newProductId = newsQuantityElements[i].getAttribute('data-tabs-product-id');
+            newsQuantityElements[i].setAttribute('id', 'catalogQuantityProduct_'+newProductId);
+        }
+
+        // ids кнопок добавления в корзину
+        for(i=0; i < newsButtonsAdd.length; i++) { // убираем ids
+            salesButtonsAdd[i].setAttribute('id', '');
+            bestsellersButtonsAdd[i].setAttribute('id', '');
+        }
+
+        for(i=0; i < newsButtonsAdd.length; i++) { // заполняем ids
+            newProductId = newsButtonsAdd[i].getAttribute('data-tabs-product-id');
+            newsButtonsAdd[i].setAttribute('id', 'cartAddButton_'+newProductId);
+        }
+
+        //console.log(bestsellerProducts);
+    }
+}
+/* notifications ---------------------------------------------------------------- */
+function notificationClose() {
+    notificationModal = document.getElementById('notification-modal-large');
+    notificationModal.classList.remove('display-block');
+    notificationModal.classList.add('display-none');
+}
+/* notifications ------------------------------------------------------------ end */
+
+/* locale and currency ---------------------------------------------------------------- */
+function changeLocale() {
+    document.getElementById('locale-button').click();
+}
+function changeCurrency() {
+    document.getElementById('currency-button').click();
+}
+/* locale and currency ------------------------------------------------------------ end */

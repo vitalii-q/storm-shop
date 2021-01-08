@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">Оформление</h2>
+                            <h2 class="title-text">{{ __('cart.checkout') }}</h2>
                         </div>
 
                     </div>
@@ -27,8 +27,8 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Главная</a></li>
-                    <li class="active">Оформление</li>
+                    <li><a href="index.html">{{ __('main.menu.main') }}</a></li>
+                    <li class="active">{{ __('cart.checkout') }}</li>
                 </ul>
             </div>
         </div>
@@ -78,7 +78,7 @@
 
                             <div id="menu1" class="tab-pane fade in active show">
                                 <div class="section-title">
-                                    <h2>Оформление заказа</h2>
+                                    <h2>{{ __('cart.order.ordering') }}</h2>
                                 </div>
 
                                 <form action="{{ route('buy') }}">
@@ -86,8 +86,12 @@
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Имя<sup>*</sup></span>
-                                                <input type="text" name="first_name" value="{{ Auth::user()->first_name }}">
+                                                <span class="input-title font-w600">{{ __('cart.order.first_name') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="first_name" value="{{ Auth::user()->first_name }}">
+                                                @else
+                                                    <input type="text" name="first_name">
+                                                @endif
 
                                                 @error('first_name') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -98,8 +102,12 @@
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Фамилия<sup>*</sup></span>
-                                                <input type="text" name="last_name" value="{{ Auth::user()->last_name }}">
+                                                <span class="input-title font-w600">{{ __('cart.order.last_name') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="last_name" value="{{ Auth::user()->last_name }}">
+                                                @else
+                                                    <input type="text" name="last_name">
+                                                @endif
 
                                                 @error('last_name') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -110,7 +118,7 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Email</span>
+                                                <span class="input-title font-w600">{{ __('cart.order.email') }}</span>
                                                 <input type="email" name="email">
                                                 {{--<p class="mb-0">You can create an account after checkout.</p>--}}
 
@@ -123,8 +131,12 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Телефон<sup>*</sup></span>
-                                                <input type="tel" name="phone"  value="{{ Auth::user()->phone }}">
+                                                <span class="input-title font-w600">{{ __('cart.order.phone') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="tel" name="phone" value="{{ Auth::user()->phone }}">
+                                                @else
+                                                    <input type="tel" name="phone">
+                                                @endif
 
                                                 @error('phone') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -135,8 +147,12 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Город<sup>*</sup></span>
-                                                <input type="text" name="shipping_city" value="{{ Auth::user()->city }}">
+                                                <span class="input-title font-w600">{{ __('cart.order.city') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="shipping_city" value="{{ Auth::user()->city }}">
+                                                @else
+                                                    <input type="text" name="shipping_city">
+                                                @endif
 
                                                 @error('shipping_city') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -147,8 +163,13 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Улица<sup>*</sup></span>
-                                                <input type="text" name="shipping_street" value="{{ Auth::user()->street }}">
+                                                <span class="input-title font-w600">{{ __('cart.order.city') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="shipping_street" value="{{ Auth::user()->street }}">
+                                                @else
+                                                    <input type="text" name="shipping_street">
+                                                @endif
+
 
                                                 @error('shipping_street') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -159,8 +180,12 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Квартира<sup>*</sup></span>
-                                                <input type="text" name="shipping_apartment" value="{{ Auth::user()->apartment }}">
+                                                <span class="input-title font-w600">{{ __('cart.order.apartment') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="shipping_apartment" value="{{ Auth::user()->apartment }}">
+                                                @else
+                                                    <input type="text" name="shipping_apartment">
+                                                @endif
 
                                                 @error('shipping_apartment') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -171,7 +196,7 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="address-textarea mb-30">
-                                                <span class="input-title font-w600">Комментарий</span>
+                                                <span class="input-title font-w600">{{ __('cart.order.comment') }}</span>
                                                 <textarea name="message"></textarea>
 
                                                 @error('message') <!-- добавляем вывод ошибки -->
@@ -182,7 +207,7 @@
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <button type="submit" class="next-btn custom-btn bg-past">Оформить</button>
+                                            <button type="submit" class="next-btn custom-btn bg-past">{{ __('cart.checkout') }}</button>
                                         </div>
 
                                         {{--<div class="col-lg-12 col-md-12 col-sm-12">--}}
@@ -295,10 +320,10 @@
 
                         <div class="order-summary mb-30 clearfix checkout_products-block">
                             <div class="section-title section-title_checkout-custom">
-                                <h2>Итог заказа</h2>
+                                <h2>{{ __('cart.order.summary') }}</h2>
                             </div>
 
-                            <span class="item-amount mb-15">{{ App\Http\Controllers\CartController::getProductsCountInCart() }} продуктов в корзине</span>
+                            <span class="item-amount mb-15">{{ App\Http\Controllers\CartController::getProductsCountInCart() }} {{ __('cart.order.in_cart') }}</span>
 
                             <div class="flex-container">
                                 @php($i = 1)
@@ -309,13 +334,13 @@
                                                 <img src="{{ URL::asset($product['image_1']) }}" alt="image_not_found">
                                             </div>
                                             <div class="item-content">
-                                                <h3 class="title-text">{{ $product['name'] }}</h3>
+                                                <h3 class="title-text">{{ App\Models\Product::where('id', $product['product_id'])->first()->__('name') }}</h3>
 
                                                 @foreach(App\Models\Product::getSku($product['id'])->skuValues as $skuValue)
-                                                    <p><b>{{  $skuValue->attributeValue->attribute->name }}:</b> {{ $skuValue->attributeValue->name }}</p>
+                                                    <p><b>{{  $skuValue->attributeValue->attribute->__('name') }}:</b> {{ $skuValue->attributeValue->__('name') }}</p>
                                                 @endforeach
 
-                                                <span class="qty-text mb-15">К-во: <small>{{ $product['quantity'] }}</small></span>
+                                                <span class="qty-text mb-15">{{ __('cart.quantity') }}: <small>{{ $product['quantity'] }}</small></span>
                                                 <div class="item-price">
                                                     <strong class="color-black">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</strong>
                                                 </div>

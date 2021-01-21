@@ -173,14 +173,18 @@
                             @foreach($comments as $comment)
                             <!-- review-item - start -->
                             <div class="review-item clearfix">
-                                <span class="reviewer-img"></span>
+                                @if($comment->user != null)
+                                    <div class="blog_comment-avatar" style="background-image: url({{ URL::asset( $comment->user->image ) }})"></div>
+                                @else
+                                    <span class="reviewer-img"></span>
+                                @endif
                                 <div class="review-content">
                                     <div class="post-meta ul-li">
                                         <ul>
-                                            <li><!--BY--> <a href="">{{ $comment->name }}</a></li>
+                                            <li><!--BY--> <a href="{{ '/personal/' . $comment->user->id }}">{{ $comment->name }}</a></li>
                                             <li><i class="flaticon-clock-circular-outline"></i>
                                             {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
-                                                {{ Date::parse($comment->created_at)->format('j F Y') }}
+                                                {{ Date::parse($comment->created_at)->format('j F Y H:i') }}
                                             </li>
                                         </ul>
                                     </div>
@@ -211,13 +215,20 @@
                                             <input type="text" id="name" name="name" placeholder="Ваше имя">
                                             <label for="name" class="form-item-btn"><i class="flaticon-user"></i></label>
                                         </div>
+                                        @error('name')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
 
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <div class="form-item">
                                             <input type="email" id="email" name="email" placeholder="Ваш email">
                                             <label for="email" class="form-item-btn"><i class="flaticon-e-mail-envelope"></i></label>
                                         </div>
+                                        @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             @endif
@@ -239,6 +250,9 @@
                                     </ul>
                                 </div>
                             </div>
+                            @error('comment-textarea')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
 
                         </form>
                     </div>

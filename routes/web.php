@@ -18,6 +18,8 @@ Route::get('/locale', 'MainController@changeLocale')->name('locale'); // сме�
 Route::get('/currency', 'MainController@changeCurrency')->name('currency'); // смена валюты
 
 Route::group(['middleware' => 'SetLocale'], function () { // локализированные страницы
+    Auth::routes();
+
     Route::get('/', 'MainController@index')->name('index');
 
     // личный кабинет
@@ -80,12 +82,15 @@ Route::group(['middleware' => 'SetLocale'], function () { // локализир�
 
 // админ панель
 Route::group([
-    'middleware' => 'admin', // доступ администрации
+    'middleware' => ['admin', 'AdminPanelView'], // доступ администрации
     'namespace' => 'Admin',
     'prefix' => 'admin',
 ], function () {
     Route::get('/', 'AdminController@index')->name('admin');
-    Route::get('/orders', 'AdminController@orders')->name('admin_orders');
+    Route::post('view', 'AdminController@view');
+    Route::resource('notifications', 'NotificationController', ['as' => 'admin']);
+
+    Route::resource('/orders', 'OrderController', ['as' => 'admin']);
 
     Route::resource('catalog/categories', 'Catalog\CategoriesController', ['as' => 'admin.catalog']);
     Route::resource('catalog/brands', 'Catalog\BrandsController', ['as' => 'admin.catalog']);
@@ -96,6 +101,7 @@ Route::group([
 
     Route::resource('blog/categories', 'Blog\CategoriesController', ['as' => 'admin.blog']);
     Route::resource('blog/articles', 'Blog\ArticlesController', ['as' => 'admin.blog']); // статьи блога
+    Route::resource('blog/tags', 'Blog\TagsController', ['as' => 'admin.blog']); // статьи блога
 
     Route::resource('pages/main/slider', 'Pages\Main\SliderController', ['as' => 'admin.pages.main']);
 });

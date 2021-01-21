@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">{{ __('cart.checkout') }}</h2>
+                            <h2 class="title-text">{{ __('cart.checkout_title') }}</h2>
                         </div>
 
                     </div>
@@ -27,8 +27,9 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">{{ __('main.menu.main') }}</a></li>
-                    <li class="active">{{ __('cart.checkout') }}</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li><a href="{{ route('cart') }}">{{ __('cart.cart') }}</a></li>
+                    <li class="active">{{ __('cart.checkout_breadcrumb') }}</li>
                 </ul>
             </div>
         </div>
@@ -53,7 +54,7 @@
                     @guest
                         <!-- sign-in-container - start -->
                         <div class="sign-in-container">
-                            <a href="{{ route('login') }}" class="sign-in-btn">sign in</a>
+                            <a href="{{ route('login') }}" class="sign-in-btn">{{ __('main.buttons.login') }}</a>
                         </div>
                         <!-- sign-in-container - end -->
                     @endguest
@@ -119,7 +120,11 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
                                                 <span class="input-title font-w600">{{ __('cart.order.email') }}</span>
-                                                <input type="email" name="email">
+                                                @if(Auth::check())
+                                                    <input type="email" name="email" value="{{ Auth::user()->email }}">
+                                                @else
+                                                    <input type="email" name="email">
+                                                @endif
                                                 {{--<p class="mb-0">You can create an account after checkout.</p>--}}
 
                                                 @error('email') <!-- добавляем вывод ошибки -->
@@ -163,7 +168,7 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">{{ __('cart.order.city') }}<sup>*</sup></span>
+                                                <span class="input-title font-w600">{{ __('cart.order.street') }}<sup>*</sup></span>
                                                 @if(Auth::check())
                                                     <input type="text" name="shipping_street" value="{{ Auth::user()->street }}">
                                                 @else
@@ -320,7 +325,7 @@
 
                         <div class="order-summary mb-30 clearfix checkout_products-block">
                             <div class="section-title section-title_checkout-custom">
-                                <h2>{{ __('cart.order.summary') }}</h2>
+                                <h2>{{ __('cart.order.summary').': '.App\Http\Controllers\CartController::getTotalSum().App\Services\CurrencyConversion::currencySymbol() }}</h2>
                             </div>
 
                             <span class="item-amount mb-15">{{ App\Http\Controllers\CartController::getProductsCountInCart() }} {{ __('cart.order.in_cart') }}</span>
@@ -342,7 +347,7 @@
 
                                                 <span class="qty-text mb-15">{{ __('cart.quantity') }}: <small>{{ $product['quantity'] }}</small></span>
                                                 <div class="item-price">
-                                                    <strong class="color-black">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</strong>
+                                                    <strong class="color-black">{{ App\Http\Controllers\CartController::getProductSum($product['id']).App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                 </div>
                                             </div>
                                         </div>

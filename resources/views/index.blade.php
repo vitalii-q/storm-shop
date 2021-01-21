@@ -86,7 +86,7 @@
                             @foreach($sales as $sale)
                                 <!-- product-item - start -->
                                 <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div id="product-item_{{$sale->id}}" class="product-item" data-name="{{ $sale->__('name') }}" data-price="{{ $sale->price }}₽" data-img="{{ URL::asset($sale->image_1) }}" data-tabs-product-id="{{$sale->id}}">
+                                    <div id="product-item_{{$sale->id}}" class="product-item" data-name="{{ $sale->__('name') }}" data-price="{{ $sale->currency().App\Services\CurrencyConversion::currencySymbol() }}" data-img="{{ URL::asset($sale->image_1) }}" data-tabs-product-id="{{$sale->id}}">
 
                                         <!-- проверка, есть ли продукт в корзине --- -->
                                         @php($productInCart = false) @php($cartProductQuantity = 0)
@@ -117,7 +117,7 @@
                                         <div class="item-content text-center">
                                             <a href="{{ '/catalog/' . $sale->getCategory()->code . '/' . $sale->code }}" class="item-title">{{ $sale->__('name') }}</a>
                                             <div class="item-price">
-                                                <strong class="color-black">{{ $sale->currency() }}</strong>
+                                                <strong class="color-black">{{ $sale->currency().App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                 {{--<del>$359.00</del>--}}
                                             </div>
                                         </div>
@@ -231,7 +231,7 @@
                         @foreach($bestsellers as $bestseller)
                             <!-- product-item - start -->
                                 <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div id="product-item_{{$bestseller->id}}" class="product-item" data-name="{{ $bestseller->__('name') }}" data-price="{{ $bestseller->price }}₽" data-img="{{ URL::asset($bestseller->image_1) }}"  data-tabs-product-id="{{$bestseller->id}}">
+                                    <div id="product-item_{{$bestseller->id}}" class="product-item" data-name="{{ $bestseller->__('name') }}" data-price="{{ $sale->currency().App\Services\CurrencyConversion::currencySymbol() }}" data-img="{{ URL::asset($bestseller->image_1) }}"  data-tabs-product-id="{{$bestseller->id}}">
 
                                         <!-- проверка, есть ли продукт в корзине --- -->
                                         @php($productInCart = false) @php($cartProductQuantity = 0)
@@ -262,7 +262,7 @@
                                         <div class="item-content text-center">
                                             <a href="{{ '/catalog/' . $bestseller->getCategory()->code . '/' . $bestseller->code }}" class="item-title">{{ $bestseller->__('name') }}</a>
                                             <div class="item-price">
-                                                <strong class="color-black">{{ $bestseller->currency() }}</strong>
+                                                <strong class="color-black">{{ $bestseller->currency().App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                 {{--<del>$359.00</del>--}}
                                             </div>
                                         </div>
@@ -376,7 +376,7 @@
                         @foreach($news as $new)
                             <!-- product-item - start -->
                                 <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div id="product-item_{{$new->id}}" class="product-item" data-name="{{ $new->__('name') }}" data-price="{{ $new->price }}₽" data-img="{{ URL::asset($new->image_1) }}" data-tabs-product-id="{{$new->id}}">
+                                    <div id="product-item_{{$new->id}}" class="product-item" data-name="{{ $new->__('name') }}" data-price="{{ $sale->currency().App\Services\CurrencyConversion::currencySymbol() }}" data-img="{{ URL::asset($new->image_1) }}" data-tabs-product-id="{{$new->id}}">
 
                                         <!-- проверка, есть ли продукт в корзине --- -->
                                         @php($productInCart = false) @php($cartProductQuantity = 0)
@@ -407,7 +407,7 @@
                                         <div class="item-content text-center">
                                             <a href="{{ '/catalog/' . $new->getCategory()->code . '/' . $new->code }}" class="item-title">{{ $new->__('name') }}</a>
                                             <div class="item-price">
-                                                <strong class="color-black">{{ $new->currency() }}</strong>
+                                                <strong class="color-black">{{ $new->currency().App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                 {{--<del>$359.00</del>--}}
                                             </div>
                                         </div>

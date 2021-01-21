@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">Восстановление пароля</h2>
+                            <h2 class="title-text">{{ __('auth.reset') }}</h2>
                         </div>
 
                     </div>
@@ -27,8 +27,8 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="{{ route('index') }}">Главная</a></li>
-                    <li class="active">Восстановление пароля</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li class="active">{{ __('auth.reset') }}</li>
                 </ul>
             </div>
         </div>
@@ -51,7 +51,7 @@
                 <!-- login-container - start -->
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="login-container reset-password_form-block">
-                        <h2 class="form-title">Адресс электронной почты</h2>
+                        <h2 class="form-title">{{ __('auth.email_title') }}</h2>
 
                         <div class="login-form">
                             <form method="POST" action="{{ route('password.email') }}">
@@ -62,9 +62,15 @@
                                     <label class="form-item-btn" for="your-email">
                                         <i class="far fa-envelope"></i>
                                     </label>
+
+                                @if(session()->has('info')) <!-- если уведовление или ошибка -->
+                                    <br>
+                                    <br>
+                                    <p class="alert alert-danger">{{ session()->get('info') }}</p> <!-- выводим сообщение -->
+                                @endif
                                 </div>
 
-                                <button type="submit" class="custom-btn bg-past">Отправить</button>
+                                <button type="submit" class="custom-btn bg-past">{{ __('auth.send') }}</button>
                             </form>
                         </div>
                     </div>

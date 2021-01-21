@@ -193,40 +193,41 @@ function updateProductInCart(clickedElement) { // обновление прод�
     let pricesElements = document.getElementsByClassName('product-price_get-price');
     let prices = [];
     for(let i=0; i < pricesElements.length; i++) { // получаем цены продуктов в корзине
-        prices.push(pricesElements[i].innerHTML);
+        prices.push(pricesElements[i].getAttribute('data-price'));
     }
 
     // получаем элементы с суммами продуктов
     let quantitiesInput = document.getElementsByClassName('quantity_get-value');
-    //console.log(quantitiesInput);
 
     // формируем массив с суммами продуктов
     let quantities = [];
     for(let i=1; i < quantitiesInput.length; i++) {
         quantities.push(quantitiesInput[i].value);
-        //console.log(quantitiesInput[i]);
     }
-    //console.log(quantities);
 
     let productSum = []; // суммы продуктов
     for(let i=0; i < pricesElements.length; i++) {
         productSum.push(quantities[i] * prices[i]); // умножаем цену продукта на его колличество
     }
 
+    // получаем символ активной валюты
+    currencySymbol = document.getElementById('currencySelectElement').getAttribute('data-symbol');
+
     let productSumElements = document.getElementsByClassName('product-sum_get-sum'); // элементы с суммой продукта
     for(let i=0; i < productSumElements.length; i++) {
-        productSumElements[i].innerHTML = productSum[i]; // обновляем сумму продукты
+        //console.log(productSum[i]);
+        productSumElements[i].innerHTML = (productSum[i]).toFixed(2)+currencySymbol; // обновляем сумму продукты
     }
 
     // обновляем итоговую сумму
     let totalSumElement = document.getElementById('total-price_total');
     let totalSum = 0; // итоговая сумма
     for(let i = 0; i < productSum.length; i++){
-        totalSum = totalSum + parseInt(productSum[i]); // складываем сумму за продукты
+        totalSum = totalSum + productSum[i]; // складываем сумму за продукты
     }
 
     if(totalSumElement != null) {
-        totalSumElement.innerHTML = totalSum; // обновляем итоговую сумму
+        totalSumElement.innerHTML = (totalSum).toFixed(2)+currencySymbol; // обновляем итоговую сумму
     }
 
     miniCartChanges();
@@ -365,10 +366,11 @@ function miniCartChanges() {
             productPrice = miniCartProductBlocks[i].querySelector('.color-black').innerHTML;
             productQuantity = miniCartProductBlocks[i].querySelector('.quantity_get-value').value;
 
-            miniCartTotalSum = miniCartTotalSum + parseInt(productPrice) * productQuantity;
+            //console.log(parseFloat(productPrice) * productQuantity);
+            miniCartTotalSum = miniCartTotalSum + parseFloat(productPrice) * productQuantity;
         }
         currency = document.getElementById('currencySelectElement').getAttribute('data-symbol'); // получаем символ выбранной валюты валюты
-        miniCartTotalSumElement = document.getElementById('mini-cart_total-price').innerHTML = miniCartTotalSum+currency; // записываем итоговую сумму в мини корзину
+        miniCartTotalSumElement = document.getElementById('mini-cart_total-price').innerHTML = (miniCartTotalSum).toFixed(2)+currency; // записываем итоговую сумму в мини корзину
 
         // скрываем заглушку пустой корзины и показываем элементы корзины
         if(emptyMiniCartBlock.classList.contains('display-none') == false) {
@@ -606,7 +608,7 @@ function attributeChange(data) {
         }
     }
 
-    $.ajax({
+    $.ajax({ // получаем комбинируемые sku c выбранным аттрибутом
         url:"/catalog/sku",
         type: "POST",
         data: {
@@ -712,17 +714,19 @@ function attributeChange(data) {
                     cartAddPlusMinusContainer.classList.remove('display-none');
                     cartAddPlusMinusContainer.classList.add('display-block');
 
-                    productQuantityBlock.innerHTML = skuInCartQuantity;// записываем колличество sku в корзине
+                    productQuantityBlock.innerHTML = skuInCartQuantity; // записываем колличество sku в корзине
                 } else if (skuInCart == 'false') { // если sku нет в корзине
                     cartAddButton.classList.remove('display-none');
                     cartAddButton.classList.add('display-block');
                     cartAddPlusMinusContainer.classList.remove('display-block');
                     cartAddPlusMinusContainer.classList.add('display-none');
+
+                    productQuantityBlock.innerHTML = 1; // сбрасываем число элемента количества
                 }
 
                 productQuantityBlock.setAttribute('data-sku-id', skuId); // записываем id sku в блок с колличеством sku
 
-                //console.log(skuInCart);
+                //console.log(productQuantityBlock.innerHTML);
             }
 
             // скрываем контейнер апдейта, если не установленна полная комбинация
@@ -769,6 +773,24 @@ function searchView(view) {
         data: {
             view: view,
         },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: (data) => {
+            //console.log(data);
+        }
+    })
+}
+
+function viewAdmin() { // вид личного кабинета
+    document.getElementById('page-container').classList.toggle('sidebar-o');
+    //console.log(view);
+    $.ajax({
+        url:"/admin/view",
+        type: "POST",
+        /*data: {
+            view: view,
+        },*/
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -1002,7 +1024,7 @@ function filter(clichedElement) { // фильтр
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: (data) => {
-                console.log(data);
+                //console.log(data);
                 document.getElementById('catalog-filter_content').innerHTML = data;
             }
         })

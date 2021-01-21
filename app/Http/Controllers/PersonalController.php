@@ -15,11 +15,11 @@ class PersonalController extends Controller
 {
     public function index($id) {
         $user = User::where('id', $id)->first();
-        $orders = Order::where('user_id', Auth::user()->id)->get();
+        $orders = Order::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 
         // получаем продукты которые в желаниях пользователя и сортируем
         $desiresIds = Desire::where('user_id', Auth::user()->id)->select('product_id')->get();
-        $desires = Product::whereIn('id', $desiresIds)->orderBy('id', 'desc')->get(); // работает сорт по id
+        $desires = Product::whereIn('id', $desiresIds)->orderBy('created_at', 'desc')->get(); // работает сорт по id
 
         $personalView = session('view.personal');
 

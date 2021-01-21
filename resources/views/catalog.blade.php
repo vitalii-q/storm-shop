@@ -258,7 +258,7 @@
                                             <!-- product-item - start -->
                                                 <div class="col-lg-4 col-md-6 col-sm-12">
 
-                                                    <div @if($catalogView == 'grid')id="product-item_{{ $product->id }}" @endif class="product-item product-item_view-grid" data-name="{{ $product->__('name') }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
+                                                    <div @if($catalogView == 'grid')id="product-item_{{ $product->id }}" @endif class="product-item product-item_view-grid" data-name="{{ $product->__('name') }}" data-price="{{ $product->currency().App\Services\CurrencyConversion::currencySymbol() }}" data-img="{{ URL::asset($product->image_1) }}">
 
                                                         <div class="post-labels">
                                                             <ul class="clearfix">
@@ -279,7 +279,7 @@
                                                         <div class="item-content text-center">
                                                             <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="item-title">{{ $product->__('name') }}</a>
                                                             <div class="item-price">
-                                                                <strong class="color-black">{{ $product->currency() }}</strong>
+                                                                <strong class="color-black">{{ $product->currency().App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                                 {{--<del>$359.00</del>--}}
                                                             </div>
                                                         </div>
@@ -398,7 +398,7 @@
                                             <!-- проверка, есть ли продукт в корзине end -->
 
                                             <!-- product-list-item - start -->
-                                                <div @if($catalogView == 'list')id="product-item_{{ $product->id }}" @endif class="product-item_view-list product-list-item clearfix" data-name="{{ $product->__('name') }}" data-price="{{ $product->price }}₽" data-img="{{ URL::asset($product->image_1) }}">
+                                                <div @if($catalogView == 'list')id="product-item_{{ $product->id }}" @endif class="product-item_view-list product-list-item clearfix" data-name="{{ $product->__('name') }}" data-price="{{ $product->currency().App\Services\CurrencyConversion::currencySymbol() }}" data-img="{{ URL::asset($product->image_1) }}">
 
                                                     <div class="post-labels">
                                                         <ul class="clearfix">
@@ -416,7 +416,7 @@
                                                         <a href="{{ '/catalog/' . $product->getCategory()->code . '/' . $product->code }}" class="item-title">{{ $product->__('name') }}</a>
 
                                                         <div class="item-price mb-30">
-                                                            <strong class="color-black">{{ $product->price }}₽</strong>
+                                                            <strong class="color-black">{{ $product->currency().App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                             <!--<del>$359.00</del>-->
                                                         </div>
 

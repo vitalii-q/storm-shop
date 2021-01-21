@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminNotifications;
 use App\Models\AttributeValue;
+use App\Models\Currency;
 use App\Services\CurrencyConversion;
+use App\Services\CurrencyRates;
+use Carbon\Carbon;
 use function GuzzleHttp\options;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
@@ -141,7 +145,7 @@ class CartController extends Controller
             }
         }
 
-        return response(json_encode($product->__('name'))); // ответ в js / json_encode($request)
+        return response(json_encode($product->price)); // ответ в js / json_encode($request)
     }
 
     public function getAttributesNameAndValuesName(Request $request) {
@@ -244,9 +248,9 @@ class CartController extends Controller
         $order->first_name = $request->input('first_name') ? $request->input('first_name') : Auth::user()->first_name;
         $order->last_name = $request->input('last_name') ? $request->input('last_name') : Auth::user()->last_name;
         $order->phone = $request->input('phone') ? $request->input('phone') : Auth::user()->phone;
-        $order->email = $request->input('email') ? $request->input('email') : Auth::user()->email;
+        $order->email = $request->input('email');
 
-        $order->currency_id = 1; // настроить
+        $order->currency_id = CurrencyConversion::getActiveCurrencyId();
         $order->sum = $this->getTotalSum();
 
         $order->shipping_city = $request->input('shipping_city');
@@ -258,6 +262,13 @@ class CartController extends Controller
         $order->payment_method = 'cash_payment'; // настроить
 
         $success = $order->save(); // сохраняем заказ в БД
+
+        // Создаем уведомление в админ панеле
+        AdminNotifications::create([
+            'notification_id' => $order->id,
+            'type' => 'Заказ',
+            'view' => 0,
+        ]);
 
         /* создаем order_connector -------------------------------------------- */
         $order = Order::find($order->id)->skus();
@@ -276,6 +287,19 @@ class CartController extends Controller
         return redirect()->route('index');
     }
 
+    public static function getPriceInCurrency($price) { // возвращает цену в активной валюте
+        if(session()->get('currency') != null) { // если сессия валюты установленна
+            $selectedCurrency = Currency::where('code', session()->get('currency'))->first();
+            if($selectedCurrency->updated_at->startOfDay()->toString() !== Carbon::now()->startOfDay()->toString()){ // обновляем если ставки вчерашние
+                CurrencyRates::getRates();
+            }
+
+            return round($price * $selectedCurrency->rate, 2);
+        } else { // если сессия валюты не установленна
+            return $price;
+        }
+    }
+
     static function getProductsCountInCart() {
         $products = session('cart.products'); // продукты в корзине
         $productsCount = 0;
@@ -289,7 +313,7 @@ class CartController extends Controller
         $products = session('cart.products'); // продукты в корзине
         foreach ($products as $product) { // находим запрашиваемый продукт
             if($product['id'] == $productId) {
-                return $product['price'] * $product['quantity']; // возвращаем сумму
+                return CartController::getPriceInCurrency($product['price']) * $product['quantity']; // возвращаем сумму
             }
         }
     }
@@ -300,7 +324,7 @@ class CartController extends Controller
         if(!empty($products)) {
             $totalSum = 0;
             foreach ($products as $product) {
-                $totalSum = CurrencyConversion::convert($totalSum + $product['price'] * $product['quantity']);
+                $totalSum = $totalSum + CurrencyConversion::convert($product['price']) * $product['quantity'];
             }
             return $totalSum;
         }

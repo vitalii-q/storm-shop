@@ -399,7 +399,7 @@
                                                             <h3 class="item-title mb-15">{{ \App\Models\Product::where('id', $cartProductHF['product_id'])->first()->__('name') }}</h3>
 
                                                             <div class="item-price mb-30 flex-container">
-                                                                <strong class="color-black">{{ \App\Services\CurrencyConversion::convert($cartProductHF['price']) }}</strong>
+                                                                <strong class="color-black">{{ \App\Services\CurrencyConversion::convert($cartProductHF['price']).App\Services\CurrencyConversion::currencySymbol() }}</strong>
 
                                                                 <div class="hf_cart-product_sku-values flex-container">
                                                                 @foreach(\App\Models\Sku::where('id', $cartProductHF['id'])->first()->skuValues as $skuValue)
@@ -441,7 +441,7 @@
                                             <div id="mini-cart_bottom-info" class="footer-container clearfix @if(empty($cartHF)) display-none @endif">
                                                 <div class="footer-left clearfix">
                                                     <div class="total-price">
-                                                        {{ __('cart.total') }} <strong id="mini-cart_total-price" class="color-black">{{ App\Http\Controllers\CartController::getTotalSum() }}</strong>
+                                                        {{ __('cart.total') }} <strong id="mini-cart_total-price" class="color-black">{{ App\Http\Controllers\CartController::getTotalSum().App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                     </div>
                                                 </div>
                                                 <div class="footer-right ul-li-right clearfix">

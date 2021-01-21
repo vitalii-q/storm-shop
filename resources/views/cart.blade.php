@@ -85,13 +85,13 @@
                                     </ul>
                                 </td>
 
-                                <td class="item-price product-price_get-price text-center">{{ $product['price'] }}₽</td>
+                                <td class="item-price product-price_get-price text-center" data-price="{{ App\Http\Controllers\CartController::getPriceInCurrency($product['price']) }}">{{ App\Http\Controllers\CartController::getPriceInCurrency($product['price']).App\Services\CurrencyConversion::currencySymbol() }}</td>
 
                                 <td class="item-quantity text-center">
                                     <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-product-id="{{ $product['product_id'] }}" data-id="{{ $product['id'] }}" data-sku-values="{{ implode(",", $skuValues) }}" data-position="cart" class="quantity_get-value" name="quantity" type="number" value="{{ $product['quantity'] }}" min="1" placeholder="quantity">
                                 </td>
 
-                                <td class="total-price product-sum_get-sum text-center">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}₽</td>
+                                <td class="total-price product-sum_get-sum text-center">{{ App\Http\Controllers\CartController::getProductSum($product['id']).App\Services\CurrencyConversion::currencySymbol() }}</td>
                             </tr>
                         @endforeach
                     @endif
@@ -168,14 +168,14 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="grand-total-price">
 
-                        <div class="money-list ul-li-block">
-                            <ul class="clearfix">
-                                <li>{{ __('cart.delivery.price') }} <span class="float-right">200</span></li>
+                        {{--<div class="money-list ul-li-block">--}}
+                            {{--<ul class="clearfix">--}}
+                                {{--<li>{{ __('cart.delivery.price') }} <span class="float-right">200</span></li>--}}
                                 {{--<li>tax <span class="float-right">$10.00</span></li>--}}
-                            </ul>
-                        </div>
+                            {{--</ul>--}}
+                        {{--</div>--}}
 
-                        <h2 class="total-price mb-30">{{ __('cart.delivery.total') }} <strong id="total-price_total">{{ App\Http\Controllers\CartController::getTotalSum() }}</strong></h2>
+                        <h2 class="total-price mb-30">{{ __('cart.delivery.total') }} <strong id="total-price_total">{{ App\Http\Controllers\CartController::getTotalSum().App\Services\CurrencyConversion::currencySymbol() }}</strong></h2>
                         <a href="{{ route('checkout') }}" class="proceed-btn">{{ __('cart.checkout') }}</a>
 
                     </div>

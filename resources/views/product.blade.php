@@ -124,7 +124,7 @@
                                 {{--</div>--}}
 
                                 <h2>{{ $selected_product->__('name') }}</h2>
-                                <h3>{{ $selected_product->currency() }}</h3>
+                                <h3>{{ $selected_product->currency().App\Services\CurrencyConversion::currencySymbol() }}</h3>
                             </div>
 
                             <p class="mb-30">
@@ -401,7 +401,7 @@
                                 <div class="item-content text-center">
                                     <a href="{{ '/catalog/' . $relate->getCategory()->code . '/' . $relate->code }}" class="item-title">{{ $relate->__('name') }}</a>
                                     <div class="item-price">
-                                        <strong class="color-black">{{ $relate->currency() }}</strong>
+                                        <strong class="color-black">{{ $relate->currency().App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                         {{--<del>$359.00</del>--}}
                                     </div>
                                 </div>

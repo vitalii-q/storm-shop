@@ -11,6 +11,8 @@
 .mb-16 {margin-bottom: 16px;}
 .mb-43 {margin-bottom: 43px;}
 
+.mt--20 {margin-top: -20px}
+
 .width-100 {width: 100% !important;}
 .pl-0 {padding-left: 0px!important;}
 
@@ -227,6 +229,13 @@
     display: table;
     min-width: 92px;
     text-align: right;
+}
+.btn-group_table-custom-left {
+    margin-left: auto;
+    margin-right: 0px;
+    display: table;
+    min-width: 66px;
+    text-align: left;
 }
 /* админ панель ----------------------------- end */
 /* ======================================================================= */
@@ -517,6 +526,53 @@
     background-color: #1ec7a6 !important;
 }
 
+.admin-img-avatar_custom {
+    background-size: cover;
+}
+.button-admin_panel-view {
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 1rem;
+    font-family: "Nunito Sans",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    color: #1f1f1f;
+    padding: 9px 0;
+    line-height: 1;
+    min-width: 34px;
+    height: 34px;
+    border-radius: 50%!important;
+    cursor: pointer;
+
+    background-color: unset;
+    border-color: unset;
+    outline: unset!important;
+}
+
+.admin-notifications_link:focus {
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+.admin_new-notification-id {
+    background-color: #3f9ce8;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.blog_comment-avatar {
+    float: left;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    margin-right: 15px;
+    position: relative;
+    border-radius: 100%;
+    background-size: cover;
+}
 
 
 

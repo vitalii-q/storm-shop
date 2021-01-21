@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">Войти / зарегистрироватся</h2>
+                            <h2 class="title-text">{{ __('auth.title') }}</h2>
                         </div>
 
                     </div>
@@ -27,8 +27,8 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="{{ route('index') }}">Home</a></li>
-                    <li class="active">Authentication</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li class="active">{{ __('auth.auth') }}</li>
                 </ul>
             </div>
         </div>
@@ -51,7 +51,7 @@
                 <!-- login-container - start -->
                 <div class="col-lg-6 col-md-8 col-sm-12">
                     <div class="login-container">
-                        <h2 class="form-title">Войти в аккаунт</h2>
+                        <h2 class="form-title">{{ __('auth.login_title') }}</h2>
                         {{--<div class="social-accounts">--}}
                             {{--<span>Login with Social Account</span>--}}
                             {{--<ul>--}}
@@ -66,7 +66,7 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-item">
-                                    <input type="email" id="email" name="email" value="" placeholder="User email">
+                                    <input type="email" id="email" name="email" value="" placeholder="{{ __('auth.email') }}">
                                     <label class="form-item-btn" for="email">
                                         <i class="far fa-user"></i>
                                     </label>
@@ -78,7 +78,7 @@
                                 </div>
 
                                 <div class="form-item auth-pass_input-custom">
-                                    <input type="password" id="password" name="password" value="" placeholder="Password">
+                                    <input type="password" id="password" name="password" value="" placeholder="{{ __('auth.password') }}">
                                     <label class="form-item-btn" for="password">
                                         <i class="fas fa-unlock-alt"></i>
                                     </label>
@@ -94,17 +94,17 @@
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <input onclick="checkboxRemember()" type="checkbox" id="remember" name="remember">
-                                            <label for="remember">Запомнить</label>
+                                            <label for="remember">{{ __('auth.remember') }}</label>
                                         </div>
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <a href="{{ route('password.request') }}" class="forgetpass-btn">Забыли пароль?</a>
+                                            <a href="{{ route('password.request') }}" class="forgetpass-btn">{{ __('auth.forget') }}</a>
                                         </div>
 
                                     </div>
                                 </div>
 
-                                <button type="submit" class="custom-btn bg-past">Войти</button>
+                                <button type="submit" class="custom-btn bg-past">{{ __('auth.login') }}</button>
                             </form>
 
                         </div>
@@ -115,13 +115,13 @@
                 <!-- register-container - start -->
                 <div class="col-lg-6 col-md-8 col-sm-12">
                     <div class="register-container">
-                        <h2 class="form-title">Нет аккаунта? Зарегистрируйте сейчас!</h2>
+                        <h2 class="form-title">{{ __('auth.register_title') }}</h2>
                         <div class="register-form">
 
                             <form method="POST" action="{{ route('register') }}" aria-label="Register">
                                 @csrf
                                 <div class="form-item">
-                                    <input type="email" id="register_email" name="register_email" value="" placeholder="Your Email">
+                                    <input type="email" id="register_email" name="register_email" value="" placeholder="{{ __('auth.email') }}">
                                     <label class="form-item-btn" for="register_email">
                                         <i class="far fa-envelope"></i>
                                     </label>
@@ -133,7 +133,7 @@
                                 </div>
 
                                 <div class="form-item">
-                                    <input type="text" id="register_name" name="register_first_name" value="" placeholder="User Name">
+                                    <input type="text" id="register_name" name="register_first_name" value="" placeholder="{{ __('auth.name') }}">
                                     <label class="form-item-btn" for="register_name">
                                         <i class="far fa-user"></i>
                                     </label>
@@ -145,7 +145,7 @@
                                 </div>
 
                                 <div class="form-item">
-                                    <input type="password" id="register_password" name="register_password" value="" placeholder="Password">
+                                    <input type="password" id="register_password" name="register_password" value="" placeholder="{{ __('auth.password') }}">
                                     <label class="form-item-btn" for="register_password">
                                         <i class="fas fa-unlock-alt"></i>
                                     </label>
@@ -160,7 +160,7 @@
                                     {{--<input type="checkbox" id="agree">--}}
                                     {{--<label for="agree">I agree to <strong class="color-black">Terms & Conditions</strong></label>--}}
                                 {{--</div>--}}
-                                <button type="submit" class="register-btn">Зарегистрироватся</button>
+                                <button type="submit" class="register-btn">{{ __('auth.register') }}</button>
                             </form>
 
                         </div>

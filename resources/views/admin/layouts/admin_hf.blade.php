@@ -10,6 +10,8 @@
     <meta name="author" content="pixelcave">
     <meta name="robots" content="noindex, nofollow">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Open Graph Meta -->
     <meta property="og:title" content="Codebase - Bootstrap 4 Admin Template &amp; UI Framework">
     <meta property="og:site_name" content="Codebase">
@@ -86,7 +88,7 @@ MAIN CONTENT LAYOUT
     'main-content-boxed'                        Full width Main Content with a specific maximum width (screen width > 1200px)
     'main-content-narrow'                       Full width Main Content with a percentage width (screen width > 1200px)
 -->
-<div id="page-container" class="sidebar-o sidebar-inverse enable-page-overlay side-scroll page-header-fixed main-content-narrow">
+<div id="page-container" class="sidebar-inverse enable-page-overlay side-scroll page-header-fixed main-content-narrow @if(session('view.admin_panel')== 'sidebar') sidebar-o @endif">
     <!-- Side Overlay-->
     <aside id="side-overlay">
         <!-- Side Header -->
@@ -443,19 +445,19 @@ MAIN CONTENT LAYOUT
 
                 <!-- Visible only in normal mode -->
                 <div class="sidebar-mini-hidden-b text-center">
-                    <a class="img-link" href="be_pages_generic_profile.html">
-                        <img class="img-avatar" src="{{ URL::asset('media/avatars/avatar15.jpg') }}" alt="">
+                    <a class="img-link" href="{{ route('personal', Auth::user()->id) }}">
+                        <div class="img-avatar admin-img-avatar_custom" style="background-image: url({{ Auth::user()->image }})" alt=""></div>
                     </a>
                     <ul class="list-inline mt-10">
                         <li class="list-inline-item">
-                            <a class="link-effect text-dual-primary-dark font-size-sm font-w600 text-uppercase" href="be_pages_generic_profile.html">{{ Auth::user()->first_name }}</a>
+                            <a class="link-effect text-dual-primary-dark font-size-sm font-w600 text-uppercase" href="{{ route('personal', Auth::user()->id) }}">{{ Auth::user()->first_name }}</a>
                         </li>
-                        <li class="list-inline-item">
-                            <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                            <a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">
-                                <i class="si si-drop"></i>
-                            </a>
-                        </li>
+                        {{--<li class="list-inline-item">--}}
+                            {{--<!-- Layout API, functionality initialized in Template._uiApiLayout() -->--}}
+                            {{--<a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">--}}
+                                {{--<i class="si si-drop"></i>--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
                         <li class="list-inline-item">
                             <a class="link-effect text-dual-primary-dark" href="{{ route('get_logout') }}">
                                 <i class="si si-logout"></i>
@@ -475,10 +477,13 @@ MAIN CONTENT LAYOUT
                     </li>
 
                     <li>  <!--class="open"-->
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-badge"></i><span class="sidebar-mini-hide">Заказы</span></a>
+                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-badge"></i><span class="sidebar-mini-hide">Управление</span></a>
                         <ul>
                             <li>
-                                <a href="{{ route('admin_orders') }}">Заказы</a>
+                                <a href="{{ route('admin.notifications.index') }}">Уведомления</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.orders.index') }}">Заказы</a>
                             </li>
                         </ul>
                     </li>
@@ -511,6 +516,9 @@ MAIN CONTENT LAYOUT
                             <li>
                                 <a href="{{ route('admin.blog.articles.index') }}">Статьи</a>
                             </li>
+                            <li>
+                                <a href="{{ route('admin.blog.tags.index') }}">Теги</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -523,75 +531,75 @@ MAIN CONTENT LAYOUT
                                     <li>
                                         <a href="{{ route('admin.pages.main.slider.index') }}">Слайдер</a>
                                     </li>
-                                    <li>
-                                        <a href="#">Преимущества</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Топ товаров</a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">Link 3-1</a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                    {{--<li>--}}
+                                        {{--<a href="#">Преимущества</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">Топ товаров</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>--}}
+                                        {{--<ul>--}}
+                                            {{--<li>--}}
+                                                {{--<a href="#">Link 3-1</a>--}}
+                                            {{--</li>--}}
+                                        {{--</ul>--}}
+                                    {{--</li>--}}
                                 </ul>
                             </li>
-                            <li>
-                                <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 2</a>
-                                <ul>
-                                    <li>
-                                        <a href="#">Link 2-1</a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">Link 3-1</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 2</a>--}}
+                                {{--<ul>--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">Link 2-1</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>--}}
+                                        {{--<ul>--}}
+                                            {{--<li>--}}
+                                                {{--<a href="#">Link 3-1</a>--}}
+                                            {{--</li>--}}
+                                        {{--</ul>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
                         </ul>
                     </li>
 
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Формы</span></a>
-                        <ul>
-                            <li>
-                                <a href="be_forms_elements_bootstrap.html">Bootstrap Elements</a>
-                            </li>
+                    {{--<li>--}}
+                        {{--<a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Формы</span></a>--}}
+                        {{--<ul>--}}
+                            {{--<li>--}}
+                                {{--<a href="be_forms_elements_bootstrap.html">Bootstrap Elements</a>--}}
+                            {{--</li>--}}
 
-                        </ul>
-                    </li>
+                        {{--</ul>--}}
+                    {{--</li>--}}
 
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Ссылки</span></a>
-                        <ul>
-                            <li>
-                                <a href="#">Link 1-1</a>
-                            </li>
-                            <li>
-                                <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 2</a>
-                                <ul>
-                                    <li>
-                                        <a href="#">Link 2-1</a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">Link 3-1</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    {{--<li>--}}
+                        {{--<a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="sidebar-mini-hide">Ссылки</span></a>--}}
+                        {{--<ul>--}}
+                            {{--<li>--}}
+                                {{--<a href="#">Link 1-1</a>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                                {{--<a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 2</a>--}}
+                                {{--<ul>--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">Link 2-1</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a class="nav-submenu" data-toggle="nav-submenu" href="#">Sub Level 3</a>--}}
+                                        {{--<ul>--}}
+                                            {{--<li>--}}
+                                                {{--<a href="#">Link 3-1</a>--}}
+                                            {{--</li>--}}
+                                        {{--</ul>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
                 </ul>
             </div>
             <!-- END Side Navigation -->
@@ -608,96 +616,97 @@ MAIN CONTENT LAYOUT
             <div class="content-header-section">
                 <!-- Toggle Sidebar -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="sidebar_toggle">
+                <div onclick="viewAdmin()" class="button-admin_panel-view"> <!-- data-action="sidebar_toggle" data-action="sidebar_toggle" -->
                     <i class="fa fa-navicon"></i>
-                </button>
+                </div>
                 <!-- END Toggle Sidebar -->
 
                 <!-- Open Search Section -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="header_search_on">
-                    <i class="fa fa-search"></i>
-                </button>
+                {{--<button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="header_search_on">--}}
+                    {{--<i class="fa fa-search"></i>--}}
+                {{--</button>--}}
                 <!-- END Open Search Section -->
 
                 <!-- Layout Options (used just for demonstration) -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-circle btn-dual-secondary" id="page-header-options-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-wrench"></i>
-                    </button>
-                    <div class="dropdown-menu min-width-300" aria-labelledby="page-header-options-dropdown">
-                        <h5 class="h6 text-center py-10 mb-10 border-b text-uppercase">Settings</h5>
-                        <h6 class="dropdown-header">Color Themes</h6>
-                        <div class="row no-gutters text-center mb-5">
-                            <div class="col-2 mb-5">
-                                <a class="text-default" data-toggle="theme" data-theme="default" href="javascript:void(0)">
-                                    <i class="fa fa-2x fa-circle"></i>
-                                </a>
-                            </div>
-                            <div class="col-2 mb-5">
-                                <a class="text-elegance" data-toggle="theme" data-theme="{{ URL::asset('css/themes/elegance.min.css') }}" href="javascript:void(0)">
-                                    <i class="fa fa-2x fa-circle"></i>
-                                </a>
-                            </div>
-                            <div class="col-2 mb-5">
-                                <a class="text-pulse" data-toggle="theme" data-theme="{{ URL::asset('css/themes/pulse.min.css') }}" href="javascript:void(0)">
-                                    <i class="fa fa-2x fa-circle"></i>
-                                </a>
-                            </div>
-                            <div class="col-2 mb-5">
-                                <a class="text-flat" data-toggle="theme" data-theme="{{ URL::asset('css/themes/flat.min.css') }}" href="javascript:void(0)">
-                                    <i class="fa fa-2x fa-circle"></i>
-                                </a>
-                            </div>
-                            <div class="col-2 mb-5">
-                                <a class="text-corporate" data-toggle="theme" data-theme="{{ URL::asset('css/themes/corporate.min.css') }}" href="javascript:void(0)">
-                                    <i class="fa fa-2x fa-circle"></i>
-                                </a>
-                            </div>
-                            <div class="col-2 mb-5">
-                                <a class="text-earth" data-toggle="theme" data-theme="{{ URL::asset('css/themes/earth.min.css') }}" href="javascript:void(0)">
-                                    <i class="fa fa-2x fa-circle"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <h6 class="dropdown-header">Header</h6>
-                        <div class="row gutters-tiny text-center mb-5">
-                            <div class="col-6">
-                                <button type="button" class="btn btn-sm btn-block btn-alt-secondary" data-toggle="layout" data-action="header_fixed_toggle">Fixed Mode</button>
-                            </div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-sm btn-block btn-alt-secondary d-none d-lg-block mb-10" data-toggle="layout" data-action="header_style_classic">Classic Style</button>
-                            </div>
-                        </div>
-                        <h6 class="dropdown-header">Sidebar</h6>
-                        <div class="row gutters-tiny text-center mb-5">
-                            <div class="col-6">
-                                <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_off">Light</button>
-                            </div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_on">Dark</button>
-                            </div>
-                        </div>
-                        <div class="d-none d-xl-block">
-                            <h6 class="dropdown-header">Main Content</h6>
-                            <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="content_layout_toggle">Toggle Layout</button>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="row gutters-tiny text-center">
-                            <div class="col-6">
-                                <a class="dropdown-item mb-0" href="be_layout_api.html">
-                                    <i class="si si-chemistry mr-5"></i> Layout API
-                                </a>
-                            </div>
-                            <div class="col-6">
-                                <a class="dropdown-item mb-0" href="be_ui_color_themes.html">
-                                    <i class="fa fa-paint-brush mr-5"></i> Color Themes
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{--<div class="btn-group" role="group">--}}
+                    {{--<button type="button" class="btn btn-circle btn-dual-secondary" id="page-header-options-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+                        {{--<i class="fa fa-wrench"></i>--}}
+                    {{--</button>--}}
+                    {{----}}
+                    {{--<div class="dropdown-menu min-width-300" aria-labelledby="page-header-options-dropdown">--}}
+                        {{--<h5 class="h6 text-center py-10 mb-10 border-b text-uppercase">Settings</h5>--}}
+                        {{--<h6 class="dropdown-header">Color Themes</h6>--}}
+                        {{--<div class="row no-gutters text-center mb-5">--}}
+                            {{--<div class="col-2 mb-5">--}}
+                                {{--<a class="text-default" data-toggle="theme" data-theme="default" href="javascript:void(0)">--}}
+                                    {{--<i class="fa fa-2x fa-circle"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-2 mb-5">--}}
+                                {{--<a class="text-elegance" data-toggle="theme" data-theme="{{ URL::asset('css/themes/elegance.min.css') }}" href="javascript:void(0)">--}}
+                                    {{--<i class="fa fa-2x fa-circle"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-2 mb-5">--}}
+                                {{--<a class="text-pulse" data-toggle="theme" data-theme="{{ URL::asset('css/themes/pulse.min.css') }}" href="javascript:void(0)">--}}
+                                    {{--<i class="fa fa-2x fa-circle"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-2 mb-5">--}}
+                                {{--<a class="text-flat" data-toggle="theme" data-theme="{{ URL::asset('css/themes/flat.min.css') }}" href="javascript:void(0)">--}}
+                                    {{--<i class="fa fa-2x fa-circle"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-2 mb-5">--}}
+                                {{--<a class="text-corporate" data-toggle="theme" data-theme="{{ URL::asset('css/themes/corporate.min.css') }}" href="javascript:void(0)">--}}
+                                    {{--<i class="fa fa-2x fa-circle"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-2 mb-5">--}}
+                                {{--<a class="text-earth" data-toggle="theme" data-theme="{{ URL::asset('css/themes/earth.min.css') }}" href="javascript:void(0)">--}}
+                                    {{--<i class="fa fa-2x fa-circle"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<h6 class="dropdown-header">Header</h6>--}}
+                        {{--<div class="row gutters-tiny text-center mb-5">--}}
+                            {{--<div class="col-6">--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary" data-toggle="layout" data-action="header_fixed_toggle">Fixed Mode</button>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-6">--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary d-none d-lg-block mb-10" data-toggle="layout" data-action="header_style_classic">Classic Style</button>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<h6 class="dropdown-header">Sidebar</h6>--}}
+                        {{--<div class="row gutters-tiny text-center mb-5">--}}
+                            {{--<div class="col-6">--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_off">Light</button>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-6">--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_on">Dark</button>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="d-none d-xl-block">--}}
+                            {{--<h6 class="dropdown-header">Main Content</h6>--}}
+                            {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="content_layout_toggle">Toggle Layout</button>--}}
+                        {{--</div>--}}
+                        {{--<div class="dropdown-divider"></div>--}}
+                        {{--<div class="row gutters-tiny text-center">--}}
+                            {{--<div class="col-6">--}}
+                                {{--<a class="dropdown-item mb-0" href="be_layout_api.html">--}}
+                                    {{--<i class="si si-chemistry mr-5"></i> Layout API--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-6">--}}
+                                {{--<a class="dropdown-item mb-0" href="be_ui_color_themes.html">--}}
+                                    {{--<i class="fa fa-paint-brush mr-5"></i> Color Themes--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
                 <!-- END Layout Options -->
             </div>
             <!-- END Left Section -->
@@ -708,33 +717,33 @@ MAIN CONTENT LAYOUT
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user d-sm-none"></i>
-                        <span class="d-none d-sm-inline-block">J. Smith</span>
+                        <span class="d-none d-sm-inline-block">{{ Auth::user()->first_name }}</span>
                         <i class="fa fa-angle-down ml-5"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
-                        <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">User</h5>
-                        <a class="dropdown-item" href="be_pages_generic_profile.html">
-                            <i class="si si-user mr-5"></i> Profile
+                        <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">Admin</h5>
+                        <a class="dropdown-item" href="{{ route('personal', Auth::user()->id) }}">
+                            <i class="si si-user mr-5"></i> Личный кабинет
                         </a>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_inbox.html">
-                            <span><i class="si si-envelope-open mr-5"></i> Inbox</span>
-                            <span class="badge badge-primary">3</span>
-                        </a>
-                        <a class="dropdown-item" href="be_pages_generic_invoice.html">
-                            <i class="si si-note mr-5"></i> Invoices
-                        </a>
-                        <div class="dropdown-divider"></div>
+                        {{--<a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_inbox.html">--}}
+                            {{--<span><i class="si si-envelope-open mr-5"></i> Inbox</span>--}}
+                            {{--<span class="badge badge-primary">3</span>--}}
+                        {{--</a>--}}
+                        {{--<a class="dropdown-item" href="be_pages_generic_invoice.html">--}}
+                            {{--<i class="si si-note mr-5"></i> Invoices--}}
+                        {{--</a>--}}
+                        {{--<div class="dropdown-divider"></div>--}}
 
                         <!-- Toggle Side Overlay -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <a class="dropdown-item" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">
-                            <i class="si si-wrench mr-5"></i> Settings
-                        </a>
+                        {{--<a class="dropdown-item" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">--}}
+                            {{--<i class="si si-wrench mr-5"></i> Settings--}}
+                        {{--</a>--}}
                         <!-- END Side Overlay -->
 
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="op_auth_signin.html">
-                            <i class="si si-logout mr-5"></i> Sign Out
+                        <a class="dropdown-item" href="{{ route('get_logout') }}">
+                            <i class="si si-logout mr-5"></i> {{ __('main.buttons.logout') }}
                         </a>
                     </div>
                 </div>
@@ -742,82 +751,68 @@ MAIN CONTENT LAYOUT
 
                 <!-- Notifications -->
                 <div class="btn-group" role="group">
+                    @if(count($AdminNotificationsHF) > 0) <!-- если есть уведомления -->
                     <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-flag"></i>
-                        <span class="badge badge-primary badge-pill">5</span>
+                        @if(count($AdminNotificationsHF) > 0)<span class="badge badge-primary badge-pill">{{ count($AdminNotificationsHF) }}</span>@endif
                     </button>
+                    @else <!-- если нет уведомлений -->
+                    <a href="{{ route('admin.notifications.index') }}" class="btn btn-rounded btn-dual-secondary admin-notifications_link">
+                        <i class="fa fa-flag"></i>
+                    </a>
+                    @endif
+
+                    @if(count($AdminNotificationsHF) > 0)
                     <div class="dropdown-menu dropdown-menu-right min-width-300" aria-labelledby="page-header-notifications">
-                        <h5 class="h6 text-center py-10 mb-0 border-b text-uppercase">Notifications</h5>
+                        <h5 class="h6 text-center py-10 mb-0 border-b text-uppercase">Уведомления</h5>
                         <ul class="list-unstyled my-20">
+                            @foreach($AdminNotificationsHF as $adminNotification)
                             <li>
-                                <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
+                                <a class="text-body-color-dark media mb-15" href="{{ route('admin.notifications.edit', $adminNotification->id) }}">
                                     <div class="ml-5 mr-15">
-                                        <i class="fa fa-fw fa-check text-success"></i>
+                                        @if($adminNotification->type == 'Сообщение')
+                                        <i class="fa fa-fw fa-envelope text-success"></i>
+                                        @elseif($adminNotification->type == 'Подписка')
+                                        <i class="fa fa-fw fa-mail-forward text-warning"></i>
+                                        @elseif($adminNotification->type == 'Комментарий')
+                                        <i class="fa fa-fw fa-comment text-primary"></i>
+                                        @elseif($adminNotification->type == 'Заказ')
+                                        <i class="fa fa-fw fa-archive text-danger"></i>
+                                        @endif
                                     </div>
                                     <div class="media-body pr-10">
-                                        <p class="mb-0">You’ve upgraded to a VIP account successfully!</p>
-                                        <div class="text-muted font-size-sm font-italic">15 min ago</div>
+                                        <p class="mb-0">
+                                            @if($adminNotification->type == 'Комментарий')
+                                                {{ mb_strimwidth($adminNotification->comment->comment, 0, 60, '...') }}
+                                            @elseif($adminNotification->type == 'Подписка')
+                                                {{ mb_strimwidth($adminNotification->subscription->email, 0, 60, '...') }}
+                                            @elseif($adminNotification->type == 'Сообщение')
+                                                {{ mb_strimwidth($adminNotification->message->message, 0, 60, '...') }}
+                                            @elseif($adminNotification->type == 'Заказ')
+                                                {{ $adminNotification->order->first_name.' '.$adminNotification->order->last_name }}
+                                            @endif
+                                        </p>
+                                        <div class="text-muted font-size-sm font-italic">{{ Date::parse($adminNotification->created_at)->format('j F H:i') }}</div>
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                    <div class="ml-5 mr-15">
-                                        <i class="fa fa-fw fa-exclamation-triangle text-warning"></i>
-                                    </div>
-                                    <div class="media-body pr-10">
-                                        <p class="mb-0">Please check your payment info since we can’t validate them!</p>
-                                        <div class="text-muted font-size-sm font-italic">50 min ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                    <div class="ml-5 mr-15">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </div>
-                                    <div class="media-body pr-10">
-                                        <p class="mb-0">Web server stopped responding and it was automatically restarted!</p>
-                                        <div class="text-muted font-size-sm font-italic">4 hours ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                    <div class="ml-5 mr-15">
-                                        <i class="fa fa-fw fa-exclamation-triangle text-warning"></i>
-                                    </div>
-                                    <div class="media-body pr-10">
-                                        <p class="mb-0">Please consider upgrading your plan. You are running out of space.</p>
-                                        <div class="text-muted font-size-sm font-italic">16 hours ago</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                    <div class="ml-5 mr-15">
-                                        <i class="fa fa-fw fa-plus text-primary"></i>
-                                    </div>
-                                    <div class="media-body pr-10">
-                                        <p class="mb-0">New purchases! +$250</p>
-                                        <div class="text-muted font-size-sm font-italic">1 day ago</div>
-                                    </div>
-                                </a>
-                            </li>
+                            @endforeach
                         </ul>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-center mb-0" href="javascript:void(0)">
+                        <a class="dropdown-item text-center mb-0" href="{{ route('admin.notifications.index') }}">
                             <i class="fa fa-flag mr-5"></i> View All
                         </a>
                     </div>
+                    @endif
+
                 </div>
                 <!-- END Notifications -->
 
                 <!-- Toggle Side Overlay -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="side_overlay_toggle">
-                    <i class="fa fa-tasks"></i>
-                </button>
+                {{--<button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="side_overlay_toggle">--}}
+                    {{--<i class="fa fa-tasks"></i>--}}
+                {{--</button>--}}
                 <!-- END Toggle Side Overlay -->
             </div>
             <!-- END Right Section -->

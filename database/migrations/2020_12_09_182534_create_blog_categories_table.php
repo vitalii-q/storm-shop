@@ -17,7 +17,7 @@ class CreateBlogCategoriesTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name');
-            $table->string('name_en');
+            $table->string('name_en')->nullable();
             $table->string('code');
             $table->text('description')->nullable();
             $table->text('description_en')->nullable();

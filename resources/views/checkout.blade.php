@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">Оформление</h2>
+                            <h2 class="title-text">{{ __('cart.checkout_title') }}</h2>
                         </div>
 
                     </div>
@@ -27,8 +27,9 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">checkout</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li><a href="{{ route('cart') }}">{{ __('cart.cart') }}</a></li>
+                    <li class="active">{{ __('cart.checkout_breadcrumb') }}</li>
                 </ul>
             </div>
         </div>
@@ -53,40 +54,45 @@
                     @guest
                         <!-- sign-in-container - start -->
                         <div class="sign-in-container">
-                            <a href="{{ route('login') }}" class="sign-in-btn">sign in</a>
+                            <a href="{{ route('login') }}" class="sign-in-btn">{{ __('main.buttons.login') }}</a>
                         </div>
                         <!-- sign-in-container - end -->
                     @endguest
 
                     <div class="checkout-content">
-                        <ul class="nav checkout-nav mb-60">
-                            <li>
-                                <a class="active" data-toggle="tab" href="#menu1">
-                                    <span>1</span>
-                                    <strong>Shipping</strong>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#menu2">
-                                    <span>2</span>
-                                    <strong>Payments</strong>
-                                </a>
-                            </li>
-                        </ul>
+                        {{--<ul class="nav checkout-nav mb-60">--}}
+                            {{--<li>--}}
+                                {{--<a class="active" data-toggle="tab" href="#menu1">--}}
+                                    {{--<span>1</span>--}}
+                                    {{--<strong>Shipping</strong>--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                                {{--<a data-toggle="tab" href="#menu2">--}}
+                                    {{--<span>2</span>--}}
+                                    {{--<strong>Payments</strong>--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                        {{--</ul>--}}
 
                         <div class="tab-content">
 
                             <div id="menu1" class="tab-pane fade in active show">
                                 <div class="section-title">
-                                    <h2>shipping address</h2>
+                                    <h2>{{ __('cart.order.ordering') }}</h2>
                                 </div>
 
                                 <form action="{{ route('buy') }}">
                                     <div class="row">
+
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">First Name<sup>*</sup></span>
-                                                <input type="text" name="first_name">
+                                                <span class="input-title font-w600">{{ __('cart.order.first_name') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="first_name" value="{{ Auth::user()->first_name }}">
+                                                @else
+                                                    <input type="text" name="first_name">
+                                                @endif
 
                                                 @error('first_name') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -97,8 +103,12 @@
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Last Name<sup>*</sup></span>
-                                                <input type="text" name="last_name">
+                                                <span class="input-title font-w600">{{ __('cart.order.last_name') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="last_name" value="{{ Auth::user()->last_name }}">
+                                                @else
+                                                    <input type="text" name="last_name">
+                                                @endif
 
                                                 @error('last_name') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -109,8 +119,12 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Email Address<sup>*</sup></span>
-                                                <input type="email" name="email">
+                                                <span class="input-title font-w600">{{ __('cart.order.email') }}</span>
+                                                @if(Auth::check())
+                                                    <input type="email" name="email" value="{{ Auth::user()->email }}">
+                                                @else
+                                                    <input type="email" name="email">
+                                                @endif
                                                 {{--<p class="mb-0">You can create an account after checkout.</p>--}}
 
                                                 @error('email') <!-- добавляем вывод ошибки -->
@@ -122,8 +136,12 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Phone<sup>*</sup></span>
-                                                <input type="tel" name="phone">
+                                                <span class="input-title font-w600">{{ __('cart.order.phone') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="tel" name="phone" value="{{ Auth::user()->phone }}">
+                                                @else
+                                                    <input type="tel" name="phone">
+                                                @endif
 
                                                 @error('phone') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -134,8 +152,12 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">City<sup>*</sup></span>
-                                                <input type="text" name="shipping_city">
+                                                <span class="input-title font-w600">{{ __('cart.order.city') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="shipping_city" value="{{ Auth::user()->city }}">
+                                                @else
+                                                    <input type="text" name="shipping_city">
+                                                @endif
 
                                                 @error('shipping_city') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -146,8 +168,13 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Street Address<sup>*</sup></span>
-                                                <input type="text" name="shipping_street">
+                                                <span class="input-title font-w600">{{ __('cart.order.street') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="shipping_street" value="{{ Auth::user()->street }}">
+                                                @else
+                                                    <input type="text" name="shipping_street">
+                                                @endif
+
 
                                                 @error('shipping_street') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -158,8 +185,12 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="form-item">
-                                                <span class="input-title font-w600">Apartment<sup>*</sup></span>
-                                                <input type="text" name="shipping_apartment">
+                                                <span class="input-title font-w600">{{ __('cart.order.apartment') }}<sup>*</sup></span>
+                                                @if(Auth::check())
+                                                    <input type="text" name="shipping_apartment" value="{{ Auth::user()->apartment }}">
+                                                @else
+                                                    <input type="text" name="shipping_apartment">
+                                                @endif
 
                                                 @error('shipping_apartment') <!-- добавляем вывод ошибки -->
                                                     <br>
@@ -170,7 +201,7 @@
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="address-textarea mb-30">
-                                                <span class="input-title font-w600">Message<sup>*</sup></span>
+                                                <span class="input-title font-w600">{{ __('cart.order.comment') }}</span>
                                                 <textarea name="message"></textarea>
 
                                                 @error('message') <!-- добавляем вывод ошибки -->
@@ -181,7 +212,7 @@
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <button type="submit" class="next-btn custom-btn bg-past">Оформить</button>
+                                            <button type="submit" class="next-btn custom-btn bg-past">{{ __('cart.checkout') }}</button>
                                         </div>
 
                                         {{--<div class="col-lg-12 col-md-12 col-sm-12">--}}
@@ -250,13 +281,13 @@
                                 </form>
                             </div>
 
-                            <div id="menu2" class="tab-pane fade">
-                                <div class="section-title">
-                                    <h2>Payments</h2>
-                                </div>
+                            {{--<div id="menu2" class="tab-pane fade">--}}
+                                {{--<div class="section-title">--}}
+                                    {{--<h2>Payments</h2>--}}
+                                {{--</div>--}}
 
-                                <form action="#!">
-                                    <div class="row">
+                                {{--<form action="#!">--}}
+                                    {{--<div class="row">--}}
                                         {{--<div class="col-lg-12 col-md-12 col-sm-12">--}}
                                             {{--<div class="form-item">--}}
                                                 {{--<span class="input-title font-w600">Email Address<sup>*</sup></span>--}}
@@ -265,25 +296,25 @@
                                             {{--</div>--}}
                                         {{--</div>--}}
 
-                                        <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <div class="sate-province mb-30">
-                                                <span class="input-title font-w600">Способ оплаты<sup>*</sup></span>
-                                                <select name="payment" class="storm-select">
-                                                    <option selected>Выберите способ оплаты</option>
-                                                    <option value="">Оплата картой</option>
-                                                    <option value="">Оплата наличными</option>
-                                                    <option value="">PayPal</option>
-                                                </select>
+                                        {{--<div class="col-lg-12 col-md-12 col-sm-12">--}}
+                                            {{--<div class="sate-province mb-30">--}}
+                                                {{--<span class="input-title font-w600">Способ оплаты<sup>*</sup></span>--}}
+                                                {{--<select name="payment" class="storm-select">--}}
+                                                    {{--<option selected>Выберите способ оплаты</option>--}}
+                                                    {{--<option value="">Оплата картой</option>--}}
+                                                    {{--<option value="">Оплата наличными</option>--}}
+                                                    {{--<option value="">PayPal</option>--}}
+                                                {{--</select>--}}
 
-                                                @error('payment')
-                                                <br>
-                                                <br><div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                                                {{--@error('payment')--}}
+                                                {{--<br>--}}
+                                                {{--<br><div class="alert alert-danger">{{ $message }}</div>--}}
+                                                {{--@enderror--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</form>--}}
+                            {{--</div>--}}
 
                         </div>
                     </div>
@@ -294,10 +325,10 @@
 
                         <div class="order-summary mb-30 clearfix checkout_products-block">
                             <div class="section-title section-title_checkout-custom">
-                                <h2>Итог заказа</h2>
+                                <h2>{{ __('cart.order.summary').': '.App\Http\Controllers\CartController::getTotalSum().App\Services\CurrencyConversion::currencySymbol() }}</h2>
                             </div>
 
-                            <span class="item-amount mb-15">{{ App\Http\Controllers\CartController::getProductsCountInCart() }} продуктов в корзине</span>
+                            <span class="item-amount mb-15">{{ App\Http\Controllers\CartController::getProductsCountInCart() }} {{ __('cart.order.in_cart') }}</span>
 
                             <div class="flex-container">
                                 @php($i = 1)
@@ -305,13 +336,18 @@
                                     @foreach($products as $product)
                                         <div class="item-summary checkout_product-block">
                                             <div class="image-container">
-                                                <img src="{{ Storage::url($product['image_1']) }}" alt="image_not_found">
+                                                <img src="{{ URL::asset($product['image_1']) }}" alt="image_not_found">
                                             </div>
                                             <div class="item-content">
-                                                <h3 class="title-text">{{ $product['name'] }}</h3>
-                                                <span class="qty-text mb-15">К-во: <small>{{ $product['quantity'] }}</small></span>
+                                                <h3 class="title-text">{{ App\Models\Product::where('id', $product['product_id'])->first()->__('name') }}</h3>
+
+                                                @foreach(App\Models\Product::getSku($product['id'])->skuValues as $skuValue)
+                                                    <p><b>{{  $skuValue->attributeValue->attribute->__('name') }}:</b> {{ $skuValue->attributeValue->__('name') }}</p>
+                                                @endforeach
+
+                                                <span class="qty-text mb-15">{{ __('cart.quantity') }}: <small>{{ $product['quantity'] }}</small></span>
                                                 <div class="item-price">
-                                                    <strong class="color-black">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</strong>
+                                                    <strong class="color-black">{{ App\Http\Controllers\CartController::getProductSum($product['id']).App\Services\CurrencyConversion::currencySymbol() }}</strong>
                                                 </div>
                                             </div>
                                         </div>
@@ -322,57 +358,58 @@
 
                         </div>
 
-                        <div class="shipping-method clearfix">
-                            <div class="section-title">
-                                <h2>Shipping Methods</h2>
-                            </div>
+                        {{--<div class="shipping-method clearfix">--}}
+                            {{--<div class="section-title">--}}
+                                {{--<h2>Shipping Methods</h2>--}}
+                            {{--</div>--}}
 
-                            <div class="shipping-methods-table bg-gray clearfix">
-                                <table class="table mb-30">
-                                    <thead>
-                                    <tr>
-                                        <th scope="row">select method</th>
-                                        <th>price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" id="check-1">
-                                        </th>
-                                        <td>$10.00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" id="check-2">
-                                        </th>
-                                        <td>$15.00</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            {{--<div class="shipping-methods-table bg-gray clearfix">--}}
 
-                                <table class="table mb-30">
-                                    <thead>
-                                    <tr>
-                                        <th scope="row">method title</th>
-                                        <th>carrier title</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">Fixed</th>
-                                        <td>Flat Rate</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Free</th>
-                                        <td>Free Shipping</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                {{--<table class="table mb-30">--}}
+                                    {{--<thead>--}}
+                                    {{--<tr>--}}
+                                        {{--<th scope="row">select method</th>--}}
+                                        {{--<th>price</th>--}}
+                                    {{--</tr>--}}
+                                    {{--</thead>--}}
+                                    {{--<tbody>--}}
+                                    {{--<tr>--}}
+                                        {{--<th scope="row">--}}
+                                            {{--<input type="checkbox" id="check-1">--}}
+                                        {{--</th>--}}
+                                        {{--<td>$10.00</td>--}}
+                                    {{--</tr>--}}
+                                    {{--<tr>--}}
+                                        {{--<th scope="row">--}}
+                                            {{--<input type="checkbox" id="check-2">--}}
+                                        {{--</th>--}}
+                                        {{--<td>$15.00</td>--}}
+                                    {{--</tr>--}}
+                                    {{--</tbody>--}}
+                                {{--</table>--}}
 
-                                <a href="{{ route('buy') }}" class="next-btn custom-btn bg-past">next</a>
-                            </div>
-                        </div>
+                                {{--<table class="table mb-30">--}}
+                                    {{--<thead>--}}
+                                    {{--<tr>--}}
+                                        {{--<th scope="row">method title</th>--}}
+                                        {{--<th>carrier title</th>--}}
+                                    {{--</tr>--}}
+                                    {{--</thead>--}}
+                                    {{--<tbody>--}}
+                                    {{--<tr>--}}
+                                        {{--<th scope="row">Fixed</th>--}}
+                                        {{--<td>Flat Rate</td>--}}
+                                    {{--</tr>--}}
+                                    {{--<tr>--}}
+                                        {{--<th scope="row">Free</th>--}}
+                                        {{--<td>Free Shipping</td>--}}
+                                    {{--</tr>--}}
+                                    {{--</tbody>--}}
+                                {{--</table>--}}
+
+                                {{--<a href="{{ route('buy') }}" class="next-btn custom-btn bg-past">next</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                     </div>
                 </div>

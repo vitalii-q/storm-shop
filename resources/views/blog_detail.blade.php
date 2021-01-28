@@ -1,6 +1,6 @@
 @extends('layouts.hf')
 
-@section('title', $article->title)
+@section('title', $article->__('title'))
 
 @section('content')
 
@@ -9,13 +9,13 @@
     <section id="breadcrumb-section" class="breadcrumb-section clearfix">
 
         <!-- breadcrumb-big-title - start -->
-        <div class="breadcrumb-big-title" style="background-image: url(images/breadcrumb/bg-image-1.jpg);">
+        <div class="breadcrumb-big-title" style="background-image: url({{ URL::asset('images/breadcrumb/bg-image-1.jpg') }}">
             <div class="overlay-black sec-ptb-100">
                 <div class="container">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">women's fashion</h2>
+                            <h2 class="title-text">{{ $article->__('title') }}</h2>
                         </div>
 
                     </div>
@@ -28,8 +28,9 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">blog details</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li><a href="{{ route('blog') }}">{{ __('blog.title') }}</a></li>
+                    <li class="active">{{ $article->__('title') }}</li>
                 </ul>
             </div>
         </div>
@@ -55,12 +56,12 @@
 
                         <!-- sidebar-search - start -->
                         <div class="sidebar-item sidebar-search ul-li-block mb-30">
-                            <form action="#!">
+                            <form action="{{ route('search') }}" method="get">
                                 <div class="form-item">
-                                    <input type="search" id="sidebar-search" placeholder="search">
-                                    <label for="sidebar-search" class="form-item-btn">
+                                    <input type="search" id="sidebar-search" name="search" placeholder="{{ __('main.search.search_input') }}">
+                                    <button type="submit" class="form-item-btn">
                                         <i class="flaticon-search"></i>
-                                    </label>
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -69,14 +70,12 @@
                         <!-- category-list - start -->
                         <div class="sidebar-item category-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Categories</h2>
+                                <h2>{{ __('main.menu.categories') }}</h2>
                             </div>
                             <ul class="clearfix">
-                                <li><a href="#!">Beauty <span class="float-right">(30)</span></a></li>
-                                <li><a href="#!">Fashion <span class="float-right">(50)</span></a></li>
-                                <li><a href="#!">Food <span class="float-right">(10)</span></a></li>
-                                <li><a href="#!">Life Style <span class="float-right">(60)</span></a></li>
-                                <li><a href="#!">Travel <span class="float-right">(10)</span></a></li>
+                                @foreach($blogCategories as $blogCategory)
+                                    <li><a href="{{ route('blog_category', $blogCategory['code']) }}">{{ $blogCategory->__('name') }} <span class="float-right">({{ $blogCategory->getArticles()->count() }})</span></a></li>
+                                @endforeach
                             </ul>
                         </div>
                         <!-- category-list - end -->
@@ -84,36 +83,27 @@
                         <!-- recent-post - start -->
                         <div class="sidebar-item recent-post ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Categories</h2>
+                                <h2>{{ __('blog.popular') }}</h2>
                             </div>
+
                             <ul class="clearfix">
-                                <li>
-										<span class="image-container">
-											<img src="assets/images/sidebar/recent-post/fashion/img-1.jpg" alt="image_not_found">
-										</span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-										<span class="image-container">
-											<img src="assets/images/sidebar/recent-post/fashion/img-2.jpg" alt="image_not_found">
-										</span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-										<span class="image-container">
-											<img src="assets/images/sidebar/recent-post/fashion/img-3.jpg" alt="image_not_found">
-										</span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
+
+                                @foreach($popArticles as $popArticle)
+                                    <li>
+                                        <span class="image-container">
+                                            <img src="{{ URL::asset($popArticle->image) }}" alt="image_not_found">
+                                        </span>
+
+                                        <div class="content">
+                                            <a href="{{ route('article', $popArticle->code) }}" class="item-title">{{ mb_strimwidth($popArticle->__('title'), 0 , 18, "...") }}</a>
+                                            <small class="post-date">
+                                                {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                                {{ Date::parse($popArticle->created_at)->format('j F Y') }}
+                                            </small>
+                                        </div>
+                                    </li>
+                                @endforeach
+
                             </ul>
                         </div>
                         <!-- recent-post - end -->
@@ -123,17 +113,16 @@
                             <div class="sidebar-title">
                                 <h2>tags</h2>
                             </div>
+
                             <ul class="clearfix mb-30">
-                                <li><a href="#!">fashion</a></li>
-                                <li><a href="#!">clothing</a></li>
-                                <li><a href="#!">jewelry</a></li>
-                                <li><a href="#!">accessories</a></li>
-                                <li><a href="#!">hot</a></li>
-                                <li><a href="#!">backpack</a></li>
-                                <li><a href="#!">shoes</a></li>
-                                <li><a href="#!">clothings</a></li>
+                                <ul class="clearfix mb-30">
+                                    @php($i=1) @foreach($tags as $tag)
+                                        <li><a href="{{ route('tag_blog', $tag->code) }}">{{ $tag->__('name') }}</a></li>
+                                        @php($i++) @endforeach
+                                </ul>
                             </ul>
-                            <a href="#!" class="view-all-btn">+<u>view all</u></a>
+
+                            {{--<a href="#!" class="view-all-btn">+<u>view all</u></a>--}}
                         </div>
                         <!-- popular-tags - end -->
 
@@ -147,137 +136,123 @@
                     <div class="blog-details mb-60">
 
                         <div class="blog-title mb-30">
-                            <h2 class="title-text">Styling Belt Bags And Over The Knee Boots</h2>
+                            <h2 class="title-text">{{ $article->__('title') }}</h2>
                             <div class="post-meta ul-li">
                                 <ul class="clearfix">
-                                    <li>post by: <a href="#!">admin</a></li>
-                                    <li>
-                                        <a href="#!">Beauty Tips,</a>
-                                        <a href="#!">Lifestyle</a>
-                                    </li>
-                                    <li>On March 16, 2018</li>
+                                    <li>{{ __('blog.published') }}: <a href="{{ '/personal/' . $article->user_id }}">{{ $user->first_name }}</a></li>
+
+                                    @if(count($article->tags) >= 1)
+                                        <li>
+                                            @php($i=1) @foreach($article->tags as $tag)
+                                                <a href="{{ route('tag_blog', $tag->code) }}">{{ $tag->__('name') }}@if($i!=count($article->tags)), @endif</a>
+                                            @php($i++) @endforeach
+                                        </li>
+                                    @endif
+
+                                    {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                    <li>{{ Date::parse($article->created_at)->format('j F Y') }}</li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="image-container mb-30">
-                            <img src="assets/images/blog/fashion/big-blog-1.jpg" alt="image_not_found">
+                            <img src="{{ URL::asset( $article->image ) }}" alt="image_not_found">
                         </div>
 
                         <div class="blog-content">
-                            <p class="mb-60">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip commodo consequat. Duis aute irure dolor in rep rehenderit. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiumod tempor incididunt ...
-                            </p>
-                            <blockquote class="blockquote mb-60">
-                                <p class="mb-30">
-                                    <sup><i class="flaticon-left-quotes-sign"></i></sup>
-                                    Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip.
-                                    <sub><i class="flaticon-right-quotes-symbol"></i></sub>
-                                </p>
-                                <footer class="blockquote-footer">
-                                    <a href="#!" class="admin">George Stven</a>
-                                    <cite title="Source Title">George Stven from New Youk, On Jun 13, 2018</cite>
-                                </footer>
-                            </blockquote>
-                            <p class="m-0">
-                                Dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet conse ctetur ing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud tation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
+                               {!! $article->__('text') !!}
                         </div>
 
                     </div>
                     <!-- blog-big-item - end -->
 
+                @if($comments->count() > 0)
                     <!-- blog-review - start -->
                     <div class="blog-review">
-                        <!-- review-item - start -->
-                        <div class="review-item clearfix">
-                            <span class="reviewer-img"></span>
-                            <div class="review-content">
-                                <div class="post-meta ul-li">
-                                    <ul>
-                                        <li>By <a href="#!">George Stven</a></li>
-                                        <li><i class="flaticon-clock-circular-outline"></i> on Sep 26, 2018   at 20:30</li>
-                                    </ul>
-                                </div>
-                                <p class="m-0">
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-                                </p>
-                            </div>
-                        </div>
-                        <!-- review-item - end -->
 
-                        <!-- review-item - start -->
-                        <div class="review-item clearfix">
-                            <span class="reviewer-img"></span>
-                            <div class="review-content">
-                                <div class="post-meta ul-li">
-                                    <ul>
-                                        <li>By <a href="#!">George Stven</a></li>
-                                        <li><i class="flaticon-clock-circular-outline"></i> on Sep 26, 2018   at 20:30</li>
-                                    </ul>
+                            @foreach($comments as $comment)
+                            <!-- review-item - start -->
+                            <div class="review-item clearfix">
+                                @if($comment->user != null)
+                                    <div class="blog_comment-avatar" style="background-image: url({{ URL::asset( $comment->user->image ) }})"></div>
+                                @else
+                                    <span class="reviewer-img"></span>
+                                @endif
+                                <div class="review-content">
+                                    <div class="post-meta ul-li">
+                                        <ul>
+                                            <li><!--BY--> <a href="{{ '/personal/' . $comment->user->id }}">{{ $comment->name }}</a></li>
+                                            <li><i class="flaticon-clock-circular-outline"></i>
+                                            {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                                {{ Date::parse($comment->created_at)->format('j F Y H:i') }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p class="m-0">
+                                        {{ $comment->comment }}
+                                    </p>
                                 </div>
-                                <p class="m-0">
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-                                </p>
                             </div>
-                        </div>
-                        <!-- review-item - end -->
+                            <!-- review-item - end -->
+                            @endforeach
 
-                        <!-- review-item - start -->
-                        <div class="review-item clearfix">
-                            <span class="reviewer-img"></span>
-                            <div class="review-content">
-                                <div class="post-meta ul-li">
-                                    <ul>
-                                        <li>By <a href="#!">George Stven</a></li>
-                                        <li><i class="flaticon-clock-circular-outline"></i> on Sep 26, 2018   at 20:30</li>
-                                    </ul>
-                                </div>
-                                <p class="m-0">
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-                                </p>
-                            </div>
-                        </div>
-                        <!-- review-item - end -->
                     </div>
                     <!-- blog-review - end -->
+                    @endisset
 
                     <div class="comment-form">
-                        <form action="#!">
+                        <form action="{{ route('comment') }}" method="post">
+                            @csrf
 
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-item">
-                                        <input type="text" id="comment-form-name" placeholder="your name">
-                                        <label for="comment-form-name" class="form-item-btn"><i class="flaticon-user"></i></label>
+                            <input type="number" id="article_id" name="article_id" value="{{ $article->id }}" hidden>
+
+                            @if(Auth::check())
+                                <input type="number" id="user_id" name="user_id" value="{{ Auth::user()->id }}" hidden>
+                            @else
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-item">
+                                            <input type="text" id="name" name="name" placeholder="Ваше имя">
+                                            <label for="name" class="form-item-btn"><i class="flaticon-user"></i></label>
+                                        </div>
+                                        @error('name')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-item">
+                                            <input type="email" id="email" name="email" placeholder="Ваш email">
+                                            <label for="email" class="form-item-btn"><i class="flaticon-e-mail-envelope"></i></label>
+                                        </div>
+                                        @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
-
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-item">
-                                        <input type="email" id="comment-form-email" placeholder="your email">
-                                        <label for="comment-form-email" class="form-item-btn"><i class="flaticon-e-mail-envelope"></i></label>
-                                    </div>
-                                </div>
-                            </div>
+                            @endif
 
                             <div class="form-textarea clearfix">
-                                <textarea id="comment-textarea"></textarea>
+                                <textarea id="comment-textarea" name="comment"></textarea>
                                 <label for="comment-textarea" class="form-item-btn">
 										<span class="admin-img">
-											<img src="assets/images/post-meta/admin-2.png" alt="image_not_found">
+											<img src="{{ URL::asset('images/post-meta/admin-2.png') }}" alt="image_not_found">
 										</span>
-                                    Write your comment
+                                    {{ __('blog.comment') }}
                                 </label>
                                 <div class="textarea-footer ul-li-right clearfix">
                                     <ul class="clearfix">
-                                        <li><a href="#!"><i class="far fa-file-image"></i></a></li>
-                                        <li><a href="#!"><i class="fas fa-paperclip"></i></a></li>
-                                        <li><a href="#!"><i class="far fa-smile"></i></a></li>
-                                        <li><button type="submit" class="submit-btn">post comment</button></li>
+                                        {{--<li><a href="#!"><i class="far fa-file-image"></i></a></li>--}}
+                                        {{--<li><a href="#!"><i class="fas fa-paperclip"></i></a></li>--}}
+                                        {{--<li><a href="#!"><i class="far fa-smile"></i></a></li>--}}
+                                        <li><button type="submit" class="submit-btn">{{ __('blog.comment') }}</button></li>
                                     </ul>
                                 </div>
                             </div>
+                            @error('comment-textarea')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
 
                         </form>
                     </div>

@@ -1,6 +1,10 @@
 @extends('layouts.hf')
 
-@section('title', 'Блог')
+@isset($selected_category['name'])
+    @section('title', $selected_category->__('name'))
+@else
+    @section('title', __('blog.title'))
+@endisset
 
 @section('content')
 
@@ -15,7 +19,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6col-md-12 col-sm-12">
-                            <h2 class="title-text">Блог</h2>
+                            <h2 class="title-text">@isset($selected_category['name']) {{ $selected_category->__('name') }} @else{{ __('blog.title') }}@endisset</h2>
                         </div>
 
                     </div>
@@ -28,8 +32,13 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Главная</a></li>
-                    <li class="active">Блог</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    @isset($selected_category['name'])
+                        <li><a href="{{ route('blog') }}">{{ __('blog.title') }}</a></li>
+                        <li class="active">{{ $selected_category->__('name') }}</li>
+                    @else
+                        <li class="active">{{ __('blog.title') }}</li>
+                    @endisset
                 </ul>
             </div>
         </div>
@@ -55,12 +64,12 @@
 
                         <!-- sidebar-search - start -->
                         <div class="sidebar-item sidebar-search ul-li-block mb-30">
-                            <form action="#!">
+                            <form action="{{ route('search') }}" method="get">
                                 <div class="form-item">
-                                    <input type="search" id="sidebar-search" placeholder="search">
-                                    <label for="sidebar-search" class="form-item-btn">
+                                    <input type="search" id="sidebar-search" name="search" placeholder="{{ __('main.search.search_input') }}">
+                                    <button type="submit" class="form-item-btn">
                                         <i class="flaticon-search"></i>
-                                    </label>
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -69,11 +78,11 @@
                         <!-- category-list - start -->
                         <div class="sidebar-item category-list ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Категории</h2>
+                                <h2>{{ __('main.menu.categories') }}</h2>
                             </div>
                             <ul class="clearfix">
                                 @foreach($blogCategories as $blogCategory)
-                                    <li><a href="{{ route('blog_category', $blogCategory->code) }}">{{ $blogCategory->name }} <span class="float-right">(30)</span></a></li>
+                                    <li><a href="{{ route('blog_category', $blogCategory->code) }}">{{ $blogCategory->__('name') }} <span class="float-right">({{ $blogCategory->getArticles()->count() }})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -82,36 +91,26 @@
                         <!-- recent-post - start -->
                         <div class="sidebar-item recent-post ul-li-block mb-30">
                             <div class="sidebar-title">
-                                <h2>Популярное</h2>
+                                <h2>{{ __('blog.popular') }}</h2>
                             </div>
                             <ul class="clearfix">
-                                <li>
-                                            <span class="image-container">
-                                                <img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-1.jpg') }}" alt="image_not_found">
-                                            </span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-                                            <span class="image-container">
-                                                <img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-2.jpg') }}" alt="image_not_found">
-                                            </span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
-                                <li>
-                                            <span class="image-container">
-                                                <img src="{{ URL::asset('images/sidebar/recent-post/fashion/img-3.jpg') }}" alt="image_not_found">
-                                            </span>
-                                    <div class="content">
-                                        <a href="#!" class="item-title">Paris Fashion Women 2018</a>
-                                        <small class="post-date">Tue, October 6.</small>
-                                    </div>
-                                </li>
+
+                                @foreach($popArticles as $popArticle)
+                                    <li>
+                                        <span class="image-container">
+                                            <img src="{{ URL::asset($popArticle->image) }}" alt="image_not_found">
+                                        </span>
+
+                                        <div class="content">
+                                            <a href="" class="item-title">{{ mb_strimwidth($popArticle->__('title'), 0 , 18, "...") }}</a>
+                                            <small class="post-date">
+                                                {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                                {{ Date::parse($popArticle->created_at)->format('j F Y') }}
+                                            </small>
+                                        </div>
+                                    </li>
+                                @endforeach
+
                             </ul>
                         </div>
                         <!-- recent-post - end -->
@@ -119,19 +118,16 @@
                         <!-- popular-tags - start -->
                         <div class="sidebar-item popular-tags ul-li mb-30">
                             <div class="sidebar-title">
-                                <h2>Теги</h2>
+                                <h2>{{ __('blog.tags') }}</h2>
                             </div>
+
                             <ul class="clearfix mb-30">
-                                <li><a href="#!">fashion</a></li>
-                                <li><a href="#!">clothing</a></li>
-                                <li><a href="#!">jewelry</a></li>
-                                <li><a href="#!">accessories</a></li>
-                                <li><a href="#!">hot</a></li>
-                                <li><a href="#!">backpack</a></li>
-                                <li><a href="#!">shoes</a></li>
-                                <li><a href="#!">clothings</a></li>
+                                @php($i=1) @foreach($tags as $tag)
+                                        <li><a href="#!" onclick="ajaxTag({{ $tag->id }})">{{ $tag->__('name') }}</a></li>
+                                @php($i++) @endforeach
                             </ul>
-                            <a href="#!" class="view-all-btn">+<u>Посмотреть все</u></a>
+
+                            {{--<a href="#!" class="view-all-btn">+<u>Посмотреть все</u></a>--}}
                         </div>
                         <!-- popular-tags - end -->
 
@@ -140,21 +136,29 @@
                 <!-- sidebar-section - end -->
 
 
-                <div class="col-lg-9 col-md-10 col-sm-12">
+                <div id="ajax_tag-articles" class="col-lg-9 col-md-10 col-sm-12">
 
                     @foreach($blog as $article)
                         <!-- blog-big-item - start -->
                         <div class="blog-big-item mb-60">
                             <div class="blog-title mb-30">
-                                <a href="{{ route('article', $article->code) }}" class="title-text">{{ $article->title }}</a>
+                                <a href="{{ route('article', $article->code) }}" class="title-text">{{ $article->__('title') }}</a>
                                 <div class="post-meta ul-li">
                                     <ul class="clearfix">
-                                        <li>post by: <a href="#!">admin</a></li>
+                                        <li>{{ __('blog.published') }}: <a href="{{ '/personal/' . $article->user_id }}">{{ $article->user->first_name }}</a></li>
+
+                                        @if(count($article->tags) >= 1)
+                                            <li>
+                                                @php($i=1) @foreach($article->tags as $tag)
+                                                    <a href="#!" onclick="ajaxTag({{ $tag->id }})">{{ $tag->__('name') }}@if($i!=count($article->tags)), @endif</a>
+                                                @php($i++) @endforeach
+                                            </li>
+                                        @endif
+
                                         <li>
-                                            <a href="#!">Beauty Tips,</a>
-                                            <a href="#!">Lifestyle</a>
+                                            {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
+                                            {{ Date::parse($article->created_at)->format('j F Y') }}
                                         </li>
-                                        <li>On March 16, 2018</li>
                                     </ul>
                                 </div>
                             </div>
@@ -163,9 +167,9 @@
                             </div>
                             <div class="blog-content">
                                 <p class="mb-30">
-                                    {{ $article->preview_text }}
+                                    {{ $article->__('preview_text') }}
                                 </p>
-                                <a href="{{ route('article', $article->code) }}" class="read-more">continue reading</a>
+                                <a href="{{ route('article', $article->code) }}" class="read-more">{{ __('blog.details') }}</a>
                             </div>
                         </div>
                         <!-- blog-big-item - end -->

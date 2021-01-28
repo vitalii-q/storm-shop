@@ -27,5 +27,8 @@ class VievServiceProvider extends ServiceProvider
         View::composer('layouts.hf', 'App\ViewComposers\CartComposer'); // указываем какой компосер и куда шарим // можно шарить во мнного шаблонов через массив
         View::composer('layouts.hf', 'App\ViewComposers\CategoriesComposer');
         View::composer('layouts.hf', 'App\ViewComposers\BrandsComposer');
+        View::composer('layouts.hf', 'App\ViewComposers\DesiresComposer');
+        View::composer('layouts.hf', 'App\ViewComposers\CurrencyComposer');
+        View::composer('admin.layouts.admin_hf', 'App\ViewComposers\AdminNotificationsComposer');
     }
 }

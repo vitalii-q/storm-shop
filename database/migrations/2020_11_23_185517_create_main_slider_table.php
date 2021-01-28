@@ -15,15 +15,18 @@ class CreateMainSliderTable extends Migration
     {
         Schema::create('main_slider', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('text_top');
-            $table->string('text_top_en');
+            $table->string('text_top')->nullable();
+            $table->string('text_top_en')->nullable();
             $table->string('text');
-            $table->string('text_en');
-            $table->string('text_bottom');
-            $table->string('text_bottom_en');
-            $table->string('text_position');
+            $table->string('text_en')->nullable();
+            $table->string('text_bottom')->nullable();
+            $table->string('text_bottom_en')->nullable();
+            $table->string('text_position')->default('text-left');
             $table->text('image')->nullable();
-            $table->string('button');
+
+            $table->tinyInteger('button');
+            $table->string('link')->nullable();
+
             $table->timestamps();
         });
     }

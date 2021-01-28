@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminNotifications;
+use App\Models\AttributeValue;
+use App\Models\Currency;
+use App\Services\CurrencyConversion;
+use App\Services\CurrencyRates;
+use Carbon\Carbon;
+use function GuzzleHttp\options;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Sku;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class CartController extends Controller
 {
@@ -16,14 +25,56 @@ class CartController extends Controller
         return view('cart', compact('products'));
     }
 
-    //public function add(Request $request, Product $product) { // получаем продукт через модель
+    public function check(Request $request) {
+        $productId = json_decode($request['productId']);
+        $activeValues = explode(',',$request['activeValuesString']);
+        $sku = Sku::getSelectedSku($productId, $activeValues); // получаем sku
+        $cart = session('cart'); // корзина
+
+        $skuInCart = $this->checkSkuInCart($cart, $sku); // проверка наличия sku в корзине (ответ true или false)
+        if($skuInCart == true) { $skuQuantityInCart = $this->checkQuantitySkuInCart($cart, $sku); } else { // узнаем колличество sku в корзине
+            $skuQuantityInCart = 0; // если sku нет в корзине, колличество 0
+        }
+
+        $skuInCartAndQuantity = [$skuInCart, $skuQuantityInCart, $sku->id];
+
+        return response(json_encode($skuInCartAndQuantity)); // ответ в js
+    }
+
+    public function checkSkuInCart($cart, $sku) { // проверка sku продукта в корзине
+        $skuInCart = false; // true если добавляемый продукт уже есть в корзине
+        /*if(session()->has('cart.products')) {
+            foreach ($cart['products'] as $cartProductKey => $cartProduct) {
+                if($cartProduct['id'] == $product->id) {$productInCart = true;}
+            }
+        }*/
+        if(session()->has('cart.products')) {
+            foreach ($cart['products'] as $cartProductKey => $cartProduct) {
+                if($cartProduct['id'] == $sku->id) {$skuInCart = true;}
+            }
+        }
+
+        return $skuInCart;
+    }
+
+    public function checkQuantitySkuInCart($cart, $sku) {
+        foreach ($cart['products'] as $cartProductKey => $cartProduct) {
+            if($cartProduct['id'] == $sku->id) {
+                return $cartProduct['quantity'];
+            }
+        }
+    }
+
     public function add(Request $request) { // получаем продукт через модель // ajax
         // получаем продукт из БД
         $productId = json_decode($request['id']);
         $productQuantity = json_decode($request['quantity']);
-        $product = DB::table('products')->where('id', $productId)->first();
+        $selectedAttrValuesArray = explode(',', $request['selectedAttrValues']); // массив с выбранными значениями аттрибутов sku
 
-        // сохраняем id пользователя в сессию или закаем уникальный
+        $product = Product::where('id', $productId)->first();
+        $sku = Sku::getSelectedSku($productId, $selectedAttrValuesArray); // получаем sku
+
+        // сохраняем id пользователя в сессию или записывааем уникальный
         $cart = session('cart');
         if(is_null($cart)) {
             if(Auth::check()) {
@@ -33,15 +84,10 @@ class CartController extends Controller
             }
         }
 
-        // проверка наличия продукта в корзине
-        $productInCart = false; // true если добавляемый продукт уже есть в корзине
-        if(session()->has('cart.products')) {
-            foreach ($cart['products'] as $cartProductKey => $cartProduct) {
-                if($cartProduct['id'] == $product->id) {$productInCart = true;}
-            }
-        }
+        // проверка sku продукта в корзине
+        $skuInCart = $this->checkSkuInCart($cart, $sku);
 
-        if ($productInCart == true) { // если добавляемый предмет уже есть в корзине
+        if ($skuInCart == true) { // если добавляемый sku уже есть в корзине
             $cartOld = session('cart.products'); // старая корзинв
             $cartNew = []; // формируем новую корзину из сессии в виде массива
             foreach ($cartOld as $cartProductOld) {
@@ -50,15 +96,20 @@ class CartController extends Controller
 
             // обновление продукта в корзине
             foreach ($cartNew as $cartProductKey => $cartProduct) { // поиск в корзине обновляемого продукта
-                if($cartProduct['id'] == $product->id) {
+                if($cartProduct['id'] == $sku->id) {
                     $cartProductUpdate = [ // массив нового продукта
-                        "id" => $product->id,
-                        "quantity" => $cartProduct['quantity'] + $productQuantity,
+                        "id" => $sku->id,
+                        "product_id" => $product->id,
 
-                        "name" => $product->name,
+                        "name" => $product->__('name'),
                         "category_id" => $product->category_id,
                         "price" => $product->price,
+                        'sku_price' => $sku->price,
+
+                        "options" => $selectedAttrValuesArray,
                         "image_1" => $product->image_1,
+
+                        "quantity" => $cartProduct['quantity'] + $productQuantity,
                     ];
                     unset($cartNew[$cartProductKey]); // удаляем массив старого продукта
                 }
@@ -67,13 +118,18 @@ class CartController extends Controller
             session()->put('cart.products', $cartNew); // записываем новую корзину в сессию
         } else { // добавляем новый предмет в корзину
             $cartProduct = [ // формируем массив продукта
-                "id" => $product->id,
-                "quantity" => $productQuantity,
+                "id" => $sku->id,
+                "product_id" => $product->id,
 
-                "name" => $product->name,
+                "name" => $product->__('name'),
                 "category_id" => $product->category_id,
                 "price" => $product->price,
+                'sku_price' => $sku->price,
+
+                "options" => $selectedAttrValuesArray,
                 "image_1" => $product->image_1,
+
+                "quantity" => $productQuantity,
             ];
 
             if(session()->has('cart.products')) { // если в сессии уже есть массив с продуктами
@@ -89,53 +145,73 @@ class CartController extends Controller
             }
         }
 
-        return response(json_encode($product->id)); // ответ в js
+        return response(json_encode($product->price)); // ответ в js / json_encode($request)
+    }
+
+    public function getAttributesNameAndValuesName(Request $request) {
+        $productId = json_decode($request['id']); // поучаем id продукта
+        $selectedAttrValues = explode(',', $request['selectedAttrValues']);
+        $sku = Sku::getSelectedSku($productId, $selectedAttrValues); // получаем sku
+
+        $attributesNames = [];// получаем названия аттрибутов
+        foreach ($selectedAttrValues as $selectedAttrValue) {
+            array_push($attributesNames, AttributeValue::where('value', $selectedAttrValue)->first()->attribute->__('name'));
+        }
+
+        $valuesNames = [];// получаем названия значений
+        foreach ($selectedAttrValues as $valueName) {
+            array_push($valuesNames, AttributeValue::where('value', $valueName)->first()->__('name'));
+        }
+
+        return response(json_encode([$attributesNames, $valuesNames, $sku->id])); // ответ в js / json_encode($request)
     }
 
     public function remove(Request $request) {
-        $productId = json_decode($request['id']);
+        $skuId = json_decode($request['id']);
+
         $products = session('cart.products');
         foreach ($products as $productKey => $product) {
-            if($product['id'] == $productId) {
+            if($product['id'] == $skuId) {
                 session()->forget('cart.products.'.$productKey);
+
+                return response(json_encode($product)); // ответ в js
             }
         }
-
-        return response($request['id']); // ответ в js
     }
 
     public function update(Request $request) {
         $productId = json_decode($request['id']); // поучаем id продукта
         $quantity = json_decode($request['quantity']); // получаем количество продукта
+        $selectedAttrValuesArray = explode(',', $request['selectedAttrValues']); // массив с выбранными значениями аттрибутов sku
+
         $products = session('cart.products'); // получаем продукты которые в корзине
+        $sku = Sku::getSelectedSku($productId, $selectedAttrValuesArray); // получаем sku
+
         $i = 0; foreach ($products as $productKey => $product) {
-            if($product['id'] == $productId) { // если это обновляемый продукт
+            if($product['id'] == $sku->id) { // если это обновляемый продукт
                 $cartProductUpdate = [
-                    "id" => $product['id'],
-                    "quantity" => $quantity,
+                    "id" => $sku->id,
+                    "product_id" => $product['product_id'],
 
                     "name" => $product['name'],
                     "category_id" => $product['category_id'],
                     "price" => $product['price'],
+                    'sku_price' => $sku->price,
+
+                    "options" => $selectedAttrValuesArray,
                     "image_1" => $product['image_1'],
+
+                    "quantity" => $quantity,
                 ];
             } else { // если это не обновляемый продукт
-                $cartProductUpdate = [
-                    "id" => $product['id'],
-                    "quantity" => $product['quantity'],
-
-                    "name" => $product['name'],
-                    "category_id" => $product['category_id'],
-                    "price" => $product['price'],
-                    "image_1" => $product['image_1'],
-                ];
+                $cartProductUpdate = $product;
             }
             session()->forget('cart.products.'.$productKey);
             session()->push('cart.products', $cartProductUpdate);
             $i++;
         }
 
-        return response($request); // ответ в js
+        return response(json_encode($productId)); // ответ в js
     }
 
     public function clear() {
@@ -148,39 +224,20 @@ class CartController extends Controller
         $products = session('cart.products');
         return view('checkout', compact('products'));
     }
+    public function getSku($id) {
+        return Sku::where('id', $id)->first();
+    }
 
     public function buy(Request $request) {
-        if(Auth::check() == true) {
-            if(Auth::user()->last_name != null and Auth::user()->phone != null) {
-                $request->validate([
-                    'shipping_city' => ['required'],
-                    'shipping_street' => ['required'],
-                    'shipping_apartment' => ['required'],
-                    'message' => ['max:500'],
-                ]);
-            } else {
-                $request->validate([
-                    'first_name' => ['required', 'max:100'],
-                    'last_name' => ['required', 'max:100'],
-                    'phone' => ['required'],
-                    'shipping_city' => ['required'],
-                    'shipping_street' => ['required'],
-                    'shipping_apartment' => ['required'],
-                    'message' => ['max:500'],
-                ]);
-            }
-        } else {
-            $request->validate([
-                'first_name' => ['required', 'max:100'],
-                'last_name' => ['required', 'max:100'],
-                'email' => ['required'],
-                'phone' => ['required'],
-                'shipping_city' => ['required'],
-                'shipping_street' => ['required'],
-                'shipping_apartment' => ['required'],
-                'message' => ['max:500'],
-            ]);
-        }
+        $request->validate([
+            'first_name' => ['required', 'max:100'],
+            'last_name' => ['required', 'max:100'],
+            'phone' => ['required'],
+            'shipping_city' => ['required'],
+            'shipping_street' => ['required'],
+            'shipping_apartment' => ['required'],
+            'message' => ['max:500'],
+        ]);
 
         /* Создаем заказ ------------------------------------------ */
         $order = new Order();
@@ -190,11 +247,11 @@ class CartController extends Controller
 
         $order->first_name = $request->input('first_name') ? $request->input('first_name') : Auth::user()->first_name;
         $order->last_name = $request->input('last_name') ? $request->input('last_name') : Auth::user()->last_name;
-        $order->phone = $request->input('phone') ? $request->input('phone') : Auth::user()->Auth::user()->phone;
-        $order->email = $request->input('email') ? $request->input('email') : Auth::user()->Auth::user()->email;
+        $order->phone = $request->input('phone') ? $request->input('phone') : Auth::user()->phone;
+        $order->email = $request->input('email');
 
-        $order->currency_id = 1; // настроить
-        $order->sum = \Cart::getTotal();
+        $order->currency_id = CurrencyConversion::getActiveCurrencyId();
+        $order->sum = $this->getTotalSum();
 
         $order->shipping_city = $request->input('shipping_city');
         $order->shipping_street = $request->input('shipping_street');
@@ -204,23 +261,43 @@ class CartController extends Controller
 
         $order->payment_method = 'cash_payment'; // настроить
 
-        $order->save(); // сохраняем заказ в БД
+        $success = $order->save(); // сохраняем заказ в БД
+
+        // Создаем уведомление в админ панеле
+        AdminNotifications::create([
+            'notification_id' => $order->id,
+            'type' => 'Заказ',
+            'view' => 0,
+        ]);
 
         /* создаем order_connector -------------------------------------------- */
-        $order = Order::find($order->id)->products();
+        $order = Order::find($order->id)->skus();
         $cart_products = session('cart.products');;
+
         foreach ($cart_products as $cart_product) {
-            $order->attach($cart_product['id'], ['count' => $cart_product['quantity']]);
+            $options = implode(',', $cart_product['options']);
+            $order->attach($cart_product['id'], ['count' => $cart_product['quantity'], 'options' => $options]);
+        }
+        // чистим сессию
+        session()->forget('cart');
+        if($success) {
+            session()->flash('notification', __('notifications.buy'));
         }
 
-        // чистим сессию
-        session()->flush('cart');
-
-        return view('index');
+        return redirect()->route('index');
     }
 
-    static function getProductsCount() {
+    public static function getPriceInCurrency($price) { // возвращает цену в активной валюте
+        if(session()->get('currency') != null) { // если сессия валюты установленна
+            $selectedCurrency = Currency::where('code', session()->get('currency'))->first();
+            if($selectedCurrency->updated_at->startOfDay()->toString() !== Carbon::now()->startOfDay()->toString()){ // обновляем если ставки вчерашние
+                CurrencyRates::getRates();
+            }
 
+            return round($price * $selectedCurrency->rate, 2);
+        } else { // если сессия валюты не установленна
+            return $price;
+        }
     }
 
     static function getProductsCountInCart() {
@@ -236,7 +313,7 @@ class CartController extends Controller
         $products = session('cart.products'); // продукты в корзине
         foreach ($products as $product) { // находим запрашиваемый продукт
             if($product['id'] == $productId) {
-                return $product['price'] * $product['quantity']; // возвращаем сумму
+                return CartController::getPriceInCurrency($product['price']) * $product['quantity']; // возвращаем сумму
             }
         }
     }
@@ -247,7 +324,7 @@ class CartController extends Controller
         if(!empty($products)) {
             $totalSum = 0;
             foreach ($products as $product) {
-                $totalSum = $totalSum + $product['price'] * $product['quantity'];
+                $totalSum = $totalSum + CurrencyConversion::convert($product['price']) * $product['quantity'];
             }
             return $totalSum;
         }

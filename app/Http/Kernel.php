@@ -60,6 +60,15 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        'admin' => \App\Http\Middleware\CheckIsAdmin::class,
+        'catalogView' => \App\Http\Middleware\CatalogView::class,
+        'CheckCartIsNotEmpty' => \App\Http\Middleware\CheckCartIsNotEmpty::class,
+        'SearchView' => \App\Http\Middleware\SearchView::class,
+        'PersonalView' => \App\Http\Middleware\PersonalView::class,
+        'PersonalDesiresView' => \App\Http\Middleware\PersonalDesiresView::class,
+        'SetLocale' => \App\Http\Middleware\SetLocale::class,
+        'AdminPanelView' => \App\Http\Middleware\AdminPanelView::class,
     ];
 
     /**

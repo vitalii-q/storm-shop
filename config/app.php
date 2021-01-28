@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Barryvdh\Debugbar\ServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
         //Darryldecode\Cart\CartServiceProvider::class, // корзина
         //Collective\Html\HtmlServiceProvider::class, // отправка mail
 
@@ -231,7 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        //'Debugbar' => Barryvdh\Debugbar\Facade::class,
         //'Cart' => Darryldecode\Cart\Facades\CartFacade::class, // корзина
         //'Form' => Collective\Html\FormFacade::class, // отправка mail
         //'Html' => Collective\Html\HtmlFacade::class, // отправка mail

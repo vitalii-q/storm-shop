@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">Корзина</h2>
+                            <h2 class="title-text">{{ __('cart.cart') }}</h2>
                         </div>
 
                     </div>
@@ -27,8 +27,8 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">shopping cart</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li class="active">{{ __('cart.cart') }}</li>
                 </ul>
             </div>
         </div>
@@ -52,10 +52,10 @@
                 <table class="table table-bordered mb-30">
                     <thead>
                     <tr>
-                        <th colspan="2">products</th>
-                        <th scope="col">price</th>
-                        <th scope="col">quantity</th>
-                        <th scope="col">total</th>
+                        <th colspan="2">{{ __('cart.table.products') }}</th>
+                        <th scope="col">{{ __('cart.table.price') }}</th>
+                        <th scope="col">{{ __('cart.table.quantity') }}</th>
+                        <th scope="col">{{ __('cart.table.total') }}</th>
                     </tr>
                     </thead>
 
@@ -66,20 +66,32 @@
                             <tr id="productBlockInCart_{{ $product['id'] }}">
                                 <td class="text-left" colspan="2">
                                             <span class="image-container float-left">
-                                                <img src="{{ Storage::url($product['image_1']) }}" alt="image_not_found">
+                                                <img src="{{ URL::asset($product['image_1']) }}" alt="image_not_found">
                                             </span>
                                     <span class="item-title">{{ $product['name'] }}</span>
+
+                                    <div class="hf_cart-product_sku-values flex-container">
+                                        @php($skuValues = []) <!-- массив с значенияеми свойств -->
+                                        @foreach(\App\Models\Sku::where('id', $product['id'])->first()->skuValues as $skuValue)
+                                            <p><b>{{ $skuValue->attributeValue->attribute->__('name') }}:</b> {{ $skuValue->attributeValue->__('name') }}&nbsp;&nbsp;&nbsp;</p>
+                                            @php(array_push($skuValues, $skuValue->attributeValue->value))
+                                        @endforeach
+                                    </div>
+
                                     <ul class="clearfix">
                                         {{--<li><a href="#!"><i class="flaticon-pencil"></i></a></li>--}}
                                         {{--<li><a href="{{ route('cart_remove', $product['id']) }}"><i class="flaticon-dustbin"></i></a></li>--}}
                                         <li><a onclick="removeProductCart({{ $product['id'] }})"><i class="flaticon-dustbin"></i></a></li>
                                     </ul>
                                 </td>
-                                <td class="item-price product-price_get-price text-center">{{ $product['price'] }}</td>
+
+                                <td class="item-price product-price_get-price text-center" data-price="{{ App\Http\Controllers\CartController::getPriceInCurrency($product['price']) }}">{{ App\Http\Controllers\CartController::getPriceInCurrency($product['price']).App\Services\CurrencyConversion::currencySymbol() }}</td>
+
                                 <td class="item-quantity text-center">
-                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-id="{{ $product['id'] }}" data-position="cart" class="quantity_get-value" name="quantity" type="number" value="{{ $product['quantity'] }}" min="1" placeholder="quantity">
+                                    <input onkeyup="this.value = this.value.replace(/[^\d]/g,'1');" oninput="updateProductInCart(this)" data-product-id="{{ $product['product_id'] }}" data-id="{{ $product['id'] }}" data-sku-values="{{ implode(",", $skuValues) }}" data-position="cart" class="quantity_get-value" name="quantity" type="number" value="{{ $product['quantity'] }}" min="1" placeholder="quantity">
                                 </td>
-                                <td class="total-price product-sum_get-sum text-center">{{ App\Http\Controllers\CartController::getProductSum($product['id']) }}</td>
+
+                                <td class="total-price product-sum_get-sum text-center">{{ App\Http\Controllers\CartController::getProductSum($product['id']).App\Services\CurrencyConversion::currencySymbol() }}</td>
                             </tr>
                         @endforeach
                     @endif
@@ -89,7 +101,7 @@
 
                 <div class="row">
                     <div class="col-lg-6 col-md-4 col-sm-12">
-                        <a href="{{ URL::previous() }}" class="continue-btn">Продолжить покупки</a>
+                        <a href="{{ URL::previous() }}" class="continue-btn">{{ __('cart.continue_shopping') }}</a>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-12">
                         {{--<div class="text-right">--}}
@@ -99,7 +111,7 @@
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-12">
                         <div class="text-right">
-                            <a href="{{ route('cart_clear') }}" class="clear-btn">Очистить корзину</a>
+                            <a href="{{ route('cart_clear') }}" class="clear-btn">{{ __('cart.clear') }}</a>
                         </div>
                     </div>
                 </div>
@@ -112,17 +124,17 @@
                     <div class="shipping-estimate">
 
                         <div class="section-title">
-                            <h2>Получение</h2>
+                            <h2>{{ __('cart.delivery.getting') }}</h2>
                             {{--<p class="m-0">Выбирите способ получения</p>--}}
                         </div>
 
                         <form action="#!">
                             <div class="estimate-form-item mb-30">
-                                <span class="title-text">Способы получения<sup class="color-orange">*</sup></span>
+                                <span class="title-text">{{ __('cart.delivery.methods') }}<sup class="color-orange">*</sup></span>
                                 <select name="countries" class="storm-select">
-                                    <option value="United States">Доставка курьером</option>
-                                    <option value="United Kingdom">Отправление по почте</option>
-                                    <option value="Bangladesh">Самовывоз</option>
+                                    <option value="United States">{{ __('cart.delivery.courier') }}</option>
+                                    <option value="United Kingdom">{{ __('cart.delivery.mail') }}</option>
+                                    <option value="Bangladesh">{{ __('cart.delivery.pickup') }}</option>
                                 </select>
                             </div>
 
@@ -156,15 +168,15 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="grand-total-price">
 
-                        <div class="money-list ul-li-block">
-                            <ul class="clearfix">
-                                <li>Стоимость доставки <span class="float-right">200</span></li>
+                        {{--<div class="money-list ul-li-block">--}}
+                            {{--<ul class="clearfix">--}}
+                                {{--<li>{{ __('cart.delivery.price') }} <span class="float-right">200</span></li>--}}
                                 {{--<li>tax <span class="float-right">$10.00</span></li>--}}
-                            </ul>
-                        </div>
+                            {{--</ul>--}}
+                        {{--</div>--}}
 
-                        <h2 class="total-price mb-30">Итоговая стоимость <strong id="total-price_total">{{ App\Http\Controllers\CartController::getTotalSum() }}</strong></h2>
-                        <a href="{{ route('checkout') }}" class="proceed-btn">Оформить</a>
+                        <h2 class="total-price mb-30">{{ __('cart.delivery.total') }} <strong id="total-price_total">{{ App\Http\Controllers\CartController::getTotalSum().App\Services\CurrencyConversion::currencySymbol() }}</strong></h2>
+                        <a href="{{ route('checkout') }}" class="proceed-btn">{{ __('cart.checkout') }}</a>
 
                     </div>
                 </div>

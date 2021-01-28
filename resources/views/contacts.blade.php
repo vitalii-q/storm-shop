@@ -15,7 +15,7 @@
                     <div class="row justify-content-center">
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
-                            <h2 class="title-text">Контакты</h2>
+                            <h2 class="title-text">{{ __('main.menu.contacts') }}</h2>
                         </div>
 
                     </div>
@@ -28,8 +28,8 @@
         <div class="breadcrumb-list">
             <div class="container">
                 <ul class="clearfix">
-                    <li><a href="{{ route('index') }}">Главная</a></li>
-                    <li class="active">Контакты</li>
+                    <li><a href="{{ route('index') }}">{{ __('main.menu.main') }}</a></li>
+                    <li class="active">{{ __('main.menu.contacts') }}</li>
                 </ul>
             </div>
         </div>
@@ -63,10 +63,10 @@
                     <div class="col-lg-4 col-md-5 col-sm-12">
                         <div class="info-item">
                             <div class="title-text mb-30">
-                                <span>Посетите нас</span>
+                                <span>{{ __('contacts.address_title') }}</span>
                             </div>
                             <p class="address-text m-0">
-                                г. Москва, ул. Тверская 20, стр. 3
+                                {{ __('contacts.address') }}
                             </p>
                         </div>
                     </div>
@@ -74,10 +74,10 @@
                     <div class="col-lg-4 col-md-5 col-sm-12">
                         <div class="info-item">
                             <div class="title-text mb-30">
-                                <span>Связь с нами</span>
+                                <span>{{ __('contacts.phone_title') }}</span>
                             </div>
-                            <p class="phone-number m-0">+7 (985)  9002-1808</p>
-                            <p class="phone-number m-0">+7 (985)  6890-8888</p>
+                            <p class="phone-number m-0">{{ __('contacts.phone_1') }}</p>
+                            <p class="phone-number m-0">{{ __('contacts.phone_2') }}</p>
                         </div>
                     </div>
 
@@ -95,20 +95,19 @@
                     <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="info-item">
                             <div class="title-text mb-30">
-                                <span>Дистрибуция</span>
+                                <span>{{ __('contacts.distribution_title') }}</span>
                             </div>
-                            <p class="m-0">info@company.com</p>
-                            <p class="m-0">+7 (985) 2345 - 67891</p>
+                            <p class="m-0">{{ __('contacts.distribution_mail') }}</p>
+                            <p class="m-0">{{ __('contacts.distribution_phone') }}</p>
                         </div>
                     </div>
 
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="info-item">
                             <div class="title-text mb-30">
-                                <span>Часы работы магазина</span>
+                                <span>{{ __('contacts.hours_title') }}</span>
                             </div>
-                            <p class="m-0">Пн. - Сб. с 10 - до 22 </p>
-                            <p class="m-0">Воскресение:- <span class="color-black">Закрыто</span></p>
+                            {{ __('contacts.hours') }}
                         </div>
                     </div>
 
@@ -120,8 +119,8 @@
             <div class="container">
 
                 <div class="section-title text-center">
-                    <h2>Отправьте сообщение</h2>
-                    <p>Ваш электронный адрес не будет опубликован. Обязательные поля помечены</p>
+                    <h2>{{ __('contacts.message_title') }}</h2>
+                    <p>{{ __('contacts.message_subtitle') }}</p>
                 </div>
 
                 <div class="row justify-content-center">
@@ -132,20 +131,26 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-item">
-                                        <input id="name" type="text" name="name" placeholder="Имя">
+                                        <input id="name" type="text" name="name" placeholder="{{ __('contacts.name') }}">
                                         <label for="name" class="form-item-btn">
                                             <i class="far fa-user"></i>
                                         </label>
                                     </div>
+                                    @error('name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-item">
-                                        <input id="email" type="text" name="email" placeholder="Email">
+                                        <input id="email" type="text" name="email" placeholder="{{ __('contacts.email') }}">
                                         <label for="email" class="form-item-btn">
                                             <i class="far fa-envelope"></i>
                                         </label>
                                     </div>
+                                    @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -157,13 +162,16 @@
                             {{--</div>--}}
 
                             <div class="form-item">
-                                <input id="subject" type="file" name="file" placeholder="Файл" hidden>
+                                <input id="subject" type="file" name="file" placeholder="" hidden>
 
                                 <label for="subject" class="contacts-form_label-file">
                                     <div for="subject" class="form-item-btn">
                                         <i class="far fa-file-alt"></i>
                                     </div>
                                 </label>
+                                @error('file')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="form-textarea clearfix">
@@ -172,15 +180,18 @@
                                             <span class="admin-img">
                                                 <img src="{{ URL::asset('images/post-meta/admin-2.png') }}" alt="image_not_found">
                                             </span>
-                                    Ваше сообщение
+                                    {{ __('contacts.message') }}
                                 </label>
+                                @error('comment-textarea')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
 
                                 <div class="textarea-footer ul-li-right clearfix">
                                     <ul class="clearfix">
                                         {{--<li><a href="#!"><i class="far fa-file-image"></i></a></li>--}}
                                         {{--<li><a href="#!"><i class="fas fa-paperclip"></i></a></li>--}}
                                         {{--<li><a href="#!"><i class="far fa-smile"></i></a></li>--}}
-                                        <li><button type="submit" class="submit-btn">отправить</button></li>
+                                        <li><button type="submit" class="submit-btn">{{ __('contacts.send') }}</button></li>
                                     </ul>
                                 </div>
                             </div>

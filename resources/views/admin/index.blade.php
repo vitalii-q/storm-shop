@@ -44,6 +44,17 @@
                     </div>
                 </div>
 
+                <div class="col-6 col-md-4 col-xl-2">
+                    <a class="block text-center" href="{{ route('statistics') }}">
+                        <div class="block-content bg-gd-emerald">
+                            <p class="mt-5">
+                                <i class="si si-bar-chart fa-3x text-white-op"></i>
+                            </p>
+                            <p class="font-w600 text-white">Статистика</p>
+                        </div>
+                    </a>
+                </div>
+
                 {{--<div class="col-6 col-md-4 col-xl-2">--}}
                     {{--<a class="block text-center" href="be_pages_generic_search.html">--}}
                         {{--<div class="block-content bg-gd-lake">--}}

@@ -78,6 +78,12 @@ Route::group(['middleware' => 'SetLocale'], function () { // локализир�
 
     Route::get('/search', 'SearchController@index')->name('search')->middleware('SearchView');
     Route::post('/search/view', 'SearchController@searchView');
+
+    // ---------------- тестовые
+    Route::get('/tests', 'MainController@tests')->name('tests'); // тестовая страница
+    Route::post('/tests/formCheck', 'MainController@testsCheckForm')->name('testsCheckForm'); // тестовая страница
+    Route::post('/tests/form', 'MainController@testsForm')->name('testsForm'); // тестовая страница
+    // ---------------- тестовые
 });
 
 // админ панель
@@ -87,6 +93,8 @@ Route::group([
     'prefix' => 'admin',
 ], function () {
     Route::get('/', 'AdminController@index')->name('admin');
+    Route::get('statistics/', 'StatisticsController@index')->name('statistics');
+
     Route::post('view', 'AdminController@view');
     Route::resource('notifications', 'NotificationController', ['as' => 'admin']);
 

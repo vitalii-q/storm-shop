@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Sku;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -32,6 +33,15 @@ class Product extends Model
         return Category::find($this->category_id);
     }
 
+    public static function getCategoryCodeByProductId($id) {
+        $categoryInfo = DB::table('products')->select('categories.code')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->where('products.id', '=', $id)
+            ->first();
+
+        return $categoryInfo->code; // возвращаем код категории
+    }
+
     public static function getSku($id) {
         return Sku::where('id', $id)->first();
     }
@@ -42,5 +52,21 @@ class Product extends Model
 
     public function currency() {
         return CurrencyConversion::convert($this->price);
+    }
+
+    public static function getProductStockBalance($id) {
+        // получаем колличества каждого торгового предложения продукта
+        $skus = DB::table('products')->select('products.id', 'name', 'quantity')
+            ->join('skus', 'products.id', '=', 'skus.product_id')
+            ->where('product_id', '=', $id)
+            ->get();
+
+        // высчитываем общее количество торговых предложений в наличии
+        $quantity = 0;
+        foreach ($skus as $sku) {
+            $quantity = $quantity + $sku->quantity;
+        }
+
+        return $quantity;
     }
 }

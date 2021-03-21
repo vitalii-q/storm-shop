@@ -299,4 +299,17 @@ class MainController extends Controller
 
         return redirect()->back();
     }
+
+
+    // ---------------- тестовые
+    public function tests() {
+        return view('tests');
+    }
+    public function testsCheckForm(Request $request) {
+        return response('true');
+    }
+    public function testsForm(Request $request) {
+        return 'done';
+    }
+    // ---------------- тестовые
 }

@@ -288,12 +288,15 @@
                                                             <div class="attribute-options color-options ul-li-center mb-15">
 
                                                                 <div @if($catalogView == 'grid')id="attributes-wrapper_product-{{ $product->id }}" @endif class="attributes-wrapper_product-grid">
-                                                                @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
-                                                                @foreach($product->skus as $sku)
-                                                                    @foreach($sku->skuValues as $value)
-                                                                        @php( array_push($productAttributeValuesId, $value->attributeValue->id))
-                                                                    @endforeach
-                                                                @endforeach
+                                                                @php($productAttributeValuesId = App\Models\AttributeValue::getProductAttributeValuesId($product)) <!-- массив с id значений атрибутов продукта -->
+
+{{--                                                                @foreach($product->skus as $sku)--}}
+{{--                                                                    @foreach($sku->skuValues as $value)--}}
+{{--                                                                        @php( array_push($productAttributeValuesId, $value->attributeValue->id))--}}
+{{--                                                                    @endforeach--}}
+{{--                                                                @endforeach--}}
+
+{{--                                                                @dd($productAttributeValuesId)--}}
 
                                                                 @foreach($product->attributes as $attribute)
                                                                     @if($attribute->code == 'size')
@@ -302,8 +305,8 @@
                                                                             @foreach($attribute->attributeValues as $value)
                                                                                 @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
                                                                                     <li><a @if($catalogView == 'grid')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-grid" data-value="{{ $value->value }}">{{ $value->value }}</a></li>
-                                                                                    @endif
-                                                                                @endforeach
+                                                                                @endif
+                                                                            @endforeach
                                                                             </ul>
                                                                         </div>
                                                                     @elseif($attribute->code == 'color')
@@ -312,8 +315,8 @@
                                                                             @foreach($attribute->attributeValues as $value)
                                                                                 @if(in_array($value->id, $productAttributeValuesId)) <!-- проверка есть ли у sku продукта значение аттрибута -->
                                                                                     <li><a @if($catalogView == 'grid')id="product_{{$product->id}}_value_{{ $value->id }}" @endif data-attribute-id="{{$attribute->id}}" onclick="attributeChange([{{ $product->id }}, {{ $value->id }}, {{ $attribute->id }}])" class="product-attribute_element product_{{ $product->id }}-attribute_{{ $attribute->id }} attribute_value-grid" style="background-color: {{ $value->value }}"  data-value="{{ $value->value }}"></a></li>
-                                                                                    @endif
-                                                                                @endforeach
+                                                                                @endif
+                                                                            @endforeach
                                                                             </ul>
                                                                         </div>
                                                                     @else
@@ -423,12 +426,13 @@
                                                         <div class="item-size-color ul-li mb-30 clearfix">
 
                                                             <div @if($catalogView == 'list')id="attributes-wrapper_product-{{ $product->id }}" @endif class="attributes-wrapper_product-list">
-                                                            @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
-                                                                @foreach($product->skus as $sku)
-                                                                    @foreach($sku->skuValues as $value)
-                                                                        @php( array_push($productAttributeValuesId, $value->attributeValue->id))
-                                                                    @endforeach
-                                                                @endforeach
+                                                            @php($productAttributeValuesId = App\Models\AttributeValue::getProductAttributeValuesId($product)) <!-- массив с id значений атрибутов продукта -->
+{{--                                                            @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->--}}
+{{--                                                                @foreach($product->skus as $sku)--}}
+{{--                                                                    @foreach($sku->skuValues as $value)--}}
+{{--                                                                        @php( array_push($productAttributeValuesId, $value->attributeValue->id))--}}
+{{--                                                                    @endforeach--}}
+{{--                                                                @endforeach--}}
 
                                                                 @foreach($product->attributes as $attribute)
                                                                     @if($attribute->code == 'size')

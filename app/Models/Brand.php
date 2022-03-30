@@ -17,11 +17,24 @@ class Brand extends Model
     }*/
 
     public function getSkus() {
-        $skus = Sku::get();
+        $products = Product::select(
+            'products.id', 'name', 'name_en', 'code', 'category_id', 'brand_id', 'description', 'description_en', 'description_bottom',
+            'description_bottom_en', 'information', 'information_en', 'products.price', 'new', 'sale', 'bestseller',
+            'image_1', 'image_2', 'image_3', 'products.created_at', 'products.updated_at', \DB::raw('count(*) as count')
+        )
+            ->join('skus', 'products.id', '=', 'skus.product_id')
+            ->where('brand_id', $this->id)
+            ->groupBy('products.id')->get();
+
+        /*$skus = Sku::get();
         $productsIdsWithDubls = [];
-        foreach($skus as $sku) {array_push($productsIdsWithDubls, $sku->product->id);}
+        foreach($skus as $sku) {
+            array_push($productsIdsWithDubls, $sku->product->id);
+        }
+
         $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
         $products = Product::whereIn('id', $productsIdsWithDubls)->where('brand_id', $this->id)->get(); // продукты у которых есть торговые предложения
+        dd($products);*/
 
         return $products;
     }

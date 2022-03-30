@@ -173,7 +173,7 @@
                             @foreach($comments as $comment)
                             <!-- review-item - start -->
                             <div class="review-item clearfix">
-                                @if($comment->user != null)
+                                @if($comment->user_id != null)
                                     <div class="blog_comment-avatar" style="background-image: url({{ URL::asset( $comment->user->image ) }})"></div>
                                 @else
                                     <span class="reviewer-img"></span>
@@ -181,7 +181,12 @@
                                 <div class="review-content">
                                     <div class="post-meta ul-li">
                                         <ul>
-                                            <li><!--BY--> <a href="{{ '/personal/' . $comment->user->id }}">{{ $comment->name }}</a></li>
+                                            @if(!is_null($comment->user_id))
+                                                <li><a href="{{ '/personal/' . $comment->user->id }}">{{ $comment->name }}</a></li>
+                                            @else
+                                                <li><a href="">{{ $comment->name }}</a></li>
+                                            @endif
+
                                             <li><i class="flaticon-clock-circular-outline"></i>
                                             {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
                                                 {{ Date::parse($comment->created_at)->format('j F Y H:i') }}

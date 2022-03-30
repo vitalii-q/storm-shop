@@ -471,7 +471,7 @@
 <div class="mobile-menu">
     <div class="container">
         <div class="brand-logo float-left">
-            <a href="#!" class="logo">
+            <a href="{{ route('index') }}" class="logo">
                 <img src="{{ URL::asset('images/brand-logo/logo-1.png') }}" alt="logo_not_found">
             </a>
         </div>
@@ -487,7 +487,7 @@
         <div id="dismiss"><i class="fas fa-arrow-left"></i></div>
 
         <div class="brand-logo">
-            <a href="#!" class="logo">
+            <a href="{{ route('index') }}" class="logo">
                 <img src="{{ URL::asset('images/brand-logo/logo-1.png') }}" alt="logo_not_found">
             </a>
         </div>
@@ -495,17 +495,29 @@
         <!-- btns-group - start -->
         <div class="btns-group ul-li-center mb-30">
             <ul class="clearfix">
-                <li><a href="#!"><i class="flaticon-user"></i></a></li>
+                @guest
+                    <li><a href="{{ route('login') }}"><i class="flaticon-user"></i></a></li>
+                @endguest
+                @auth
+                        <li><a href="{{ route('personal', Auth::user()->id) }}"><i class="flaticon-user"></i></a></li>
+                @endauth
                 <li>
-                    <a href="#!">
-                        <i class="flaticon-heart"></i>
-                        <small class="item-counter bg-past">1</small>
-                    </a>
+                    @if(Auth::check())
+                        <a href="{{ route('desires', Auth::user()->id) }}">
+                            <i class="flaticon-heart"></i>
+                            <span id="wishlist_count-element" class="item-counter bg-past">{{ count($desiresHF) }}</span>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}">
+                            <i class="flaticon-heart"></i>
+                            {{--<span class="item-counter bg-past">0</span>--}}
+                        </a>
+                    @endif
                 </li>
                 <li>
-                    <a href="#!">
+                    <a href="{{ route('cart') }}">
                         <i class="flaticon-shopper"></i>
-                        <small class="item-counter bg-past">2</small>
+                        <span id="mini-cart_count" class="item-counter bg-past">{{ count(session('cart.products')) }}</span>
                     </a>
                 </li>
             </ul>
@@ -514,210 +526,265 @@
 
         <!-- search-bar - start -->
         <div class="search-bar mb-60">
-            <div class="form-item m-0">
-                <input type="search" placeholder="search...">
+            <form class="form-item m-0" action="{{ route('search') }}" method="get">
+                <input type="search" name="search" placeholder="{{ __('main.search.search_input') }}">
                 <button type="submit" class="form-item-btn">
                     <i class="flaticon-search"></i>
                 </button>
-            </div>
+            </form>
+{{--            <div class="form-item m-0">--}}
+{{--                <input type="search" placeholder="search...">--}}
+{{--                <button type="submit" class="form-item-btn">--}}
+{{--                    <i class="flaticon-search"></i>--}}
+{{--                </button>--}}
+{{--            </div>--}}
         </div>
         <!-- search-bar - end -->
 
         <!-- home-pages - start -->
         <div class="home-pages">
-            <div class="sidebar-title mb-15">
-                <h2>
-                    all home pages
-                </h2>
-            </div>
+{{--            <div class="sidebar-title mb-15">--}}
+{{--                <h2>--}}
+{{--                    all home pages--}}
+{{--                </h2>--}}
+{{--            </div>--}}
             <ul class="list-unstyled components">
-                <li class="menu-item-has-child active">
-                    <a href="#bicycle-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="fas fa-bicycle"></i></span>
-                        bicycle
+                <li class="@if(Route::currentRouteNamed('index')) active @endif">
+                    <a href="{{ route('index') }}">
+                        <span class="icon"><i class="far fa-square"></i></span>
+                        {{ __('main.menu.main') }}
                     </a>
-                    <ul class="sub-menu collapse list-unstyled" id="bicycle-submenu">
-                        <li><a href="home-bicycle-1.html">bicycle v.1</a></li>
-                        <li><a href="home-bicycle-2.html">bicycle v.2</a></li>
-                    </ul>
+                </li>
+                <li class="@if(Route::currentRouteNamed(['catalog', 'category', 'brand', 'brand_category', 'product'])) active @endif">
+                    <a href="{{ route('catalog') }}">
+                        <span class="icon"><i class="fas fa-th"></i></span>
+                        {{ __('main.menu.catalog') }}
+                    </a>
                 </li>
                 <li class="menu-item-has-child">
-                    <a href="#digital-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="fas fa-bolt"></i></span>
-                        digital
+                    <a href="#product-list-submenu" data-toggle="collapse" aria-expanded="false">
+                        <span class="icon"><i class="fas fa-th-list"></i></span>
+                        {{ __('main.menu.categories') }}
                     </a>
-                    <ul class="sub-menu collapse list-unstyled" id="digital-submenu">
-                        <li><a href="home-digital-1.html">digital v.1</a></li>
-                        <li><a href="home-digital-2.html">digital v.2</a></li>
+                    <ul class="sub-menu collapse list-unstyled" id="product-list-submenu">
+                        @foreach($categoriesHF as $categoryHF)
+                            <li><a href="{{ route('category', $categoryHF->code) }}">{{ $categoryHF->__('name') }}</a></li>
+                        @endforeach
                     </ul>
                 </li>
-                <li class="menu-item-has-child">
-                    <a href="#fashion-submenu" data-toggle="collapse" aria-expanded="false">
+                <li class="@if(Route::currentRouteNamed('about')) active @endif">
+                    <a href="{{ route('about') }}">
+                        <span class="icon"><i class="flaticon-user"></i></span>
+                        {{ __('main.menu.about') }}
+                    </a>
+                </li>
+                <li class="@if(Route::currentRouteNamed(['blog', 'blog_category', 'article', 'tag_blog'])) active @endif">
+                    <a href="{{ route('blog') }}">
                         <span class="icon"><i class="fab fa-slideshare"></i></span>
-                        fashion
+                        {{ __('main.menu.blog') }}
                     </a>
-                    <ul class="sub-menu collapse list-unstyled" id="fashion-submenu">
-                        <li><a href="home-fashion-1.html">fashion v.1</a></li>
-                        <li><a href="home-fashion-2.html">fashion v.2</a></li>
-                    </ul>
                 </li>
-                <li class="menu-item-has-child">
-                    <a href="#food-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="fab fa-gulp"></i></span>
-                        food
+                <li class="@if(Route::currentRouteNamed('contacts')) active @endif">
+                    <a href="{{ route('contacts') }}">
+                        <span class="icon"><i class="flaticon-phone-call"></i></span>
+                        {{ __('main.menu.contacts') }}
                     </a>
-                    <ul class="sub-menu collapse list-unstyled" id="food-submenu">
-                        <li><a href="home-food-1.html">food v.1</a></li>
-                        <li><a href="home-food-2.html">food v.2</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#furniture-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon">F</span>
-                        furniture
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="furniture-submenu">
-                        <li><a href="home-furniture-1.html">furniture v.1</a></li>
-                        <li><a href="home-furniture-2.html">furniture v.2</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#jewelry-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="far fa-gem"></i></span>
-                        jewelry
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="jewelry-submenu">
-                        <li><a href="home-jewellry-1.html">jewelry v.1</a></li>
-                        <li><a href="home-jewellry-2.html">jewelry v.2</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#shoes-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon">S</span>
-                        shoes
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="shoes-submenu">
-                        <li><a href="home-shoes-1.html">shoes v.1</a></li>
-                        <li><a href="home-shoes-2.html">shoes v.2</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#sunglass-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon">S</span>
-                        sunglass
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="sunglass-submenu">
-                        <li><a href="home-sunglass-1.html">sunglass v.1</a></li>
-                        <li><a href="home-sunglass-2.html">sunglass v.2</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#tools-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="fas fa-wrench"></i></span>
-                        tools
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="tools-submenu">
-                        <li><a href="home-tools-1.html">tools v.1</a></li>
-                        <li><a href="home-tools-2.html">tools v.2</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#watches-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="far fa-clock"></i></span>
-                        watches
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="watches-submenu">
-                        <li><a href="home-watches-1.html">watches v.1</a></li>
-                        <li><a href="home-watches-2.html">watches v.2</a></li>
-                    </ul>
                 </li>
             </ul>
         </div>
         <!-- home-pages - end -->
 
         <!-- home-pages - start -->
-        <div class="home-pages">
-            <div class="sidebar-title mb-15">
-                <h2>
-                    single pages here
-                </h2>
-            </div>
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="about.html">
-                        <span class="icon"><i class="flaticon-user"></i></span>
-                        about us
-                    </a>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#blog-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="far fa-square"></i></span>
-                        our blog
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="blog-submenu">
-                        <li><a href="blog.html">blog page</a></li>
-                        <li><a href="blog-details.html">blog details</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#product-grid-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="fas fa-th"></i></span>
-                        product grid
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="product-grid-submenu">
-                        <li><a href="product-grid-left-sidebar.html">left sidebar</a></li>
-                        <li><a href="product-grid-right-sidebar.html">right sidebar</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-child">
-                    <a href="#product-list-submenu" data-toggle="collapse" aria-expanded="false">
-                        <span class="icon"><i class="fas fa-th-list"></i></span>
-                        product list
-                    </a>
-                    <ul class="sub-menu collapse list-unstyled" id="product-list-submenu">
-                        <li><a href="product-list-left-sidebar.html">left sidebar</a></li>
-                        <li><a href="product-list-right-sidebar.html">right sidebar</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="product-details.html">
-                        <span class="icon"><i class="fas fa-info"></i></span>
-                        product details
-                    </a>
-                </li>
-                <li>
-                    <a href="shopping-cart.html">
-                        <span class="icon"><i class="flaticon-cart"></i></span>
-                        shopping cart
-                    </a>
-                </li>
-                <li>
-                    <a href="#!">
-                        <span class="icon"><i class="flaticon-check-box"></i></span>
-                        checkout
-                    </a>
-                </li>
-                <li>
-                    <a href="contact.html">
-                        <span class="icon"><i class="flaticon-phone-call"></i></span>
-                        contact us
-                    </a>
-                </li>
-                <li>
-                    <a href="404.html">
-                        <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
-                        404 error
-                    </a>
-                </li>
-            </ul>
-        </div>
+{{--        <div class="home-pages">--}}
+{{--            <div class="sidebar-title mb-15">--}}
+{{--                <h2>--}}
+{{--                    single pages here--}}
+{{--                </h2>--}}
+{{--            </div>--}}
+{{--            <ul class="list-unstyled components">--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#bicycle-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="fas fa-bicycle"></i></span>--}}
+{{--                        bicycle--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="bicycle-submenu">--}}
+{{--                        <li><a href="home-bicycle-1.html">bicycle v.1</a></li>--}}
+{{--                        <li><a href="home-bicycle-2.html">bicycle v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#digital-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="fas fa-bolt"></i></span>--}}
+{{--                        digital--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="digital-submenu">--}}
+{{--                        <li><a href="home-digital-1.html">digital v.1</a></li>--}}
+{{--                        <li><a href="home-digital-2.html">digital v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#fashion-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="fab fa-slideshare"></i></span>--}}
+{{--                        fashion--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="fashion-submenu">--}}
+{{--                        <li><a href="home-fashion-1.html">fashion v.1</a></li>--}}
+{{--                        <li><a href="home-fashion-2.html">fashion v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#food-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="fab fa-gulp"></i></span>--}}
+{{--                        food--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="food-submenu">--}}
+{{--                        <li><a href="home-food-1.html">food v.1</a></li>--}}
+{{--                        <li><a href="home-food-2.html">food v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#furniture-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon">F</span>--}}
+{{--                        furniture--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="furniture-submenu">--}}
+{{--                        <li><a href="home-furniture-1.html">furniture v.1</a></li>--}}
+{{--                        <li><a href="home-furniture-2.html">furniture v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#jewelry-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="far fa-gem"></i></span>--}}
+{{--                        jewelry--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="jewelry-submenu">--}}
+{{--                        <li><a href="home-jewellry-1.html">jewelry v.1</a></li>--}}
+{{--                        <li><a href="home-jewellry-2.html">jewelry v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#shoes-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon">S</span>--}}
+{{--                        shoes--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="shoes-submenu">--}}
+{{--                        <li><a href="home-shoes-1.html">shoes v.1</a></li>--}}
+{{--                        <li><a href="home-shoes-2.html">shoes v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#sunglass-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon">S</span>--}}
+{{--                        sunglass--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="sunglass-submenu">--}}
+{{--                        <li><a href="home-sunglass-1.html">sunglass v.1</a></li>--}}
+{{--                        <li><a href="home-sunglass-2.html">sunglass v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#tools-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="fas fa-wrench"></i></span>--}}
+{{--                        tools--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="tools-submenu">--}}
+{{--                        <li><a href="home-tools-1.html">tools v.1</a></li>--}}
+{{--                        <li><a href="home-tools-2.html">tools v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#watches-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="far fa-clock"></i></span>--}}
+{{--                        watches--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="watches-submenu">--}}
+{{--                        <li><a href="home-watches-1.html">watches v.1</a></li>--}}
+{{--                        <li><a href="home-watches-2.html">watches v.2</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <a href="about.html">--}}
+{{--                        <span class="icon"><i class="flaticon-user"></i></span>--}}
+{{--                        about us--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#blog-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="far fa-square"></i></span>--}}
+{{--                        our blog--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="blog-submenu">--}}
+{{--                        <li><a href="blog.html">blog page</a></li>--}}
+{{--                        <li><a href="blog-details.html">blog details</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#product-grid-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="fas fa-th"></i></span>--}}
+{{--                        product grid--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="product-grid-submenu">--}}
+{{--                        <li><a href="product-grid-left-sidebar.html">left sidebar</a></li>--}}
+{{--                        <li><a href="product-grid-right-sidebar.html">right sidebar</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="menu-item-has-child">--}}
+{{--                    <a href="#product-list-submenu" data-toggle="collapse" aria-expanded="false">--}}
+{{--                        <span class="icon"><i class="fas fa-th-list"></i></span>--}}
+{{--                        product list--}}
+{{--                    </a>--}}
+{{--                    <ul class="sub-menu collapse list-unstyled" id="product-list-submenu">--}}
+{{--                        <li><a href="product-list-left-sidebar.html">left sidebar</a></li>--}}
+{{--                        <li><a href="product-list-right-sidebar.html">right sidebar</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <a href="product-details.html">--}}
+{{--                        <span class="icon"><i class="fas fa-info"></i></span>--}}
+{{--                        product details--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="active">--}}
+{{--                    <a href="shopping-cart.html">--}}
+{{--                        <span class="icon"><i class="flaticon-cart"></i></span>--}}
+{{--                        shopping cart--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <a href="#!">--}}
+{{--                        <span class="icon"><i class="flaticon-check-box"></i></span>--}}
+{{--                        checkout--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <a href="contact.html">--}}
+{{--                        <span class="icon"><i class="flaticon-phone-call"></i></span>--}}
+{{--                        contact us--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <a href="404.html">--}}
+{{--                        <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>--}}
+{{--                        404 error--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
+{{--        </div>--}}
         <!-- home-pages - end -->
 
         <!-- login-signup - start -->
         <div class="login-signup ul-li-center mb-30 clearfix">
             <ul class="clearfix">
-                <li><a href="login-register.html">login</a></li>
-                <li><a href="login-register.html">sign up</a></li>
+                @guest
+                    <li style="padding-right: 0px"><a href="{{ route('login') }}">{{ __('main.buttons.login') }}</a></li>
+                @endguest
+                @auth
+                    @if(Auth::user()->privilege == 1)
+                        <li style="padding-right: 0px"><a href="{{ route('admin') }}">{{ __('main.admin_panel') }}</a></li>
+                    @else
+                        <li><a href="{{ route('personal', Auth::user()->id) }}">{{ Auth::user()->first_name }}</a></li>
+                    @endif
+                @endauth
             </ul>
         </div>
         <!-- login-signup - end -->
@@ -734,7 +801,7 @@
                 </ul>
             </div>
             <p class="m-0">
-                Copyright 2018 © Powered by <a href="#!"><strong class="color-past">Storm</strong></a>
+                Copyright 2021 © Powered by <a href="{{ route('index') }}"><strong class="color-past">Storm</strong></a>
             </p>
         </div>
         <!-- footer-area - end -->

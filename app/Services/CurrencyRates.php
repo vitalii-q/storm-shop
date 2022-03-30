@@ -17,19 +17,29 @@ class CurrencyRates
     public static function getRates() {
         $baseCurrency = CurrencyConversion::getBaseCurrency(); // получаем базовую валюту
 
-        $url = config('currency_rates.api_url').'?base='.$baseCurrency->code; // формируем ссылку для получения рейтов относительно базовой валюты
+        //$url = config('currency_rates.api_url').'?base='.$baseCurrency->code; // формируем ссылку для получения рейтов относительно базовой валюты
 
-        $client = new Client();
+        //$client = new Client();
 
-        $response = $client->request('GET', $url); // создаем запрос на Guzzle
+        //$response = $client->request('GET', $url); // создаем запрос на Guzzle
 
-        if($response->getStatusCode() !== 200) {
+        /*if($response->getStatusCode() !== 200) {
             throw new \Exception('There is problem with currency rate service');
+        }*/
+
+        //$rates = json_decode($response->getBody()->getContents(), true)['rates'];
+
+        $rates = [];
+        foreach (Currency::get() as $currency_rate) {
+            array_push($rates, $currency_rate->rate);
         }
 
-        $rates = json_decode($response->getBody()->getContents(), true)['rates'];
+        //dd($rates);
 
-        foreach (Currency::get() as $currency) {
+        // TODO:: раньше было подключение к gazzle (сторонней бд) которое доставало все валюты
+        // TODO:: сейчас убрал но все работает, разобратся
+
+        /*foreach (Currency::get() as $currency) {
             if($currency->is_main != 1) {
                 if(!isset($rates[$currency->code])) {
                     throw new \Exception('There is problem with currency ' . $currency->code);
@@ -37,6 +47,6 @@ class CurrencyRates
                     $currency->update(['rate' => $rates[$currency->code]]);
                 }
             }
-        }
+        }*/
     }
 }

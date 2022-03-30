@@ -126,12 +126,7 @@
                                             <div class="attribute-options color-options ul-li-center mb-15">
 
                                                 <div id="attributes-wrapper_product-{{ $sale->id }}" class="attributes-wrapper_product-grid" data-tabs-product-id="{{$sale->id}}">
-                                                @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
-                                                    @foreach($sale->skus as $sku)
-                                                        @foreach($sku->skuValues as $value)
-                                                            @php( array_push($productAttributeValuesId, $value->attributeValue->id))
-                                                        @endforeach
-                                                    @endforeach
+                                                    @php($productAttributeValuesId = App\Models\AttributeValue::getProductAttributeValuesId($sale)) <!-- массив с id значений атрибутов продукта -->
 
                                                     @foreach($sale->attributes as $attribute)
                                                         @if($attribute->code == 'size')
@@ -271,12 +266,7 @@
                                             <div class="attribute-options color-options ul-li-center mb-15">
 
                                                 <div id="attributes-wrapper_product-{{ $bestseller->id }}" class="attributes-wrapper_product-grid" data-tabs-product-id="{{$bestseller->id}}">
-                                                @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
-                                                    @foreach($bestseller->skus as $sku)
-                                                        @foreach($sku->skuValues as $value)
-                                                            @php(array_push($productAttributeValuesId, $value->attributeValue->id))
-                                                        @endforeach
-                                                    @endforeach
+                                                    @php($productAttributeValuesId = App\Models\AttributeValue::getProductAttributeValuesId($bestseller)) <!-- массив с id значений атрибутов продукта -->
 
                                                     @foreach($bestseller->attributes as $attribute)
                                                         @if($attribute->code == 'size')
@@ -416,12 +406,7 @@
                                             <div class="attribute-options color-options ul-li-center mb-15">
 
                                                 <div id="attributes-wrapper_product-{{ $new->id }}" class="attributes-wrapper_product-grid" data-tabs-product-id="{{$new->id}}">
-                                                @php($productAttributeValuesId = []) <!-- массив с id значений атрибутов продукта -->
-                                                    @foreach($new->skus as $sku)
-                                                        @foreach($sku->skuValues as $value)
-                                                            @php( array_push($productAttributeValuesId, $value->attributeValue->id))
-                                                        @endforeach
-                                                    @endforeach
+                                                    @php($productAttributeValuesId = App\Models\AttributeValue::getProductAttributeValuesId($new)) <!-- массив с id значений атрибутов продукта -->
 
                                                     @foreach($new->attributes as $attribute)
                                                         @if($attribute->code == 'size')

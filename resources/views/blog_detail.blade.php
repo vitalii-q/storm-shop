@@ -206,7 +206,7 @@
                     @endisset
 
                     <div class="comment-form">
-                        <form action="{{ route('comment') }}" method="post">
+                        <form action="{{ route('blog_comment_add') }}" method="post">
                             @csrf
 
                             <input type="number" id="article_id" name="article_id" value="{{ $article->id }}" hidden>

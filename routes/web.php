@@ -52,6 +52,7 @@ Route::group(['middleware' => 'SetLocale'], function () { // локализир�
         Route::post('sku', 'MainController@sku')->name('sku');
     });
 
+    // корзина
     Route::get('/cart', 'CartController@cart')->name('cart')->middleware('CheckCartIsNotEmpty');
     Route::post('/cart/add', 'CartController@add')->name('cart_add'); // роут добавления товара в корзину post
     Route::post('/cart/remove', 'CartController@remove')->name('cart_remove'); // роут удаления товара из корзины post
@@ -62,15 +63,20 @@ Route::group(['middleware' => 'SetLocale'], function () { // локализир�
     Route::get('/checkout', 'CartController@checkout')->name('checkout')->middleware('CheckCartIsNotEmpty'); // страница оформления заказа
     Route::get('/buy', 'CartController@buy')->name('buy'); // оформление заказа
 
+    // о нас
     Route::get('/about', 'MainController@about')->name('about');
 
+    // блог
     Route::get('/blog', 'BlogController@blog')->name('blog');
-    Route::post('/blog/tag', 'BlogController@ajaxBlog')->name('ajax_blog');
-    Route::get('/blog/tag/{tag}', 'BlogController@tagBlog')->name('tag_blog');
     Route::get('/blog/category/{blog}', 'BlogController@blogCategory')->name('blog_category');
     Route::get('/blog/{article}', 'BlogController@article')->name('article');
-    Route::post('/blog/comment', 'BlogController@comment')->name('comment');
 
+    Route::post('/blog/tag', 'Blog\TagsController@ajaxTag')->name('ajax_blog');
+    Route::get('/blog/tag/{tag}', 'Blog\TagsController@tag')->name('tag_blog');
+
+    Route::post('/blog/comment', 'Blog\CommentsController@add')->name('blog_comment_add');
+
+    // контакты
     Route::get('/contacts', 'MainController@contacts')->name('contacts');
     Route::post('/contacts/submit', 'FormsController@contactMessage')->name('contacts_submit');
 

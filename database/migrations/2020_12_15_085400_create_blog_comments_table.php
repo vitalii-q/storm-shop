@@ -17,7 +17,7 @@ class CreateBlogCommentsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->text('comment');
 
             $table->integer('article_id');

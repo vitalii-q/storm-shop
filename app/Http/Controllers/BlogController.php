@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Response;
 class BlogController extends Controller
 {
     public function blog() {
-        $blog = Blog::orderBy('created_at', 'desc')->paginate(5);
+        $blog = Blog::orderBy('created_at', 'desc')->paginate(20);
         $blogCategories = BlogCategory::get();
 
         $popArticles = Blog::orderBy('views', 'desc')->take(3)->get(); // популярные статьи

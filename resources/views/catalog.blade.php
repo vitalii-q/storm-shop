@@ -178,7 +178,7 @@
 
                                         <div class="content">
                                             <a href="{{ '/catalog/' . $desire->getCategory()->code . '/' . $desire->code }}" class="item-title">{{ $desire->__('name') }}</a>
-                                            <small class="post-date">{{ Date::parse($desire->created_at)->format('j F Y') }}</small>
+                                            <small class="post-date">{{ \Illuminate\Support\Facades\Date::parse($desire->created_at)->format('j F Y') }}</small>
                                         </div>
                                     </li>
                                     @endforeach

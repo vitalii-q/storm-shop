@@ -101,10 +101,8 @@ function addToCart(productId) {
 
 /* проверка, установленна ли комбинация --------- */
 function checkCombinationSet(productId) {
-    selectedProduct = productElement = document.getElementById('product-item_'+productId);
-    selectedValues = selectedProduct.querySelectorAll('.active');
-
     attributesProductWrapper = document.getElementById('attributes-wrapper_product-'+productId); // обертка атрибутов выбранного продукта
+    selectedValues = attributesProductWrapper.querySelectorAll('.active');
     attributesElements = attributesProductWrapper.querySelectorAll('.attribute_container');
 
     if(selectedValues.length == attributesElements.length) { // если комбинация установленна
@@ -416,7 +414,9 @@ function checkSkuInCart(productId) { // узнаем из php session есть �
     selectedElement = document.getElementById('product-item_'+productId);
     attributes = selectedElement.getElementsByClassName('attribute_container');
 
-    activeValuesElements = selectedElement.querySelectorAll('.active'); // получаем выбранные значения атрибутов
+    selectedElementAttributesWrapper = document.getElementById('attributes-wrapper_product-'+productId);
+    activeValuesElements = selectedElementAttributesWrapper.querySelectorAll('.active'); // получаем выбранные значения атрибутов
+
     if(activeValuesElements.length == attributes.length) { // если выбранны все атрибуты
         activeValues = []; // массив с выбранными значениями
         for(i=0; i < activeValuesElements.length; i++) {
@@ -593,7 +593,6 @@ function attributeChange(data) {
     productId = data[0];
     valueId = data[1];
     attributeId = data[2];
-    //console.log(data);
 
     selectedElement = document.getElementById('product_'+productId+'_value_'+valueId).classList.add('active');// делаем активным элемент по которому кликнули
 

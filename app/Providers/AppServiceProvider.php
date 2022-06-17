@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useCustomStorm(); // используем кастомную пагинацию
+        //Paginator::useBootstrap(); // используем bootstrap пагинацию
+
         Date::setlocale(config('app.locale'));
     }
 }

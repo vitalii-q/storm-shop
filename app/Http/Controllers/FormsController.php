@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\subscriptionJob;
 use App\Models\AdminNotifications;
 use App\Models\Message;
 use App\Models\Subscription;
@@ -62,17 +63,7 @@ class FormsController extends Controller
             'email_footer' => 'required|unique:subscriptions,email',
         ]);
 
-        $subscription = Subscription::create([ // создает новую запись в таблице Message
-            'user_id' => Auth::check() ? Auth::user()->id : null,
-            'email' => $request->email_footer,
-            'status' => 1,
-        ]);
-
-        AdminNotifications::create([
-            'notification_id' => $subscription->id,
-            'type' => 'Подписка',
-            'view' => 0,
-        ]);
+        dispatch(new subscriptionJob($request->email_footer))->delay(now()->addSeconds(5)); // queue
 
         session()->flash('notification', __('notifications.subscription'));
         return redirect()->back();

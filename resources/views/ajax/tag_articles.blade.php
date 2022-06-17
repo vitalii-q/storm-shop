@@ -11,13 +11,13 @@
                         <li>
                             @php($i=1) @foreach($article->tags as $tag)
                                 <a href="#!" onclick="ajaxTag({{ $tag->id }})">{{ $tag->__('name') }}@if($i!=count($article->tags)), @endif</a>
-                                @php($i++) @endforeach
+                            @php($i++) @endforeach
                         </li>
                     @endif
 
                     <li>
                         {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
-                        {{ Date::parse($article->created_at)->format('j F Y') }}
+                        {{ \Illuminate\Support\Facades\Date::parse($article->created_at)->format('j F Y') }}
                     </li>
                 </ul>
             </div>

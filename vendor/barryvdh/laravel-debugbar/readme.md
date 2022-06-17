@@ -1,7 +1,9 @@
 ## Laravel Debugbar
+![Unit Tests](https://github.com/barryvdh/laravel-debugbar/workflows/Unit%20Tests/badge.svg)
 [![Packagist License](https://poser.pugx.org/barryvdh/laravel-debugbar/license.png)](http://choosealicense.com/licenses/mit/)
 [![Latest Stable Version](https://poser.pugx.org/barryvdh/laravel-debugbar/version.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
 [![Total Downloads](https://poser.pugx.org/barryvdh/laravel-debugbar/d/total.png)](https://packagist.org/packages/barryvdh/laravel-debugbar)
+[![Fruitcake](https://img.shields.io/badge/Powered%20By-Fruitcake-b2bc35.svg)](https://fruitcake.nl/)
 
 This is a package to integrate [PHP Debug Bar](http://phpdebugbar.com/) with Laravel.
 It includes a ServiceProvider to register the debugbar and attach it to the output. You can publish assets and configure it through Laravel.
@@ -37,7 +39,7 @@ And the default collectors:
  - MemoryCollector
  - ExceptionsCollector
 
-It also provides a Facade interface for easy logging Messages, Exceptions and Time
+It also provides a facade interface (`Debugbar`) for easy logging Messages, Exceptions and Time
 
 ## Installation
 
@@ -64,7 +66,7 @@ Barryvdh\Debugbar\ServiceProvider::class,
 If you want to use the facade to log messages, add this to your facades in app.php:
 
 ```php
-'Debugbar' => Barryvdh\Debugbar\Facade::class,
+'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
 ```
 
 The profiler is enabled by default, if you have APP_DEBUG=true. You can override that in the config (`debugbar.enabled`) or by setting `DEBUGBAR_ENABLED` in your `.env`. See more options in `config/debugbar.php`
@@ -75,6 +77,16 @@ You can also only display the js or css vendors, by setting it to 'js' or 'css'.
 
 ```shell
 php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+```
+
+### Laravel with Octane:
+
+Make sure to add LaravelDebugbar to your flush list in `config/octane.php`.
+
+```php
+    'flush' => [
+        \Barryvdh\Debugbar\LaravelDebugbar::class,
+    ],
 ```
 
 ### Lumen:
@@ -130,6 +142,9 @@ There are also helper functions available for the most common calls:
 ```php
 // All arguments will be dumped as a debug message
 debug($var1, $someString, $intValue, $object);
+
+// `$collection->debug()` will return the collection and dump it as a debug message. Like `$collection->dump()`
+collect([$var1, $someString])->debug();
 
 start_measure('render','Time for rendering');
 stop_measure('render');

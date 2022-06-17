@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Currency;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class CurrencyConversion
 {
@@ -25,7 +26,9 @@ class CurrencyConversion
         if(session()->get('currency') != null) {
             return Currency::where('code', session()->get('currency'))->first()->symbol;
         } else {
-            return $standardCurrency = Currency::where('is_main', 1)->first()->symbol;
+            return Cache::remember('standardCurrency', Carbon::now()->addMinutes(60), function () {
+                return Currency::where('is_main', 1)->first()->symbol; // стандартная валюта
+            });
         }
     }
 

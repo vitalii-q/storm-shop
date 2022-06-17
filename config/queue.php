@@ -80,6 +80,7 @@ return [
     */
 
     'failed' => [
+        'driver' => 'database-uuids', // добавил драйвер в laravel 8 для сохранения в failed_jobs
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],

@@ -210,7 +210,7 @@
                             {{--</div>--}}
 
 
-                        <!-- проверка, есть ли продукт в корзине --- -->
+                            <!-- проверка, есть ли продукт в корзине --- -->
                             @php($productInCart = false) @php($cartProductQuantity = 0)
 
                             @if(!empty($cartProducts))
@@ -218,7 +218,7 @@
                                     @if($selected_product->id == $cartProduct['id']) @php($cartProductQuantity = $cartProduct['quantity']) @php($productInCart = true) @endif
                                 @endforeach
                             @endif
-                        <!-- проверка, есть ли продукт в корзине end -->
+                            <!-- проверка, есть ли продукт в корзине end -->
 
                             <div class="item-btns-group ul-li clearfix mb-30">
                                 <ul class="clearfix">
@@ -247,7 +247,7 @@
                                     </li>
 
                                     @if(Auth::check())
-                                    <li><a id="desire_{{$selected_product->id}}" onclick="desire({{$selected_product->id}})" class="product-details_desire-button @if($selected_product->getUserDesire() != null)active @endif"><i class="flaticon-heart"></i></a></li>
+                                        <li><a id="desire_{{$selected_product->id}}" onclick="desire({{$selected_product->id}})" class="product-details_desire-button @if($selected_product->getUserDesire() != null)active @endif"><i class="flaticon-heart"></i></a></li>
                                     @endif
                                     {{--<li><a href="#"><i class="flaticon-libra"></i></a></li>--}}
                                 </ul>

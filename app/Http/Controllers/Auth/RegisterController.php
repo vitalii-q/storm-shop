@@ -65,9 +65,9 @@ class RegisterController extends Controller
     {
         session()->flash('notification', __('notifications.register'));
         return User::create([
-            'first_name' => $data['first_name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'first_name' => $data['register_first_name'], // first_name
+            'email' => $data['register_email'], // email
+            'password' => Hash::make($data['register_password']), // password
         ]);
     }
 }

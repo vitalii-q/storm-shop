@@ -11,7 +11,7 @@
 |
 */
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('get_logout'); // разлогинится
 Route::get('/locale', 'MainController@changeLocale')->name('locale'); // смена локализации
@@ -121,3 +121,6 @@ Route::group([
 });
 
 Route::fallback(function(){ return response()->view('errors.404', [], 404); }); // добавил для видимости авторизованного пользователя на странице 404
+
+// http://storm-shop.loc/horizon - ссылка на панель управления очередями
+

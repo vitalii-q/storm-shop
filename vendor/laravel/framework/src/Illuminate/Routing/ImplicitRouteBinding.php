@@ -2,9 +2,11 @@
 
 namespace Illuminate\Routing;
 
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Reflector;
+use Illuminate\Support\Str;
 
 class ImplicitRouteBinding
 {
@@ -22,7 +24,7 @@ class ImplicitRouteBinding
         $parameters = $route->parameters();
 
         foreach ($route->signatureParameters(UrlRoutable::class) as $parameter) {
-            if (! $parameterName = static::getParameterName($parameter->name, $parameters)) {
+            if (! $parameterName = static::getParameterName($parameter->getName(), $parameters)) {
                 continue;
             }
 
@@ -32,9 +34,25 @@ class ImplicitRouteBinding
                 continue;
             }
 
-            $instance = $container->make($parameter->getClass()->name);
+            $instance = $container->make(Reflector::getParameterClassName($parameter));
 
-            if (! $model = $instance->resolveRouteBinding($parameterValue)) {
+            $parent = $route->parentOfParameter($parameterName);
+
+            $routeBindingMethod = $route->allowsTrashedBindings() && in_array(SoftDeletes::class, class_uses_recursive($instance))
+                        ? 'resolveSoftDeletableRouteBinding'
+                        : 'resolveRouteBinding';
+
+            if ($parent instanceof UrlRoutable && ($route->enforcesScopedBindings() || array_key_exists($parameterName, $route->bindingFields()))) {
+                $childRouteBindingMethod = $route->allowsTrashedBindings() && in_array(SoftDeletes::class, class_uses_recursive($instance))
+                            ? 'resolveSoftDeletableChildRouteBinding'
+                            : 'resolveChildRouteBinding';
+
+                if (! $model = $parent->{$childRouteBindingMethod}(
+                    $parameterName, $parameterValue, $route->bindingFieldFor($parameterName)
+                )) {
+                    throw (new ModelNotFoundException)->setModel(get_class($instance), [$parameterValue]);
+                }
+            } elseif (! $model = $instance->{$routeBindingMethod}($parameterValue, $route->bindingFieldFor($parameterName))) {
                 throw (new ModelNotFoundException)->setModel(get_class($instance), [$parameterValue]);
             }
 

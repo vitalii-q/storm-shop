@@ -2,11 +2,12 @@
 
 namespace Illuminate\Auth;
 
-use Illuminate\Support\Str;
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Closure;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 
 class EloquentUserProvider implements UserProvider
 {
@@ -123,6 +124,8 @@ class EloquentUserProvider implements UserProvider
 
             if (is_array($value) || $value instanceof Arrayable) {
                 $query->whereIn($key, $value);
+            } elseif ($value instanceof Closure) {
+                $value($query);
             } else {
                 $query->where($key, $value);
             }

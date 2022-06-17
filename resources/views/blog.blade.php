@@ -105,7 +105,7 @@
                                             <a href="" class="item-title">{{ mb_strimwidth($popArticle->__('title'), 0 , 18, "...") }}</a>
                                             <small class="post-date">
                                                 {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
-                                                {{ Date::parse($popArticle->created_at)->format('j F Y') }}
+                                                {{ \Illuminate\Support\Facades\Date::parse($popArticle->created_at)->format('j F Y') }}
                                             </small>
                                         </div>
                                     </li>
@@ -157,7 +157,7 @@
 
                                         <li>
                                             {{--<li>{{ Carbon\Carbon::parse($article->created_at)->format('j F Y') }}</li>--}}
-                                            {{ Date::parse($article->created_at)->format('j F Y') }}
+                                            {{ \Illuminate\Support\Facades\Date::parse($article->created_at)->format('j F Y') }}
                                         </li>
                                     </ul>
                                 </div>

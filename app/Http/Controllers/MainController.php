@@ -12,23 +12,33 @@ use App\Models\Sku;
 use App\Models\SkuValue;
 use App\Models\Team;
 use App\Services\CurrencyRates;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\MainSlider;
 use App\Models\Advantage;
+use Illuminate\Support\Facades\Redis;
 
 class MainController extends Controller
 {
     public function index() {
-        $sliders = MainSlider::get(); // получаем слайдеры на главной странице
-        $advantages = Advantage::get(); // получаем преимущества
+        $sliders = Cache::remember('MainSlider', Carbon::now()->addMinutes(60), function () {
+            return MainSlider::get(); // получаем слайдеры на главной странице
+        });
 
-        $productsWithSkus = Sku::getProductsWithSkus();
+        $advantages = Cache::remember('Advantage', Carbon::now()->addMinutes(60), function () {
+            return Advantage::get(); // получаем преимущества
+        });
+
+        if(!$productsWithSkus = Cache::tags('catalog')->get('ProductsWithSkus')) {
+            Cache::tags('catalog')->put('ProductsWithSkus',  Sku::getProductsWithSkus(), Carbon::now()->addMinutes(60));
+        }
 
         $sales = Product::whereIn('id', $productsWithSkus)->where('sale', 1)->get()->random(4); // скидки
         $bestsellers = Product::whereIn('id', $productsWithSkus)->where('bestseller', 1)->get()->random(4); // бестселлеры
@@ -38,11 +48,8 @@ class MainController extends Controller
     }
 
     public function catalog() {
-        //echo microtime(true); echo ' - 1 <br>';
         $categories = Category::get(); // все категории
         $brands = Brand::get(); // все брэнды
-
-        //echo microtime(true); echo ' - 2 <br>';
 
         if(!empty(session()->get('catalog.filter'))) { // если установлен фильтр, прогружает отфильтрованные продукты
             $skus = Sku::get();
@@ -65,22 +72,16 @@ class MainController extends Controller
                 ->groupBy('products.id')->paginate(9);
         }
 
-        //echo microtime(true); echo ' - 3 <br>';
-
         $attributes = Attribute::get(); // все атрибуты
 
         $cartProducts = session('cart.products'); // продукты в корзине
         $catalogView = session('view.catalog'); // сессия вида каталога
 
-        //echo microtime(true); echo ' - 4 <br>';
-
         if(Auth::check()) {
             $desiresIds = Desire::where('user_id', Auth::user()->id)->select('product_id')->get(); // желания пользователя
             $desires = Product::whereIn('id', $desiresIds)->orderBy('id', 'desc')->get()->reverse();
             if(count($desires) > 3) {$desires = $desires->random(3);}
-        }
-
-        //echo microtime(true); echo ' - 5 <br>';
+        } else { $desires = []; }
 
         return view('catalog', compact('catalogView','categories','brands', 'products', 'cartProducts', 'attributes', 'desires'));
     }

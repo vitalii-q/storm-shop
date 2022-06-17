@@ -3,11 +3,11 @@
 namespace Illuminate\Session;
 
 use Closure;
-use stdClass;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use SessionHandlerInterface;
-use Illuminate\Contracts\Session\Session;
+use stdClass;
 
 class Store implements Session
 {
@@ -49,9 +49,9 @@ class Store implements Session
     /**
      * Create a new session instance.
      *
-     * @param  string $name
-     * @param  \SessionHandlerInterface $handler
-     * @param  string|null $id
+     * @param  string  $name
+     * @param  \SessionHandlerInterface  $handler
+     * @param  string|null  $id
      * @return void
      */
     public function __construct($name, SessionHandlerInterface $handler, $id = null)
@@ -194,6 +194,17 @@ class Store implements Session
     }
 
     /**
+     * Determine if the given key is missing from the session data.
+     *
+     * @param  string|array  $key
+     * @return bool
+     */
+    public function missing($key)
+    {
+        return ! $this->exists($key);
+    }
+
+    /**
      * Checks if a key is present and not null.
      *
      * @param  string|array  $key
@@ -222,7 +233,7 @@ class Store implements Session
      * Get the value of a given key and then forget it.
      *
      * @param  string  $key
-     * @param  string|null  $default
+     * @param  mixed  $default
      * @return mixed
      */
     public function pull($key, $default = null)
@@ -247,7 +258,7 @@ class Store implements Session
      * Get the requested item from the flashed input array.
      *
      * @param  string|null  $key
-     * @param  mixed   $default
+     * @param  mixed  $default
      * @return mixed
      */
     public function getOldInput($key = null, $default = null)
@@ -270,7 +281,7 @@ class Store implements Session
      * Put a key / value pair or array of key / value pairs in the session.
      *
      * @param  string|array  $key
-     * @param  mixed       $value
+     * @param  mixed  $value
      * @return void
      */
     public function put($key, $value = null)
@@ -306,7 +317,7 @@ class Store implements Session
      * Push a value onto a session array.
      *
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * @return void
      */
     public function push($key, $value)
@@ -348,7 +359,7 @@ class Store implements Session
      * Flash a key / value pair to the session.
      *
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * @return void
      */
     public function flash(string $key, $value = true)
@@ -363,8 +374,8 @@ class Store implements Session
     /**
      * Flash a key / value pair to the session for immediate use.
      *
-     * @param  string $key
-     * @param  mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      * @return void
      */
     public function now($key, $value)
@@ -635,6 +646,16 @@ class Store implements Session
     public function setPreviousUrl($url)
     {
         $this->put('_previous.url', $url);
+    }
+
+    /**
+     * Specify that the user has confirmed their password.
+     *
+     * @return void
+     */
+    public function passwordConfirmed()
+    {
+        $this->put('auth.password_confirmed_at', time());
     }
 
     /**

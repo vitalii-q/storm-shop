@@ -3,13 +3,16 @@
 namespace Illuminate\Cache;
 
 use Exception;
+use Illuminate\Contracts\Cache\LockProvider;
 use Illuminate\Contracts\Cache\Store;
+use Illuminate\Contracts\Filesystem\LockTimeoutException;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\LockableFile;
 use Illuminate\Support\InteractsWithTime;
 
-class FileStore implements Store
+class FileStore implements Store, LockProvider
 {
-    use InteractsWithTime, RetrievesMultipleKeys;
+    use InteractsWithTime, HasCacheLock, RetrievesMultipleKeys;
 
     /**
      * The Illuminate Filesystem instance.
@@ -26,16 +29,25 @@ class FileStore implements Store
     protected $directory;
 
     /**
+     * Octal representation of the cache file permissions.
+     *
+     * @var int|null
+     */
+    protected $filePermission;
+
+    /**
      * Create a new file cache store instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string  $directory
+     * @param  int|null  $filePermission
      * @return void
      */
-    public function __construct(Filesystem $files, $directory)
+    public function __construct(Filesystem $files, $directory, $filePermission = null)
     {
         $this->files = $files;
         $this->directory = $directory;
+        $this->filePermission = $filePermission;
     }
 
     /**
@@ -53,7 +65,7 @@ class FileStore implements Store
      * Store an item in the cache for a given number of seconds.
      *
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * @param  int  $seconds
      * @return bool
      */
@@ -65,7 +77,52 @@ class FileStore implements Store
             $path, $this->expiration($seconds).serialize($value), true
         );
 
-        return $result !== false && $result > 0;
+        if ($result !== false && $result > 0) {
+            $this->ensurePermissionsAreCorrect($path);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Store an item in the cache if the key doesn't exist.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  int  $seconds
+     * @return bool
+     */
+    public function add($key, $value, $seconds)
+    {
+        $this->ensureCacheDirectoryExists($path = $this->path($key));
+
+        $file = new LockableFile($path, 'c+');
+
+        try {
+            $file->getExclusiveLock();
+        } catch (LockTimeoutException $e) {
+            $file->close();
+
+            return false;
+        }
+
+        $expire = $file->read(10);
+
+        if (empty($expire) || $this->currentTime() >= $expire) {
+            $file->truncate()
+                ->write($this->expiration($seconds).serialize($value))
+                ->close();
+
+            $this->ensurePermissionsAreCorrect($path);
+
+            return true;
+        }
+
+        $file->close();
+
+        return false;
     }
 
     /**
@@ -76,16 +133,38 @@ class FileStore implements Store
      */
     protected function ensureCacheDirectoryExists($path)
     {
-        if (! $this->files->exists(dirname($path))) {
-            $this->files->makeDirectory(dirname($path), 0777, true, true);
+        $directory = dirname($path);
+
+        if (! $this->files->exists($directory)) {
+            $this->files->makeDirectory($directory, 0777, true, true);
+
+            // We're creating two levels of directories (e.g. 7e/24), so we check them both...
+            $this->ensurePermissionsAreCorrect($directory);
+            $this->ensurePermissionsAreCorrect(dirname($directory));
         }
+    }
+
+    /**
+     * Ensure the created node has the correct permissions.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function ensurePermissionsAreCorrect($path)
+    {
+        if (is_null($this->filePermission) ||
+            intval($this->files->chmod($path), 8) == $this->filePermission) {
+            return;
+        }
+
+        $this->files->chmod($path, $this->filePermission);
     }
 
     /**
      * Increment the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * @return int
      */
     public function increment($key, $value = 1)
@@ -101,7 +180,7 @@ class FileStore implements Store
      * Decrement the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * @return int
      */
     public function decrement($key, $value = 1)
@@ -113,7 +192,7 @@ class FileStore implements Store
      * Store an item in the cache indefinitely.
      *
      * @param  string  $key
-     * @param  mixed   $value
+     * @param  mixed  $value
      * @return bool
      */
     public function forever($key, $value)
@@ -148,7 +227,9 @@ class FileStore implements Store
         }
 
         foreach ($this->files->directories($this->directory) as $directory) {
-            if (! $this->files->deleteDirectory($directory)) {
+            $deleted = $this->files->deleteDirectory($directory);
+
+            if (! $deleted || $this->files->exists($directory)) {
                 return false;
             }
         }

@@ -37,6 +37,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function showLoginForm() // Custom Login form
+    {
+        return view("auth.check");
+    }
+
     /*public function redirectTo() { // сделать редирект на предыдущую страницу после авторизации
         return redirect()->url()->previous();
     }*/

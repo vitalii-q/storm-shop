@@ -2,10 +2,12 @@
 
 namespace Illuminate\Foundation\Events;
 
-use SplFileInfo;
-use ReflectionClass;
-use ReflectionMethod;
+use Illuminate\Support\Reflector;
 use Illuminate\Support\Str;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 class DiscoverEvents
@@ -19,11 +21,23 @@ class DiscoverEvents
      */
     public static function within($listenerPath, $basePath)
     {
-        return collect(static::getListenerEvents(
+        $listeners = collect(static::getListenerEvents(
             (new Finder)->files()->in($listenerPath), $basePath
-        ))->mapToDictionary(function ($event, $listener) {
-            return [$event => $listener];
-        })->all();
+        ));
+
+        $discoveredEvents = [];
+
+        foreach ($listeners as $listener => $events) {
+            foreach ($events as $event) {
+                if (! isset($discoveredEvents[$event])) {
+                    $discoveredEvents[$event] = [];
+                }
+
+                $discoveredEvents[$event][] = $listener;
+            }
+        }
+
+        return $discoveredEvents;
     }
 
     /**
@@ -38,9 +52,13 @@ class DiscoverEvents
         $listenerEvents = [];
 
         foreach ($listeners as $listener) {
-            $listener = new ReflectionClass(
-                static::classFromFile($listener, $basePath)
-            );
+            try {
+                $listener = new ReflectionClass(
+                    static::classFromFile($listener, $basePath)
+                );
+            } catch (ReflectionException $e) {
+                continue;
+            }
 
             if (! $listener->isInstantiable()) {
                 continue;
@@ -53,7 +71,7 @@ class DiscoverEvents
                 }
 
                 $listenerEvents[$listener->name.'@'.$method->name] =
-                                optional($method->getParameters()[0]->getClass())->name;
+                                Reflector::getParameterClassNames($method->getParameters()[0]);
             }
         }
 

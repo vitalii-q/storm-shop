@@ -1,4 +1,6 @@
-<?php namespace Barryvdh\Debugbar;
+<?php
+
+namespace Barryvdh\Debugbar;
 
 use DebugBar\DebugBar;
 use DebugBar\JavascriptRenderer as BaseJavascriptRenderer;
@@ -42,7 +44,6 @@ class JavascriptRenderer extends BaseJavascriptRenderer
      */
     public function setUrlGenerator($url)
     {
-
     }
 
     /**
@@ -51,7 +52,8 @@ class JavascriptRenderer extends BaseJavascriptRenderer
     public function renderHead()
     {
         $cssRoute = route('debugbar.assets.css', [
-            'v' => $this->getModifiedTime('css')
+            'v' => $this->getModifiedTime('css'),
+            'theme' => config('debugbar.theme', 'auto'),
         ]);
 
         $jsRoute = route('debugbar.assets.js', [
@@ -62,10 +64,10 @@ class JavascriptRenderer extends BaseJavascriptRenderer
         $jsRoute  = preg_replace('/\Ahttps?:/', '', $jsRoute);
 
         $html  = "<link rel='stylesheet' type='text/css' property='stylesheet' href='{$cssRoute}'>";
-        $html .= "<script type='text/javascript' src='{$jsRoute}'></script>";
+        $html .= "<script src='{$jsRoute}'></script>";
 
         if ($this->isJqueryNoConflictEnabled()) {
-            $html .= '<script type="text/javascript">jQuery.noConflict(true);</script>' . "\n";
+            $html .= '<script>jQuery.noConflict(true);</script>' . "\n";
         }
 
         $html .= $this->getInlineHtml();
@@ -145,7 +147,7 @@ class JavascriptRenderer extends BaseJavascriptRenderer
             return $uris;
         }
 
-        if (substr($uri, 0, 1) === '/' || preg_match('/^([a-zA-Z]+:\/\/|[a-zA-Z]:\/|[a-zA-Z]:\\\)/', $uri)) {
+        if (substr($uri ?? '', 0, 1) === '/' || preg_match('/^([a-zA-Z]+:\/\/|[a-zA-Z]:\/|[a-zA-Z]:\\\)/', $uri ?? '')) {
             return $uri;
         }
         return rtrim($root, '/') . "/$uri";

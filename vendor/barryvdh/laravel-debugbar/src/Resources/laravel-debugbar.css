@@ -11,6 +11,11 @@ div.phpdebugbar {
     z-index: 6000000;
 }
 
+div.phpdebugbar * {
+    direction: ltr;
+    text-align: left;
+}
+
 div.phpdebugbar-openhandler-overlay {
     z-index: 6000001;
     cursor: pointer;
@@ -547,6 +552,7 @@ ul.phpdebugbar-widgets-timeline li:hover {
 ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item .phpdebugbar-widgets-sql {
     flex: 1;
     margin-right: 5px;
+    max-width: 100%;
 }
 
 ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item .phpdebugbar-widgets-duration {
@@ -776,4 +782,20 @@ div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-copy-clipboard:befor
 div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-stmt-id:before,
 div.phpdebugbar-widgets-templates span.phpdebugbar-widgets-param-count:before {
     margin-right: 6px!important;
+}
+
+.phpdebugbar-widgets-list-item .phpdebugbar-widgets-bg-measure {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.phpdebugbar-widgets-bg-measure .phpdebugbar-widgets-value {
+    position: absolute;
+    height: 100%;
+    opacity: 0.2;
+    background: red;
 }

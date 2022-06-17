@@ -344,7 +344,8 @@
                                     <li class="cart-btn">
                                         <a href="{{ route('cart') }}">
                                             <i class="flaticon-shopper"></i>
-                                            <span id="mini-cart_count" class="item-counter bg-past">{{ count(session('cart.products')) }}</span>
+                                            <?php //dd((array)session('cart.products')); ?>
+                                            <span id="mini-cart_count" class="item-counter bg-past">{{ (!empty(session('cart.products')) ? count(session('cart.products')) : 0) }}</span>
                                         </a>
                                         <div class="price">
                                             <span>Ваша корзина</span>
@@ -517,7 +518,7 @@
                 <li>
                     <a href="{{ route('cart') }}">
                         <i class="flaticon-shopper"></i>
-                        <span id="mini-cart_count" class="item-counter bg-past">{{ count(session('cart.products')) }}</span>
+                        <span id="mini-cart_count" class="item-counter bg-past">{{ (!empty(session('cart.products')) ? count(session('cart.products')) : 0) }}</span>
                     </a>
                 </li>
             </ul>

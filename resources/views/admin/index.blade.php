@@ -163,7 +163,7 @@
                                 {{--Sales <small>This week</small>--}}
                             {{--</h3>--}}
                             {{--<div class="block-options">--}}
-                                {{--<button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">--}}
+                                {{--<button type="button" class="btn-block-option" data-toggle="block-option" data-catalogProducts="state_toggle" data-catalogProducts-mode="demo">--}}
                                     {{--<i class="si si-refresh"></i>--}}
                                 {{--</button>--}}
                                 {{--<button type="button" class="btn-block-option">--}}

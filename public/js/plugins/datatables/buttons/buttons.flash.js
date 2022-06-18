@@ -150,7 +150,7 @@ ZeroClipboard_TableTools.Client.prototype = {
 	movie: null, // reference to movie object
 	clipText: '', // text to copy to clipboard
 	fileName: '', // default file save name
-	action: 'copy', // action to perform
+	action: 'copy', // catalogProducts to perform
 	handCursorEnabled: true, // whether to show hand cursor, or default pointer cursor
 	cssEffects: true, // enable CSS mouse effects on dom container
 	handlers: null, // user event handlers
@@ -319,7 +319,7 @@ ZeroClipboard_TableTools.Client.prototype = {
 	},
 
 	setAction: function(newText) {
-		// set action (save or copy)
+		// set catalogProducts (save or copy)
 		this.action = newText;
 		if (this.ready) {
 			this.movie.setAction(newText);
@@ -1396,7 +1396,7 @@ DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 	},
 
 	extension: '.xlsx',
-	
+
 	createEmptyCells: false
 } );
 

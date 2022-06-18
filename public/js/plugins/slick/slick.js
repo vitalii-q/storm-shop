@@ -686,7 +686,7 @@
             $target = $(event.currentTarget),
             indexOffset, slideOffset, unevenOffset;
 
-        // If target is a link, prevent default action.
+        // If target is a link, prevent default catalogProducts.
         if($target.is('a')) {
             event.preventDefault();
         }

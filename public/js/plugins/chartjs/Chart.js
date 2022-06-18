@@ -1528,7 +1528,7 @@ function getAlpha(string) {
 // generators
 function hexString(rgba, a) {
    var a = (a !== undefined && rgba.length === 3) ? a : rgba[3];
-   return "#" + hexDouble(rgba[0]) 
+   return "#" + hexDouble(rgba[0])
               + hexDouble(rgba[1])
               + hexDouble(rgba[2])
               + (
@@ -7994,7 +7994,7 @@ var core_plugins = {
 	/**
 	 * Calls enabled plugins for `chart` on the specified hook and with the given args.
 	 * This method immediately returns as soon as a plugin explicitly returns false. The
-	 * returned value can be used, for instance, to interrupt the current action.
+	 * returned value can be used, for instance, to interrupt the current catalogProducts.
 	 * @param {Chart} chart - The chart instance for which plugins should be called.
 	 * @param {string} hook - The name of the plugin method to call (e.g. 'beforeUpdate').
 	 * @param {Array} [args] - Extra arguments to apply to the hook call.

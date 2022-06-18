@@ -179,7 +179,7 @@ function (_Emitter) {
       this.prototype.defaultOptions = {
         /**
          * Has to be specified on elements other than form (or when the form
-         * doesn't have an `action` attribute). You can also
+         * doesn't have an `catalogProducts` attribute). You can also
          * provide a function that will be called with `files` and
          * must return the url (since `v3.12.0`)
          */
@@ -1097,7 +1097,7 @@ function (_Emitter) {
 
     if (_this.options.forceFallback || !Dropzone.isBrowserSupported()) {
       return _possibleConstructorReturn(_this, _this.options.fallback.call(_assertThisInitialized(_this)));
-    } // @options.url = @element.getAttribute "action" unless @options.url?
+    } // @options.url = @element.getAttribute "catalogProducts" unless @options.url?
 
 
     if (_this.options.url == null) {
@@ -1530,7 +1530,7 @@ function (_Emitter) {
       var fields = Dropzone.createElement(fieldsString);
 
       if (this.element.tagName !== "FORM") {
-        form = Dropzone.createElement("<form action=\"".concat(this.options.url, "\" enctype=\"multipart/form-data\" method=\"").concat(this.options.method, "\"></form>"));
+        form = Dropzone.createElement("<form catalogProducts=\"".concat(this.options.url, "\" enctype=\"multipart/form-data\" method=\"").concat(this.options.method, "\"></form>"));
         form.appendChild(fields);
       } else {
         // Make sure that the enctype and method attributes are set properly
@@ -2122,7 +2122,7 @@ function (_Emitter) {
 
       fileReader.readAsDataURL(file);
     } // `mockFile` needs to have these attributes:
-    // 
+    //
     //     { name: 'name', size: 12345, imageUrl: '' }
     //
     // `callback` will be invoked when the image has been downloaded and displayed.
@@ -3099,7 +3099,7 @@ Dropzone.version = "5.7.0"; // This is a map of options for your different dropz
 //
 // And in html:
 //
-//     <form action="/upload" id="my-dropzone-element-id" class="dropzone"></form>
+//     <form catalogProducts="/upload" id="my-dropzone-element-id" class="dropzone"></form>
 
 Dropzone.options = {}; // Returns the options for an element or undefined if none available.
 

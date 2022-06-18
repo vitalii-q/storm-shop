@@ -1,7 +1,7 @@
 // Notes on the classes:
 //
 // 1. .carousel.pointer-event should ideally be pan-y (to allow for users to scroll vertically)
-//    even when their scroll action started on a carousel, but for compatibility (with Firefox)
+//    even when their scroll catalogProducts started on a carousel, but for compatibility (with Firefox)
 //    we're preventing all actions instead
 // 2. The .carousel-item-left and .carousel-item-right is used to indicate where
 //    the active slide is heading.

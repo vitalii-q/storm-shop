@@ -4084,7 +4084,7 @@
       // Private functions
       /// ///////////////////////////////////////////
       /**
-       * Set the startPoint of action.
+       * Set the startPoint of catalogProducts.
        */
       function setStartPoint() {
           if (!startPoint || !startPoint.tagName || (startPoint.tagName.toLowerCase() !== 'td' && startPoint.tagName.toLowerCase() !== 'th')) {
@@ -4121,7 +4121,7 @@
           _virtualTable[rowIndex][cellIndex] = objPosition;
       }
       /**
-       * Create action cell object.
+       * Create catalogProducts cell object.
        *
        * @param {object} virtualTableCellObj Object of specific position on virtual table.
        * @param {enum} resultAction Action to be applied in that item.
@@ -4214,9 +4214,9 @@
           }
       }
       /**
-       * Get action to be applied on the cell.
+       * Get catalogProducts to be applied on the cell.
        *
-       * @param {object} cell virtual table cell to apply action
+       * @param {object} cell virtual table cell to apply catalogProducts
        */
       function getDeleteResultActionToCell(cell) {
           switch (where) {
@@ -4237,9 +4237,9 @@
           return TableResultAction.resultAction.RemoveCell;
       }
       /**
-       * Get action to be applied on the cell.
+       * Get catalogProducts to be applied on the cell.
        *
-       * @param {object} cell virtual table cell to apply action
+       * @param {object} cell virtual table cell to apply catalogProducts
        */
       function getAddResultActionToCell(cell) {
           switch (where) {
@@ -4290,7 +4290,7 @@
                   canContinue = false;
                   return _actionCellList;
               }
-              // Define action to be applied in this cell
+              // Define catalogProducts to be applied in this cell
               var resultAction = TableResultAction.resultAction.Ignore;
               switch (action) {
                   case TableResultAction.requestAction.Add:
@@ -4309,17 +4309,17 @@
   };
   /**
   *
-  * Where action occours enum.
+  * Where catalogProducts occours enum.
   */
   TableResultAction.where = { 'Row': 0, 'Column': 1 };
   /**
   *
-  * Requested action to apply enum.
+  * Requested catalogProducts to apply enum.
   */
   TableResultAction.requestAction = { 'Add': 0, 'Delete': 1 };
   /**
   *
-  * Result action to be executed enum.
+  * Result catalogProducts to be executed enum.
   */
   TableResultAction.resultAction = { 'Ignore': 0, 'SubtractSpanCount': 1, 'RemoveCell': 2, 'AddCell': 3, 'SumSpanCount': 4 };
   /**
@@ -7774,7 +7774,7 @@
               },
               'summernote.focusout': function (we, e) {
                   // [workaround] Firefox doesn't support relatedTarget on focusout
-                  //  - Ignore hide action on focus out in FF.
+                  //  - Ignore hide catalogProducts on focus out in FF.
                   if (env.isFF) {
                       return;
                   }

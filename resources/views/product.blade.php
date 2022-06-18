@@ -179,7 +179,7 @@
 
                             {{--<div class="product-size ul-li mb-30">--}}
                                 {{--<h3 class="list-title">size:</h3>--}}
-                                {{--<form action="#">--}}
+                                {{--<form catalogProducts="#">--}}
                                     {{--<ul class="clearfix">--}}
                                         {{--<li><a href="#!">xs</a></li>--}}
                                         {{--<li><a href="#!">s</a></li>--}}
@@ -192,7 +192,7 @@
 
                             {{--<div class="product-color ul-li mb-30">--}}
                                 {{--<h3 class="list-title">color:</h3>--}}
-                                {{--<form action="#">--}}
+                                {{--<form catalogProducts="#">--}}
                                     {{--<ul class="clearfix">--}}
                                         {{--<li><a href="#!" class="color-1"></a></li>--}}
                                         {{--<li><a href="#!" class="color-2 active"></a></li>--}}
@@ -204,7 +204,7 @@
 
                             {{--<div class="product-quantity mb-30">--}}
                                 {{--<h3 class="list-title">qty:</h3>--}}
-                                {{--<form action="#">--}}
+                                {{--<form catalogProducts="#">--}}
                                     {{--<input oninput="checkQuantity(this)" id="productQuantity" type="number" min="1" value="1" placeholder="quantity">--}}
                                 {{--</form>--}}
                             {{--</div>--}}
@@ -454,7 +454,7 @@
 
                                     </div>
 
-                                    {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
+                                    {{--<form method="POST" catalogProducts="{{ route('basket_add', $product->id) }}">--}}
                                     {{--@csrf--}}
                                     {{--<button type="submit" class="add-to-cart">--}}
                                     {{--<i class="flaticon-shopping-basket"></i>--}}

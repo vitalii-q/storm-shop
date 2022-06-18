@@ -5,7 +5,7 @@ return [
     'profile' => 'Profile',
 
     'orders' => 'Orders',
-    'desires' => 'Desires',
+    'desires' => 'CatalogDesires',
     'actions' => 'Actions',
 
     'status' => [

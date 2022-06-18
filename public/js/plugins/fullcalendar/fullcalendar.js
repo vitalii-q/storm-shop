@@ -401,7 +401,7 @@ function allowSelection(el) {
         .off('selectstart', preventDefault);
 }
 exports.allowSelection = allowSelection;
-// Stops a mouse/touch event from doing it's native browser action
+// Stops a mouse/touch event from doing it's native browser catalogProducts
 function preventDefault(ev) {
     ev.preventDefault();
 }
@@ -2504,7 +2504,7 @@ var GlobalEmitter = /** @class */ (function () {
             _this.handleTouchMove($.Event(ev));
         }, { passive: false } // allows preventDefault()
         );
-        // attach a handler to get called when ANY scroll action happens on the page.
+        // attach a handler to get called when ANY scroll catalogProducts happens on the page.
         // this was impossible to do with normal on/off because 'scroll' doesn't bubble.
         // http://stackoverflow.com/a/32954565/96342
         window.addEventListener('scroll', this.handleScrollProxy = function (ev) {
@@ -4150,7 +4150,7 @@ var View = /** @class */ (function (_super) {
         if (dateMutation) {
             eventInstance.dateProfile = dateMutation.buildNewDateProfile(eventInstance.dateProfile, this.calendar);
         }
-        this.triggerEventDrop(eventInstance, 
+        this.triggerEventDrop(eventInstance,
         // a drop doesn't necessarily mean a date mutation (ex: resource change)
         (dateMutation && dateMutation.dateDelta) || moment.duration(), undoFunc, el, ev);
     };
@@ -14346,7 +14346,7 @@ var ListEventPointing = /** @class */ (function (_super) {
     // but it's impossible to wrap with an <a> tag. simulate this.
     ListEventPointing.prototype.handleClick = function (seg, ev) {
         var url;
-        _super.prototype.handleClick.call(this, seg, ev); // might prevent the default action
+        _super.prototype.handleClick.call(this, seg, ev); // might prevent the default catalogProducts
         // not clicking on or within an <a> with an href
         if (!$(ev.target).closest('a[href]').length) {
             url = seg.footprint.eventDef.url;
@@ -14557,7 +14557,7 @@ var Toolbar = /** @class */ (function () {
                                 // don't process clicks for disabled buttons
                                 if (!buttonEl.hasClass(theme.getClass('stateDisabled'))) {
                                     buttonClick(ev);
-                                    // after the click action, if the button becomes the "active" tab, or disabled,
+                                    // after the click catalogProducts, if the button becomes the "active" tab, or disabled,
                                     // it should never have a hover class, so remove it now.
                                     if (buttonEl.hasClass(theme.getClass('stateActive')) ||
                                         buttonEl.hasClass(theme.getClass('stateDisabled'))) {

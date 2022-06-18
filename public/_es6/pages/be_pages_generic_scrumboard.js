@@ -53,7 +53,7 @@ class BeScrumBoard {
                                             '<i class="fa fa-fw fa-pencil mr-5"></i>Edit' +
                                         '</a>' +
                                         '<div class="dropdown-divider"></div>' +
-                                        '<a class="dropdown-item" href="javascript:void(0)" data-toggle="block-option" data-action="close">' +
+                                        '<a class="dropdown-item" href="javascript:void(0)" data-toggle="block-option" data-catalogProducts="close">' +
                                             '<i class="fa fa-fw fa-times text-danger mr-5"></i>Delete' +
                                         '</a>' +
                                     '</div>' +

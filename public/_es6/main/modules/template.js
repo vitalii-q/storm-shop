@@ -578,13 +578,13 @@ export default class Template {
         let blockAPI = {
             init: () => {
                 // Auto add the default toggle icons to fullscreen and content toggle buttons
-                jQuery('[data-toggle="block-option"][data-action="fullscreen_toggle"]').each((index, element) => {
+                jQuery('[data-toggle="block-option"][data-catalogProducts="fullscreen_toggle"]').each((index, element) => {
                     let el = jQuery(element);
 
                     el.html('<i class="' + (jQuery(el).closest('.block').hasClass('block-mode-fullscreen') ? iconFullscreenActive : iconFullscreen) + '"></i>');
                 });
 
-                jQuery('[data-toggle="block-option"][data-action="content_toggle"]').each((index, element) => {
+                jQuery('[data-toggle="block-option"][data-catalogProducts="content_toggle"]').each((index, element) => {
                     let el = jQuery(element);
 
                     el.html('<i class="' + (el.closest('.block').hasClass('block-mode-hidden') ? iconContentActive : iconContent) + '"></i>');
@@ -686,8 +686,8 @@ export default class Template {
             state_toggle: () => {
                 elBlock.toggleClass('block-mode-loading');
 
-                // Return block to normal state if the demostration mode is on in the refresh option button - data-action-mode="demo"
-                if (jQuery('[data-toggle="block-option"][data-action="state_toggle"][data-action-mode="demo"]', elBlock).length) {
+                // Return block to normal state if the demostration mode is on in the refresh option button - data-catalogProducts-mode="demo"
+                if (jQuery('[data-toggle="block-option"][data-catalogProducts="state_toggle"][data-catalogProducts-mode="demo"]', elBlock).length) {
                     setTimeout(() => {
                         elBlock.removeClass('block-mode-loading');
                     }, 2000);
@@ -726,8 +726,8 @@ export default class Template {
             // If element exists, procceed with block functionality
             if (elBlock.length) {
                 // Get block option buttons if exist (need them to update their icons)
-                btnFullscreen       = jQuery('[data-toggle="block-option"][data-action="fullscreen_toggle"]', elBlock);
-                btnContentToggle    = jQuery('[data-toggle="block-option"][data-action="content_toggle"]', elBlock);
+                btnFullscreen       = jQuery('[data-toggle="block-option"][data-catalogProducts="fullscreen_toggle"]', elBlock);
+                btnContentToggle    = jQuery('[data-toggle="block-option"][data-catalogProducts="content_toggle"]', elBlock);
 
                 // Call Block API
                 if (blockAPI[mode]) {

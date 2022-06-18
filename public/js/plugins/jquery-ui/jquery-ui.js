@@ -15610,7 +15610,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 			// Cannot intersect with itself
 			// no useless actions that have been done before
-			// no action if the item moved is the parent of the item checked
+			// no catalogProducts if the item moved is the parent of the item checked
 			if ( itemElement !== this.currentItem[ 0 ] &&
 				this.placeholder[ intersection === 1 ? "next" : "prev" ]()[ 0 ] !== itemElement &&
 				!$.contains( this.placeholder[ 0 ], itemElement ) &&
@@ -17685,7 +17685,7 @@ $.widget( "ui.tabs", {
 			} )
 
 			// Support: IE <9
-			// Preventing the default action in mousedown doesn't prevent IE
+			// Preventing the default catalogProducts in mousedown doesn't prevent IE
 			// from focusing the element, so if the anchor gets focused, blur.
 			// We don't have to worry about focusing the previously focused
 			// element since clicking on a non-focusable element should focus
@@ -17815,7 +17815,7 @@ $.widget( "ui.tabs", {
 
 		this._off( this.anchors.add( this.tabs ).add( this.panels ) );
 
-		// Always prevent the default action, even when disabled
+		// Always prevent the default catalogProducts, even when disabled
 		this._on( true, this.anchors, {
 			click: function( event ) {
 				event.preventDefault();

@@ -165,7 +165,7 @@
 
                                             </div>
 
-                                            {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
+                                            {{--<form method="POST" catalogProducts="{{ route('basket_add', $product->id) }}">--}}
                                             {{--@csrf--}}
                                             {{--<button type="submit" class="add-to-cart">--}}
                                             {{--<i class="flaticon-shopping-basket"></i>--}}
@@ -305,7 +305,7 @@
 
                                             </div>
 
-                                            {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
+                                            {{--<form method="POST" catalogProducts="{{ route('basket_add', $product->id) }}">--}}
                                             {{--@csrf--}}
                                             {{--<button type="submit" class="add-to-cart">--}}
                                             {{--<i class="flaticon-shopping-basket"></i>--}}
@@ -445,7 +445,7 @@
 
                                             </div>
 
-                                            {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
+                                            {{--<form method="POST" catalogProducts="{{ route('basket_add', $product->id) }}">--}}
                                             {{--@csrf--}}
                                             {{--<button type="submit" class="add-to-cart">--}}
                                             {{--<i class="flaticon-shopping-basket"></i>--}}

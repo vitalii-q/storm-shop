@@ -203,7 +203,7 @@
                                     <div class="row">
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
-                                            {{--<form action="#!">--}}
+                                            {{--<form catalogProducts="#!">--}}
                                                 {{--<select class="filter-select storm-select">--}}
                                                     {{--<option value="" disabled>Choose your option</option>--}}
                                                     {{--<option value="1" selected>Show:   12 Products/Page</option>--}}
@@ -214,7 +214,7 @@
                                         </div>
 
                                         <div class="col-lg-4 col-md-6 col-sm-12">
-                                            {{--<form action="#!">--}}
+                                            {{--<form catalogProducts="#!">--}}
                                                 {{--<select class="filter-select storm-select">--}}
                                                     {{--<option value="" disabled>Choose your option</option>--}}
                                                     {{--<option value="1" selected>Sort by:   Price: Low to High</option>--}}
@@ -335,7 +335,7 @@
 
                                                             </div>
 
-                                                            {{--<form method="POST" action="{{ route('basket_add', $product->id) }}">--}}
+                                                            {{--<form method="POST" catalogProducts="{{ route('basket_add', $product->id) }}">--}}
                                                                 {{--@csrf--}}
                                                                 {{--<button type="submit" class="add-to-cart">--}}
                                                                     {{--<i class="flaticon-shopping-basket"></i>--}}
@@ -525,7 +525,7 @@
                                     <div class="row">
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
-                                            {{--<form action="#!">--}}
+                                            {{--<form catalogProducts="#!">--}}
                                                 {{--<select class="filter-select storm-select">--}}
                                                     {{--<option value="" disabled>Choose option</option>--}}
                                                     {{--<option value="1" selected>Show 12</option>--}}

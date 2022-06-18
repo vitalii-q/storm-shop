@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Foundation\CatalogDesires;
+use App\Foundation\CatalogProducts;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Blog;
@@ -47,126 +49,56 @@ class MainController extends Controller
         return view('index', compact('sliders', 'advantages', 'sales', 'bestsellers', 'news'));
     }
 
-    public function catalog() {
+    public function catalog(CatalogProducts $productsAction, CatalogDesires $catalogDesires) {
         $categories = Category::get(); // все категории
         $brands = Brand::get(); // все брэнды
-
-        if(!empty(session()->get('catalog.filter'))) { // если установлен фильтр, прогружает отфильтрованные продукты
-            $skus = Sku::get();
-            $productsIdsWithDubls = [];
-            foreach ($skus as $sku) {
-                array_push($productsIdsWithDubls, $sku->product->id);
-            }
-            $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
-            $productsBeforeFiltering = Product::whereIn('id', $productsIdsWithDubls)->get(); // выводим продукты у которых есть торговые предложения
-
-            $products = FilterController::filterSession($productsBeforeFiltering);
-        } else {
-            // получаем продукты
-            $products = Product::select(
-                'products.id', 'name', 'name_en', 'code', 'category_id', 'brand_id', 'description', 'description_en', 'description_bottom',
-                'description_bottom_en', 'information', 'information_en', 'products.price', 'new', 'sale', 'bestseller',
-                'image_1', 'image_2', 'image_3', 'products.created_at', 'products.updated_at', \DB::raw('count(*) as count')
-            )
-                ->join('skus', 'products.id', '=', 'skus.product_id')
-                ->groupBy('products.id')->paginate(9);
-        }
-
         $attributes = Attribute::get(); // все атрибуты
+        $products = $productsAction->get(); // все продукты | если установлен фильтр, подгружает отфильтрованные продукты
 
         $cartProducts = session('cart.products'); // продукты в корзине
         $catalogView = session('view.catalog'); // сессия вида каталога
 
-        if(Auth::check()) {
-            $desiresIds = Desire::where('user_id', Auth::user()->id)->select('product_id')->get(); // желания пользователя
-            $desires = Product::whereIn('id', $desiresIds)->orderBy('id', 'desc')->get()->reverse();
-            if(count($desires) > 3) {$desires = $desires->random(3);}
-        } else { $desires = []; }
+        $desires = $catalogDesires(); // __invoke
 
         return view('catalog', compact('catalogView','categories','brands', 'products', 'cartProducts', 'attributes', 'desires'));
     }
-    public function category($selected_category) {
-        $categories = Category::get(); // все категории
-        $selected_category = Category::where('code', $selected_category)->first(); // выбранная категория
-        if (!$selected_category) { abort(404); } // error 404
 
+    public function category($selected_category, CatalogProducts $productsAction, CatalogDesires $catalogDesires) {
+        $categories = Category::get(); // все категории
         $brands = Brand::get(); // все брэнды
         $attributes = Attribute::get(); // все атрибуты
 
-        if(!empty(session()->get('catalog.filter'))) { // если установлен фильтр, прогружает отфильтрованные продукты
-            // получаем продукты
-            $skus = Sku::get();
-            $productsIdsWithDubls = [];
-            foreach($skus as $sku) {array_push($productsIdsWithDubls, $sku->product->id);}
-            $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
-            $productsBeforeFiltering = Product::whereIn('id', $productsIdsWithDubls)->where('category_id', $selected_category->id)->get();
+        $selected_category = Category::where('code', $selected_category)->first(); // выбранная категория
+        if (!$selected_category) { abort(404); } // error 404
 
-            $products = FilterController::filterSession($productsBeforeFiltering);
-        } else {
-            // получаем продукты
-            $skus = Sku::get();
-            $productsIdsWithDubls = [];
-            foreach($skus as $sku) {array_push($productsIdsWithDubls, $sku->product->id);}
-            $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
-            $products = Product::whereIn('id', $productsIdsWithDubls)->where('category_id', $selected_category->id)->paginate(9);
-        }
-
+        $products = $productsAction->get($selected_category); // все продукты | если установлен фильтр, подгружает отфильтрованные продукты
 
         $cartProducts = session('cart.products'); // продукты в корзине
         $catalogView = session('view.catalog'); // сессия вида каталога
 
-        if(Auth::check()) {
-            $desiresIds = Desire::where('user_id',
-                Auth::user()->id)->select('product_id')->get(); // желания пользователя
-            $desires = Product::whereIn('id', $desiresIds)->orderBy('id', 'desc')->get()->reverse();
-            if (count($desires) > 3) {
-                $desires = $desires->random(3);
-            }
-        }
+        $desires = $catalogDesires(); // __invoke
 
         return view('category', compact( 'catalogView','categories', 'brands', 'selected_category', 'products', 'cartProducts', 'attributes', 'desires'));
     }
-    public function catalogView(Request $request) {
-        session()->put('view.catalog', $request['view']); // сохраняем выбранный вид каталога в сессию
-        return response($request['view']); // ответ в js
-    }
-    public function brand($selected_brand) {
+
+    public function brand($selected_brand, CatalogProducts $productsAction, CatalogDesires $catalogDesires) {
         $brands = Brand::get(); // все брэнды
         $attributes = Attribute::get(); // все атрибуты
         $selected_brand = Brand::where('code', $selected_brand)->first(); // выбранный брэнд
 
         $categories = $selected_brand->getCategories(); // катигории относящиеся к бренду
 
-        if(!empty(session()->get('catalog.filter'))) { // если установлен фильтр, прогружает отфильтрованные продукты
-            // получаем продукты
-            $skus = Sku::get();
-            $productsIdsWithDubls = [];
-            foreach($skus as $sku) {array_push($productsIdsWithDubls, $sku->product->id);}
-            $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
-            $productsBeforeFiltering = Product::whereIn('id', $productsIdsWithDubls)->where('category_id', $selected_brand->id)->paginate(9);
-
-            $products = FilterController::filterSession($productsBeforeFiltering);
-        } else {
-            // получаем продукты
-            $skus = Sku::get();
-            $productsIdsWithDubls = [];
-            foreach($skus as $sku) {array_push($productsIdsWithDubls, $sku->product->id);}
-            $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
-            $products = Product::whereIn('id', $productsIdsWithDubls)->where('category_id', $selected_brand->id)->paginate(9);
-        }
+        $products = $productsAction->get($selected_category = null, $selected_brand); // все продукты | если установлен фильтр, подгружает отфильтрованные продукты
 
         $cartProducts = session('cart.products'); // продукты в корзине
         $catalogView = session('view.catalog'); // сессия вида каталога
 
-        if(Auth::check()) {
-            $desiresIds = Desire::where('user_id', Auth::user()->id)->select('product_id')->get(); // желания пользователя
-            $desires = Product::whereIn('id', $desiresIds)->orderBy('id', 'desc')->get()->reverse();
-            if (count($desires) > 3) {$desires = $desires->random(3);}
-        }
+        $desires = $catalogDesires(); // __invoke
 
         return view('brand', compact(  'catalogView', 'categories','brands', 'selected_brand', 'products', 'cartProducts', 'attributes', 'desires'));
     }
-    public function brandCategory($selected_brand, $selected_category) {
+
+    public function brandCategory($selected_brand, $selected_category, CatalogProducts $productsAction, CatalogDesires $catalogDesires) {
         $brands = Brand::get(); // все брэнды
         $attributes = Attribute::get(); // все атрибуты
         $selected_brand = Brand::where('code', $selected_brand)->first(); // выбранный брэнд
@@ -175,35 +107,16 @@ class MainController extends Controller
         $selected_category = Category::where('code', $selected_category)->first();
         if (!$selected_category) { abort(404); } // error 404
 
-        if(!empty(session()->get('catalog.filter'))) { // если установлен фильтр, прогружает отфильтрованные продукты
-            // получаем продукты
-            $skus = Sku::get();
-            $productsIdsWithDubls = [];
-            foreach($skus as $sku) {array_push($productsIdsWithDubls, $sku->product->id);}
-            $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
-            $productsBeforeFiltering = Product::whereIn('id', $productsIdsWithDubls)->where('brand_id', $selected_brand->id)->where('category_id', $selected_category->id)->paginate(9);
-
-            $products = FilterController::filterSession($productsBeforeFiltering);
-        } else {
-            // получаем продукты
-            $skus = Sku::get();
-            $productsIdsWithDubls = [];
-            foreach($skus as $sku) {array_push($productsIdsWithDubls, $sku->product->id);}
-            $productsIdsWithDubls = array_flip(array_flip($productsIdsWithDubls));
-            $products = Product::whereIn('id', $productsIdsWithDubls)->where('brand_id', $selected_brand->id)->where('category_id', $selected_category->id)->paginate(9);
-        }
+        $products = $productsAction->get($selected_category, $selected_brand); // все продукты | если установлен фильтр, подгружает отфильтрованные продукты
 
         $cartProducts = session('cart.products'); // продукты в корзине
         $catalogView = session('view.catalog'); // сессия вида каталога
 
-        if(Auth::check()) {
-            $desiresIds = Desire::where('user_id', Auth::user()->id)->select('product_id')->get(); // желания пользователя
-            $desires = Product::whereIn('id', $desiresIds)->orderBy('id', 'desc')->get()->reverse();
-            if (count($desires) > 3) {$desires = $desires->random(3);}
-        }
+        $desires = $catalogDesires(); // __invoke
 
         return view('brand', compact(  'catalogView', 'categories','brands', 'selected_brand', 'selected_category', 'products', 'cartProducts', 'attributes', 'desires'));
     }
+
     public function product($selected_category, $selected_product) {
         $selected_product = Product::where('code', $selected_product)->first(); // выбранный продукт
         if (!$selected_product) { abort(404); } // error 404
@@ -231,6 +144,7 @@ class MainController extends Controller
 
         return view('product', compact('selected_product', 'cartProducts', 'attributes', 'productAttributeValuesId', 'related'));
     }
+
     public function sku(Request $request) {
         $productId = json_decode($request['productId']);
         $product = Product::where('id', $productId)->first();
@@ -308,6 +222,11 @@ class MainController extends Controller
         session()->put('currency', $request['currency']);
 
         return redirect()->back();
+    }
+
+    public function catalogView(Request $request) {
+        session()->put('view.catalog', $request['view']); // сохраняем выбранный вид каталога в сессию
+        return response($request['view']); // ответ в js
     }
 
 

@@ -59,9 +59,9 @@ var Buttons = function( dt, config )
 
 	// If there is no config set it to an empty object
 	if ( typeof( config ) === 'undefined' ) {
-		config = {};	
+		config = {};
 	}
-	
+
 	// Allow a boolean true for defaults
 	if ( config === true ) {
 		config = {};
@@ -101,11 +101,11 @@ $.extend( Buttons.prototype, {
 	 */
 
 	/**
-	 * Get the action of a button
+	 * Get the catalogProducts of a button
 	 * @param  {int|string} Button index
 	 * @return {function}
 	 *//**
-	 * Set the action of a button
+	 * Set the catalogProducts of a button
 	 * @param  {node} node Button element
 	 * @param  {function} action Function to set
 	 * @return {Buttons} Self for chaining
@@ -208,7 +208,7 @@ $.extend( Buttons.prototype, {
 		// needed). Take a copy as the array is modified by `remove`
 		var buttons = this.s.buttons.slice();
 		var i, ien;
-		
+
 		for ( i=0, ien=buttons.length ; i<ien ; i++ ) {
 			this.remove( buttons[i].node );
 		}
@@ -558,8 +558,8 @@ $.extend( Buttons.prototype, {
 		var action = function ( e, dt, button, config ) {
 			config.action.call( dt.button( button ), e, dt, button, config );
 
-			$(dt.table().node()).triggerHandler( 'buttons-action.dt', [
-				dt.button( button ), dt, button, config 
+			$(dt.table().node()).triggerHandler( 'buttons-catalogProducts.dt', [
+				dt.button( button ), dt, button, config
 			] );
 		};
 
@@ -720,7 +720,7 @@ $.extend( Buttons.prototype, {
 
 	/**
 	 * Handle a key press - determine if any button's key configured matches
-	 * what was typed and trigger the action if so.
+	 * what was typed and trigger the catalogProducts if so.
 	 * @param  {string} character The character pressed
 	 * @param  {object} e Key event that triggered this call
 	 * @private
@@ -956,7 +956,7 @@ $.extend( Buttons.prototype, {
 			Buttons.background( false, options.backgroundClassName, options.fade, hostNode );
 
 			$('body').off( '.dtb-collection' );
-			dt.off( 'buttons-action.b-internal' );
+			dt.off( 'buttons-catalogProducts.b-internal' );
 		};
 
 		if (content === false) {
@@ -1029,7 +1029,7 @@ $.extend( Buttons.prototype, {
 			}
 
 			// Right alignment is enabled on a class, e.g. bootstrap:
-			// $.fn.dataTable.Buttons.defaults.dom.collection.className += " dropdown-menu-right"; 
+			// $.fn.dataTable.Buttons.defaults.dom.collection.className += " dropdown-menu-right";
 			if ( display.hasClass( options.rightAlignClassName ) || options.align === 'button-right' ) {
 				display.css( 'left', hostPosition.left + hostNode.outerWidth() - collectionWidth );
 			}
@@ -1084,7 +1084,7 @@ $.extend( Buttons.prototype, {
 
 		if ( options.autoClose ) {
 			setTimeout( function () {
-				dt.on( 'buttons-action.b-internal', function (e, btn, dt, node) {
+				dt.on( 'buttons-catalogProducts.b-internal', function (e, btn, dt, node) {
 					if ( node[0] === hostNode[0] ) {
 						return;
 					}
@@ -1104,7 +1104,7 @@ $.extend( Buttons.prototype, {
 /**
  * Show / hide a background layer behind a collection
  * @param  {boolean} Flag to indicate if the background should be shown or
- *   hidden 
+ *   hidden
  * @param  {string} Class to assign to the background
  * @static
  */
@@ -1187,7 +1187,7 @@ Buttons.instanceSelector = function ( group, buttons )
 			ret.push( buttons[ input ].inst );
 		}
 	};
-	
+
 	process( group );
 
 	return ret;
@@ -1538,8 +1538,8 @@ DataTable.Api.registerPlural( 'buttons().active()', 'button().active()', functio
 	} );
 } );
 
-// Get / set button action
-DataTable.Api.registerPlural( 'buttons().action()', 'button().action()', function ( action ) {
+// Get / set button catalogProducts
+DataTable.Api.registerPlural( 'buttons().catalogProducts()', 'button().catalogProducts()', function ( action ) {
 	if ( action === undefined ) {
 		return this.map( function ( set ) {
 			return set.inst.action( set.node );
@@ -1603,7 +1603,7 @@ DataTable.Api.registerPlural( 'buttons().text()', 'button().text()', function ( 
 	} );
 } );
 
-// Trigger a button's action
+// Trigger a button's catalogProducts
 DataTable.Api.registerPlural( 'buttons().trigger()', 'button().trigger()', function () {
 	return this.each( function ( set ) {
 		set.inst.node( set.node ).trigger( 'click' );
@@ -1915,7 +1915,7 @@ var _exportData = function ( dt, inOpts )
 			return config.format.footer( el ? el.innerHTML : '', idx, el );
 		} ).toArray() :
 		null;
-	
+
 	// If Select is available on this table, and any rows are selected, limit the export
 	// to the selected rows. If no rows are selected, all rows will be exported. Specify
 	// a `selected` modifier to control directly.

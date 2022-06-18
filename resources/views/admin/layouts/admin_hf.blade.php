@@ -454,7 +454,7 @@ MAIN CONTENT LAYOUT
                         </li>
                         {{--<li class="list-inline-item">--}}
                             {{--<!-- Layout API, functionality initialized in Template._uiApiLayout() -->--}}
-                            {{--<a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">--}}
+                            {{--<a class="link-effect text-dual-primary-dark" data-toggle="layout" data-catalogProducts="sidebar_style_inverse_toggle" href="javascript:void(0)">--}}
                                 {{--<i class="si si-drop"></i>--}}
                             {{--</a>--}}
                         {{--</li>--}}
@@ -616,14 +616,14 @@ MAIN CONTENT LAYOUT
             <div class="content-header-section">
                 <!-- Toggle Sidebar -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <div onclick="viewAdmin()" class="button-admin_panel-view"> <!-- data-action="sidebar_toggle" data-action="sidebar_toggle" -->
+                <div onclick="viewAdmin()" class="button-admin_panel-view"> <!-- data-catalogProducts="sidebar_toggle" data-catalogProducts="sidebar_toggle" -->
                     <i class="fa fa-navicon"></i>
                 </div>
                 <!-- END Toggle Sidebar -->
 
                 <!-- Open Search Section -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                {{--<button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="header_search_on">--}}
+                {{--<button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-catalogProducts="header_search_on">--}}
                     {{--<i class="fa fa-search"></i>--}}
                 {{--</button>--}}
                 <!-- END Open Search Section -->
@@ -673,24 +673,24 @@ MAIN CONTENT LAYOUT
                         {{--<h6 class="dropdown-header">Header</h6>--}}
                         {{--<div class="row gutters-tiny text-center mb-5">--}}
                             {{--<div class="col-6">--}}
-                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary" data-toggle="layout" data-action="header_fixed_toggle">Fixed Mode</button>--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary" data-toggle="layout" data-catalogProducts="header_fixed_toggle">Fixed Mode</button>--}}
                             {{--</div>--}}
                             {{--<div class="col-6">--}}
-                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary d-none d-lg-block mb-10" data-toggle="layout" data-action="header_style_classic">Classic Style</button>--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary d-none d-lg-block mb-10" data-toggle="layout" data-catalogProducts="header_style_classic">Classic Style</button>--}}
                             {{--</div>--}}
                         {{--</div>--}}
                         {{--<h6 class="dropdown-header">Sidebar</h6>--}}
                         {{--<div class="row gutters-tiny text-center mb-5">--}}
                             {{--<div class="col-6">--}}
-                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_off">Light</button>--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-catalogProducts="sidebar_style_inverse_off">Light</button>--}}
                             {{--</div>--}}
                             {{--<div class="col-6">--}}
-                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_on">Dark</button>--}}
+                                {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-catalogProducts="sidebar_style_inverse_on">Dark</button>--}}
                             {{--</div>--}}
                         {{--</div>--}}
                         {{--<div class="d-none d-xl-block">--}}
                             {{--<h6 class="dropdown-header">Main Content</h6>--}}
-                            {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="content_layout_toggle">Toggle Layout</button>--}}
+                            {{--<button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-catalogProducts="content_layout_toggle">Toggle Layout</button>--}}
                         {{--</div>--}}
                         {{--<div class="dropdown-divider"></div>--}}
                         {{--<div class="row gutters-tiny text-center">--}}
@@ -736,7 +736,7 @@ MAIN CONTENT LAYOUT
 
                         <!-- Toggle Side Overlay -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        {{--<a class="dropdown-item" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">--}}
+                        {{--<a class="dropdown-item" href="javascript:void(0)" data-toggle="layout" data-catalogProducts="side_overlay_toggle">--}}
                             {{--<i class="si si-wrench mr-5"></i> Settings--}}
                         {{--</a>--}}
                         <!-- END Side Overlay -->
@@ -810,7 +810,7 @@ MAIN CONTENT LAYOUT
 
                 <!-- Toggle Side Overlay -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                {{--<button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="side_overlay_toggle">--}}
+                {{--<button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-catalogProducts="side_overlay_toggle">--}}
                     {{--<i class="fa fa-tasks"></i>--}}
                 {{--</button>--}}
                 <!-- END Toggle Side Overlay -->

@@ -1,0 +1,11 @@
+GET http://storm-shop.loc/api/user/2?api_token=fdgjkcrt439dfsjy3c9vme39bdxeb428
+Accept: application/json
+
+###
+POST http://storm-shop.loc/api/user/2
+Content-Type: application/x-www-form-urlencoded
+
+api_token=fdgjkcrt439dfsjy3c9vme39bdxeb428
+
+###
+

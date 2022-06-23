@@ -226,14 +226,8 @@ class MainController extends Controller
 
 
     // ---------------- тестовые
-    public function tests(VideoHosting $service) {
-        return view('tests', ['service' => $service]);
-    }
-    public function indexC(VideoHosting $service) {
-        return view('tests', [
-            'service' => $service,
-            'faceService' => App::make(FaceService::class)
-        ]);
+    public function tests() {
+        return view('tests');
     }
 
     public function testsCheckForm(Request $request) {

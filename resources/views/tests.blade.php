@@ -52,8 +52,7 @@
         <div class="contact-form text-center">
             <div class="container">
 
-                {{ $service->showString() }}
-                {{ $faceService->process() }}
+
 
             </div>
         </div>

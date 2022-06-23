@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Product;
 use Illuminate\Console\Command;
 
-class FetchBalanceTransaction extends Command
+class FetchProductPrice extends Command
 {
     /**
      * The name and signature of the console command.

@@ -6,26 +6,17 @@ use App\Foundation\CatalogDesires;
 use App\Foundation\CatalogProducts;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
-use App\Models\Blog;
-use App\Models\BlogCategory;
-use App\Models\Currency;
-use App\Models\Desire;
 use App\Models\Sku;
-use App\Models\SkuValue;
 use App\Models\Team;
-use App\Services\CurrencyRates;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\MainSlider;
 use App\Models\Advantage;
-use Illuminate\Support\Facades\Redis;
 
 class MainController extends Controller
 {
@@ -40,6 +31,7 @@ class MainController extends Controller
 
         if(!$productsWithSkus = Cache::tags('catalog')->get('ProductsWithSkus')) {
             Cache::tags('catalog')->put('ProductsWithSkus',  Sku::getProductsWithSkus(), Carbon::now()->addMinutes(60));
+            $productsWithSkus = Cache::tags('catalog')->get('ProductsWithSkus');
         }
 
         $sales = Product::whereIn('id', $productsWithSkus)->where('sale', 1)->get()->random(4); // скидки

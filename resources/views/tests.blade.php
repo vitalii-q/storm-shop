@@ -39,10 +39,6 @@
     <!-- breadcrumb-section - end
     ================================================== -->
 
-
-
-
-
     <!-- contact-section - start
     ================================================== -->
     <section id="contact-section" class="contact-section sec-ptb-100 clearfix">
@@ -50,8 +46,6 @@
         <div class="clearfix flex-container">
 
         </div>
-
-
 
         <div class="contact-form text-center">
             <div class="container">

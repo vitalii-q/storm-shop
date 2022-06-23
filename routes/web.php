@@ -86,7 +86,7 @@ Route::group(['middleware' => 'SetLocale'], function () { // локализир�
     Route::post('/search/view', 'SearchController@searchView');
 
     // ---------------- тестовые
-    Route::get('/tests', 'MainController@tests')->name('tests'); // тестовая страница
+    Route::get('/tests', 'MainController@indexC')->name('tests'); // тестовая страница
     Route::post('/tests/formCheck', 'MainController@testsCheckForm')->name('testsCheckForm'); // тестовая страница
     Route::post('/tests/form', 'MainController@testsForm')->name('testsForm'); // тестовая страница
     // ---------------- тестовые

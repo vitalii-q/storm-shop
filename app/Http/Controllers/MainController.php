@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Video\VideoHosting;
 use App\Foundation\CatalogDesires;
 use App\Foundation\CatalogProducts;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Sku;
 use App\Models\Team;
+use App\Services\FaceService;
+use App\Services\Video\Youtube;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -223,9 +226,16 @@ class MainController extends Controller
 
 
     // ---------------- тестовые
-    public function tests() {
-        return view('tests');
+    public function tests(VideoHosting $service) {
+        return view('tests', ['service' => $service]);
     }
+    public function indexC(VideoHosting $service) {
+        return view('tests', [
+            'service' => $service,
+            'faceService' => App::make(FaceService::class)
+        ]);
+    }
+
     public function testsCheckForm(Request $request) {
         return response('true');
     }

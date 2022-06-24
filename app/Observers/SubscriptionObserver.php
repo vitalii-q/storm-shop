@@ -14,7 +14,11 @@ class SubscriptionObserver
      */
     public function created(Subscription $appModelsSubscription)
     {
-        //
+        // observer - работа с созданной моделью
+        $createInfo[] = $appModelsSubscription->isDirty();
+        $createInfo[] = $appModelsSubscription->isDirty('user_id');
+        $createInfo[] = $appModelsSubscription->getAttribute('email');
+        //dd($createInfo);
     }
 
     /**

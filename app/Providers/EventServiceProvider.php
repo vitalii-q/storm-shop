@@ -37,7 +37,7 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Subscription::observe(new SubscriptionObserver());
+        //Subscription::observe(new SubscriptionObserver()); // добавляем observer к модели
     }
 
     /**

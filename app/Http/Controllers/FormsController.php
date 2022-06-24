@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EmailSubscription;
 use App\Jobs\subscriptionJob;
 use App\Models\AdminNotifications;
 use App\Models\Message;
@@ -63,7 +64,11 @@ class FormsController extends Controller
             'email_footer' => 'required|unique:subscriptions,email',
         ]);
 
-        dispatch(new subscriptionJob($request->email_footer))->delay(now()->addSeconds(5)); // queue
+        // queue - подписка через очереди
+        //dispatch(new subscriptionJob($request->email_footer))->delay(now()->addSeconds(5));
+
+        // event - подписка через событие
+        event(new EmailSubscription($request->email_footer));
 
         session()->flash('notification', __('notifications.subscription'));
         return redirect()->back();

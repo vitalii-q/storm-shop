@@ -51,21 +51,7 @@
             <div class="container">
 
                 @php
-                    $test = \DB::table('orders')->select('products.id', 'name', 'code', \DB::raw('count(*) as count'))
-                    ->join('order_sku', 'order_sku.order_id', '=', 'orders.id')
-                    ->join('skus', 'skus.id', '=', 'order_sku.product_id')
-                    ->join('products', 'products.id', '=', 'skus.product_id')
-                    ->groupBy('products.id')
-                    ->orderByDesc('count')
-                    ->get();
 
-                    /*$test = \DB::table('order_sku')->select('order_sku.product_id', \DB::raw('count(*) as count'))
-                    ->join('skus', 'skus.id', '=', 'order_sku.product_id')
-                    //->join('products', 'products.id', '=', 'skus.product_id')
-                    ->groupBy('order_sku.product_id')
-                    ->get();*/
-
-                    dump($test);
                 @endphp
 
             </div>

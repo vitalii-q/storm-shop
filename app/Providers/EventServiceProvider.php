@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\EmailSubscription;
+use App\Listeners\EmailSubscriptionListener;
+use App\Models\Subscription;
+use App\Observers\SubscriptionObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -18,6 +22,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        EmailSubscription::class => [
+            EmailSubscriptionListener::class,
+        ],
     ];
 
     /**
@@ -29,6 +37,17 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        Subscription::observe(new SubscriptionObserver());
     }
+
+    /**
+     * Автоматическое связывание события с обработчиком
+     * необходимо добавление кеша: php artisan event:cache
+     *
+     * очистить кеш событий: php artisan event:clear
+     */
+    /*public function shouldDiscoverEvents()
+    {
+        return true;
+    }*/
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CustomEvent;
+use App\Events\UserLoggedIn;
 use App\Foundation\CatalogDesires;
 use App\Foundation\CatalogProducts;
 use App\Models\Attribute;

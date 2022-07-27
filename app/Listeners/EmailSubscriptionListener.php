@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Auth;
 
-class EmailSubscriptionListener // implements ShouldQueue для работы через очередь
+class EmailSubscriptionListener // implements ShouldQueue - для работы через очередь
 {
     /**
      * Create the event listener.
@@ -29,7 +29,7 @@ class EmailSubscriptionListener // implements ShouldQueue для работы ч
      */
     public function handle(EmailSubscription $event)
     {
-        $subscription = Subscription::create([ // создает новую запись в таблице Message
+        $subscription = Subscription::create([ // создает новую запись в таблице подписок
             'user_id' => Auth::check() ? Auth::user()->id : null,
             'email' => $event->email,
             'status' => 1,

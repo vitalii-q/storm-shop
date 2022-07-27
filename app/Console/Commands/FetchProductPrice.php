@@ -38,6 +38,7 @@ class FetchProductPrice extends Command
      */
     public function handle()
     {
+        // исполнение команды php artisan fetch:price 2
         $id = $this->argument('product_id'); // указываеый в команде аргумент
         if (!$id) {
             $id = $this->ask('Введите ID'); // вывод в консоль вопроса

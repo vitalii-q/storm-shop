@@ -9,6 +9,7 @@ use App\Foundation\CatalogProducts;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Sku;
+use App\Models\Tag;
 use App\Models\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -226,6 +227,8 @@ class MainController extends Controller
 
     // ---------------- тестовые
     public function tests() {
+        dd(Tag::find(1));
+
         return view('tests');
     }
     public function testsCheckForm(Request $request) {

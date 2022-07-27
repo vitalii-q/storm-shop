@@ -65,7 +65,7 @@ class FormsController extends Controller
         ]);
 
         // queue - подписка через очереди
-        //dispatch(new subscriptionJob($request->email_footer))->delay(now()->addSeconds(5));
+        dispatch(new subscriptionJob($request->email_footer))->delay(now()->addSeconds(5));
 
         // event - подписка через событие
         event(new EmailSubscription($request->email_footer));

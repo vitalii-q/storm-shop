@@ -22,12 +22,12 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule) // список исполняемых команд
     {
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->command('user:create')->everyMinute(); // добавление пользователя
+        $schedule->command('user:create')->everyMinute(); // выполнение команды добавление пользователя
     }
 
     /**

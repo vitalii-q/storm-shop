@@ -1,12 +1,12 @@
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -18,14 +18,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -37,14 +37,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -56,14 +56,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -75,14 +75,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -94,14 +94,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -113,14 +113,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -132,14 +132,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -151,14 +151,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -170,14 +170,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -189,14 +189,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -208,14 +208,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -227,14 +227,14 @@
   19  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Error 
+   Error
 
   Class "Aws\Sqs\SqsClient" not found
 
   at /var/www/storm-shop.loc/vendor/laravel/framework/src/Illuminate/Queue/Connectors/SqsConnector.php:26
      22▕             $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
      23▕         }
-     24▕ 
+     24▕
      25▕         return new SqsQueue(
   ➜  26▕             new SqsClient($config),
      27▕             $config['queue'],
@@ -272,7 +272,7 @@ Could not open input file: /var/www/storm-shop.loc/sudo
 [2022-06-17 09:35:10][45] Processing: App\Jobs\subscriptionJob
 [2022-06-17 09:35:10][45] Failed:     App\Jobs\subscriptionJob
 
-   UnexpectedValueException 
+   UnexpectedValueException
 
   The stream or file "/var/www/storm-shop.loc/storage/logs/laravel-2022-06-17.log" could not be opened in append mode: Failed to open stream: Permission denied
 The exception occurred while attempting to log: The stream or file "/var/www/storm-shop.loc/storage/logs/laravel-2022-06-17.log" could not be opened in append mode: Failed to open stream: Permission denied
@@ -287,7 +287,7 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
     142▕             restore_error_handler();
     143▕             if (!is_resource($stream)) {
     144▕                 $this->stream = null;
-    145▕ 
+    145▕
   ➜ 146▕                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened in append mode: '.$this->errorMessage, $url) . Utils::getRecordMessageForException($record));
     147▕             }
     148▕             stream_set_chunk_size($stream, $this->streamChunkSize);
@@ -304,7 +304,7 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
 [2022-06-17 09:36:49][46] Processing: App\Jobs\subscriptionJob
 [2022-06-17 09:36:49][46] Failed:     App\Jobs\subscriptionJob
 
-   UnexpectedValueException 
+   UnexpectedValueException
 
   The stream or file "/var/www/storm-shop.loc/storage/logs/laravel-2022-06-17.log" could not be opened in append mode: Failed to open stream: Permission denied
 The exception occurred while attempting to log: The stream or file "/var/www/storm-shop.loc/storage/logs/laravel-2022-06-17.log" could not be opened in append mode: Failed to open stream: Permission denied
@@ -319,7 +319,7 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
     142▕             restore_error_handler();
     143▕             if (!is_resource($stream)) {
     144▕                 $this->stream = null;
-    145▕ 
+    145▕
   ➜ 146▕                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened in append mode: '.$this->errorMessage, $url) . Utils::getRecordMessageForException($record));
     147▕             }
     148▕             stream_set_chunk_size($stream, $this->streamChunkSize);
@@ -334,7 +334,7 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   12  [internal]:0
       Illuminate\Foundation\Bootstrap\HandleExceptions::handleException()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -346,14 +346,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -365,14 +365,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -384,14 +384,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -403,14 +403,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -422,14 +422,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -441,14 +441,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -460,14 +460,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -479,14 +479,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -498,14 +498,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -517,14 +517,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -536,14 +536,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -555,14 +555,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -574,14 +574,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -593,14 +593,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -612,14 +612,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -631,14 +631,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -650,14 +650,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -669,14 +669,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -688,14 +688,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -707,14 +707,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -726,14 +726,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -745,14 +745,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -764,14 +764,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -783,14 +783,14 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m
   29  /var/www/storm-shop.loc/artisan:37
       Illuminate\Foundation\Console\Kernel::handle()
 
-   Predis\Connection\ConnectionException 
+   Predis\Connection\ConnectionException
 
   Error while reading line from the server. [tcp://127.0.0.1:6379]
 
@@ -802,7 +802,463 @@ Context: {"exception":{"xdebug_message":"\nUnexpectedValueException: The stream 
   ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
     133▕         );
     134▕     }
-    135▕ 
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
+    136▕     /**
+
+      [2m+28 vendor frames [22m
+  29  /var/www/storm-shop.loc/artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+
+   Predis\Connection\ConnectionException
+
+  Error while reading line from the server. [tcp://127.0.0.1:6379]
+
+  at /var/www/storm-shop.loc/vendor/predis/predis/src/Connection/AbstractConnection.php:132
+    128▕      */
+    129▕     protected function onConnectionError($message, $code = 0)
+    130▕     {
+    131▕         CommunicationException::handle(
+  ➜ 132▕             new ConnectionException($this, "$message [{$this->getParameters()}]", $code)
+    133▕         );
+    134▕     }
+    135▕
     136▕     /**
 
       [2m+28 vendor frames [22m

@@ -27,7 +27,11 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->command('user:create')->everyMinute(); // выполнение команды добавление пользователя
+        //$schedule->command('user:create')->everyMinute(); // выполнение команды добавление пользователя
+
+        //$schedule->command('fetch:price 1')->everyThirtyMinutes();
+        $schedule->command('fetch:price 1')->everyFifteenMinutes();
+        //$schedule->command('fetch:price 1')->everyFiveMinutes();
     }
 
     /**

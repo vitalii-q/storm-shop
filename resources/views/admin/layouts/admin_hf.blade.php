@@ -792,7 +792,7 @@ MAIN CONTENT LAYOUT
                                                 {{ $adminNotification->order->first_name.' '.$adminNotification->order->last_name }}
                                             @endif
                                         </p>
-                                        <div class="text-muted font-size-sm font-italic">{{ Date::parse($adminNotification->created_at)->format('j F H:i') }}</div>
+                                        <div class="text-muted font-size-sm font-italic">{{ \Illuminate\Support\Carbon::parse($adminNotification->created_at)->format('j F H:i') }}</div>
                                     </div>
                                 </a>
                             </li>
